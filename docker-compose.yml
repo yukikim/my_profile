@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: my-profile-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: my_profile
+      POSTGRES_PASSWORD: my_profile_password
+      POSTGRES_DB: my_profile
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U my_profile -d my_profile"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres-data:

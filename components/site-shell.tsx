@@ -1,0 +1,119 @@
+import Link from "next/link";
+import { profile, siteNavigation } from "@/lib/content";
+
+export function SiteHeader() {
+  return (
+    <header className="sticky top-0 z-20 border-b border-stone-200 bg-[#f8f5ef]/92 backdrop-blur">
+      <div className="mx-auto flex min-h-16 w-full max-w-6xl items-center justify-between gap-4 px-5 py-3 sm:px-8">
+        <Link href="/" className="flex items-center gap-3" aria-label="Go home">
+          <span className="grid size-10 place-items-center rounded-md bg-[#15231f] text-sm font-semibold text-[#f8f5ef]">
+            MG
+          </span>
+          <span className="hidden text-sm font-semibold text-[#15231f] sm:block">
+            {profile.name}
+          </span>
+        </Link>
+        <nav aria-label="Primary navigation">
+          <ul className="flex flex-wrap items-center justify-end gap-1 text-sm font-medium text-stone-700">
+            {siteNavigation.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className="rounded-md px-3 py-2 transition hover:bg-white hover:text-[#15231f]"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </header>
+  );
+}
+
+export function SiteFooter() {
+  return (
+    <footer className="border-t border-stone-200 bg-[#15231f] text-[#f8f5ef]">
+      <div className="mx-auto grid w-full max-w-6xl gap-8 px-5 py-10 sm:px-8 md:grid-cols-[1.4fr_1fr]">
+        <div>
+          <p className="text-base font-semibold">{profile.name}</p>
+          <p className="mt-3 max-w-xl text-sm leading-6 text-stone-300">
+            {profile.tagline}
+          </p>
+        </div>
+        <div className="flex flex-wrap items-start gap-6 md:justify-end">
+          {profile.socials.map((social) => (
+            <a
+              key={social.label}
+              href={social.href}
+              target="_blank"
+              rel="noreferrer"
+              className="text-sm text-stone-300 transition hover:text-white"
+            >
+              {social.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+export function PageIntro({
+  eyebrow,
+  title,
+  description,
+}: {
+  eyebrow: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <section className="border-b border-stone-200 bg-[#f8f5ef]">
+      <div className="mx-auto w-full max-w-6xl px-5 py-14 sm:px-8 sm:py-20">
+        <p className="text-sm font-semibold uppercase text-[#a9422f]">
+          {eyebrow}
+        </p>
+        <h1 className="mt-4 max-w-4xl text-4xl font-semibold leading-tight text-[#15231f] sm:text-6xl">
+          {title}
+        </h1>
+        <p className="mt-6 max-w-2xl text-lg leading-8 text-stone-700">
+          {description}
+        </p>
+      </div>
+    </section>
+  );
+}
+
+export function Section({
+  eyebrow,
+  title,
+  children,
+}: {
+  eyebrow?: string;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="mx-auto w-full max-w-6xl px-5 py-14 sm:px-8 sm:py-18">
+      {eyebrow ? (
+        <p className="text-sm font-semibold uppercase text-[#a9422f]">
+          {eyebrow}
+        </p>
+      ) : null}
+      <h2 className="mt-3 text-3xl font-semibold leading-tight text-[#15231f] sm:text-4xl">
+        {title}
+      </h2>
+      <div className="mt-8">{children}</div>
+    </section>
+  );
+}
+
+export function Badge({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="inline-flex items-center rounded-md border border-stone-300 bg-white px-3 py-1 text-sm font-medium text-stone-700">
+      {children}
+    </span>
+  );
+}
