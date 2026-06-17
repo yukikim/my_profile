@@ -916,4 +916,4 @@ NEXT_PUBLIC_SITE_URL
 ログイン情報:
 http://localhost:3000/admin
 admin@example.com
-Password123!
+password123
