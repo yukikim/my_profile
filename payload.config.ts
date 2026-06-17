@@ -16,6 +16,8 @@ import { Footer } from "@/globals/Footer";
 import { Header } from "@/globals/Header";
 import { Profile } from "@/globals/Profile";
 import { SiteSettings } from "@/globals/SiteSettings";
+import { en } from '@payloadcms/translations/languages/en'
+import { ja } from '@payloadcms/translations/languages/ja'
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -48,5 +50,9 @@ export default buildConfig({
   sharp,
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
+  },
+  i18n: {
+    supportedLanguages: { en, ja },
+    fallbackLanguage: 'ja',
   },
 });
