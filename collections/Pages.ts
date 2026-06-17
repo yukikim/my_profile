@@ -50,7 +50,12 @@ export const Pages: CollectionConfig = {
     {
       name: "layout",
       type: "blocks",
+      admin: {
+        description:
+          "公開ページに表示するブロックです。Hero、本文、ギャラリー、FAQ、CTA、フォームを追加し、ドラッグして並べ替えできます。",
+      },
       blocks: [Hero, RichText, Features, Gallery, FAQ, CTA, ContactForm],
+      minRows: 1,
     },
     seoField,
     {

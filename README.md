@@ -883,6 +883,45 @@ PAYLOAD_SECRET
 NEXT_PUBLIC_SITE_URL
 ```
 
+### 13.3 テンプレート初期化
+
+フェーズ4では、プロフィールサイト以外にも転用しやすいように用途別のseedを用意する。
+
+```bash
+# profile / company / landing / blog
+TEMPLATE=profile npm run seed
+```
+
+seedで作成・更新する内容:
+
+- 管理ユーザー
+- SiteSettings、Header、Footer、Profile
+- Categories
+- Pages
+- Posts
+- Works
+- Contact Form
+
+管理ユーザーは次の環境変数で変更できる。
+
+```text
+SEED_ADMIN_EMAIL
+SEED_ADMIN_PASSWORD
+SEED_ADMIN_NAME
+```
+
+### 13.4 Migration
+
+Payloadのmigrationは `migrations/` に出力する。
+
+```bash
+npm run migrate:create -- migration-name
+npm run migrate
+npm run migrate:status
+```
+
+Collection、Global、Field、Blockを変更したらmigrationを作成し、本番反映前に生成内容を確認する。
+
 ## 14. 初期実装順序
 
 1. Payload CMS + Next.jsプロジェクトを作成する

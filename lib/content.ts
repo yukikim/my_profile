@@ -45,6 +45,7 @@ export type HeroBlock = {
   blockType: "hero";
   title: string;
   subtitle?: string;
+  backgroundImage?: MediaImage;
   ctaText?: string;
   ctaUrl?: string;
 };
@@ -52,6 +53,7 @@ export type HeroBlock = {
 export type RichTextBlock = {
   blockType: "richText";
   content: string;
+  html?: string;
 };
 
 export type FeaturesBlock = {
@@ -62,7 +64,7 @@ export type FeaturesBlock = {
 
 export type GalleryBlock = {
   blockType: "gallery";
-  images: { alt: string; caption?: string; color: string }[];
+  images: MediaImage[];
 };
 
 export type FaqBlock = {
@@ -82,6 +84,7 @@ export type ContactFormBlock = {
   blockType: "contactForm";
   title: string;
   description: string;
+  form?: CmsForm;
 };
 
 export type PageBlock =
@@ -105,6 +108,29 @@ export type CmsPage = {
 export type Faq = {
   question: string;
   answer: string;
+};
+
+export type MediaImage = {
+  alt: string;
+  caption?: string;
+  color?: string;
+  height?: number;
+  src?: string;
+  width?: number;
+};
+
+export type CmsForm = {
+  id: string;
+  name: string;
+  successMessage?: string;
+  fields: CmsFormField[];
+};
+
+export type CmsFormField = {
+  name: string;
+  label: string;
+  type: "text" | "email" | "textarea";
+  required: boolean;
 };
 
 export const profile: Profile = {

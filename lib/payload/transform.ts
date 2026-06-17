@@ -1,4 +1,7 @@
+import { convertLexicalToHTMLAsync } from "@payloadcms/richtext-lexical/html-async";
 import type {
+  CmsForm,
+  CmsFormField,
   CmsPage,
   ContactFormBlock,
   CtaBlock,
@@ -109,7 +112,7 @@ export function mapPost(doc: unknown): Post | null {
   };
 }
 
-export function mapPage(doc: unknown): CmsPage | null {
+export async function mapPage(doc: unknown): Promise<CmsPage | null> {
   const page = asRecord(doc);
   const slug = stringOr(page.slug, "");
   const title = stringOr(page.title, "");
@@ -119,7 +122,9 @@ export function mapPage(doc: unknown): CmsPage | null {
   }
 
   return {
-    layout: asArray(page.layout).map(mapBlock).filter(isPageBlock),
+    layout: (await Promise.all(asArray(page.layout).map(mapBlock))).filter(
+      isPageBlock,
+    ),
     publishedAt: stringOr(page.publishedAt, undefined),
     seo: mapSeo(page.seo),
     slug,
@@ -154,13 +159,14 @@ export function mapSnsLinks(value: unknown) {
     .filter((item) => item.href && item.label);
 }
 
-function mapBlock(blockValue: unknown): PageBlock | null {
+async function mapBlock(blockValue: unknown): Promise<PageBlock | null> {
   const block = asRecord(blockValue);
   const blockType = stringOr(block.blockType, "");
 
   switch (blockType) {
     case "hero":
       return {
+        backgroundImage: mapMedia(block.backgroundImage),
         blockType,
         ctaText: stringOr(block.ctaText, undefined),
         ctaUrl: stringOr(block.ctaUrl, undefined),
@@ -171,6 +177,7 @@ function mapBlock(blockValue: unknown): PageBlock | null {
       return {
         blockType,
         content: richTextToPlainText(block.content),
+        html: await richTextToHtml(block.content),
       } satisfies RichTextBlock;
     case "features":
       return {
@@ -188,15 +195,9 @@ function mapBlock(blockValue: unknown): PageBlock | null {
     case "gallery":
       return {
         blockType,
-        images: asArray(block.images).map((item) => {
-          const media = asRecord(item);
-
-          return {
-            alt: stringOr(media.alt, "Gallery image"),
-            caption: stringOr(media.caption, undefined),
-            color: "#e7ddd0",
-          };
-        }),
+        images: asArray(block.images)
+          .map(mapMedia)
+          .filter((image) => image.src || image.color),
       } satisfies GalleryBlock;
     case "faq":
       return {
@@ -222,11 +223,72 @@ function mapBlock(blockValue: unknown): PageBlock | null {
       return {
         blockType,
         description: stringOr(block.description, ""),
+        form: mapForm(block.form),
         title: stringOr(block.title, ""),
       } satisfies ContactFormBlock;
     default:
       return null;
   }
+}
+
+async function richTextToHtml(value: unknown): Promise<string | undefined> {
+  if (!isLexicalEditorState(value)) {
+    return undefined;
+  }
+
+  return convertLexicalToHTMLAsync({
+    data: value,
+    disableContainer: true,
+  });
+}
+
+function mapForm(value: unknown): CmsForm | undefined {
+  const form = asRecord(value);
+  const id = stringOr(form.id, "");
+  const name = stringOr(form.name, "");
+
+  if (!id || !name) {
+    return undefined;
+  }
+
+  return {
+    fields: asArray(form.fields)
+      .map((item) => {
+        const field = asRecord(item);
+        const type = stringOr(field.type, "text");
+        const normalizedType: CmsFormField["type"] =
+          type === "email" || type === "textarea" || type === "text"
+            ? type
+            : "text";
+
+        return {
+          label: stringOr(field.label, ""),
+          name: stringOr(field.name, ""),
+          required: Boolean(field.required),
+          type: normalizedType,
+        };
+      })
+      .filter((field) => field.name && field.label),
+    id,
+    name,
+    successMessage: stringOr(form.successMessage, undefined),
+  };
+}
+
+function mapMedia(value: unknown) {
+  const media = asRecord(value);
+  const sizes = asRecord(media.sizes);
+  const thumbnail = asRecord(sizes.thumbnail);
+  const src = stringOr(thumbnail.url, stringOr(media.url, undefined));
+
+  return {
+    alt: stringOr(media.alt, "Image"),
+    caption: stringOr(media.caption, undefined),
+    color: "#e7ddd0",
+    height: numberOr(thumbnail.height, numberOr(media.height, undefined)),
+    src,
+    width: numberOr(thumbnail.width, numberOr(media.width, undefined)),
+  };
 }
 
 function mapSeo(value: unknown) {
@@ -293,6 +355,22 @@ function isString(value: unknown): value is string {
 
 function isPageBlock(value: PageBlock | null): value is PageBlock {
   return value !== null;
+}
+
+function isLexicalEditorState(
+  value: unknown,
+): value is Parameters<typeof convertLexicalToHTMLAsync>[0]["data"] {
+  const record = asRecord(value);
+  const root = asRecord(record.root);
+
+  return Array.isArray(root.children);
+}
+
+function numberOr<TFallback extends number | undefined>(
+  value: unknown,
+  fallback: TFallback,
+): number | TFallback {
+  return typeof value === "number" ? value : fallback;
 }
 
 function stringOr<TFallback extends string | undefined>(

@@ -9,6 +9,10 @@
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit -p tsconfig.typecheck.json",
     "payload": "payload",
+    "seed": "node --import tsx scripts/seed.mts",
+    "migrate": "payload migrate",
+    "migrate:create": "payload migrate:create",
+    "migrate:status": "payload migrate:status",
     "generate:types": "payload generate:types",
     "generate:importmap": "payload generate:importmap"
   },

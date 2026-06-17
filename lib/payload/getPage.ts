@@ -44,7 +44,7 @@ export async function getPage(slug: string) {
     },
   });
 
-  const page = mapPage(result.docs[0]);
+  const page = await mapPage(result.docs[0]);
 
   return page || getPageBySlug(slug);
 }
@@ -91,7 +91,9 @@ export async function getPages() {
     },
   });
 
-  const pages = result.docs.map(mapPage).filter((page) => page !== null);
+  const pages = (await Promise.all(result.docs.map(mapPage))).filter(
+    (page) => page !== null,
+  );
 
   return pages.length ? pages : getPublishedPages();
 }

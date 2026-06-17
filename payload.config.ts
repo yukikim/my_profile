@@ -40,6 +40,7 @@ export default buildConfig({
     FormSubmissions,
   ],
   db: postgresAdapter({
+    migrationDir: path.resolve(dirname, "migrations"),
     pool: {
       connectionString: process.env.DATABASE_URI || "",
     },
