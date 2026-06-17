@@ -1,15 +1,20 @@
 import type { Metadata } from "next";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
+import { getSiteSettings } from "@/lib/payload/getSiteSettings";
 import "../globals.css";
 
-export const metadata: Metadata = {
-  title: {
-    default: "Marco Green | Profile CMS Portfolio",
-    template: "%s | Marco Green",
-  },
-  description:
-    "プロフィール、実績、記事、問い合わせをCMSで管理する個人プロフィールサイト。",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
+
+  return {
+    title: {
+      default: `${settings.siteName} | Profile CMS Portfolio`,
+      template: `%s | ${settings.siteName}`,
+    },
+    description: settings.siteDescription,
+    metadataBase: new URL(settings.siteUrl),
+  };
+}
 
 export default function FrontendLayout({
   children,

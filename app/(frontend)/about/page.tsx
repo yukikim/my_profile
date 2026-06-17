@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import { Badge, PageIntro, Section } from "@/components/site-shell";
-import { profile } from "@/lib/content";
+import { getProfile } from "@/lib/payload/getProfile";
 
 export const metadata: Metadata = {
   title: "About",
   description: "自己紹介、経歴、スキル、活動内容。",
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const profile = await getProfile();
+
   return (
     <>
       <PageIntro

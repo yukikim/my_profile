@@ -2,19 +2,22 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { DetailHeader } from "@/components/content-cards";
 import { Badge, Section } from "@/components/site-shell";
-import { getPublishedWorks, getWorkBySlug } from "@/lib/content";
+import { getWork } from "@/lib/payload/getWork";
+import { getWorks } from "@/lib/payload/getWorks";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
-export function generateStaticParams() {
-  return getPublishedWorks().map((work) => ({ slug: work.slug }));
+export async function generateStaticParams() {
+  const works = await getWorks();
+
+  return works.map((work) => ({ slug: work.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const work = getWorkBySlug(slug);
+  const work = await getWork(slug);
 
   if (!work) {
     return {
@@ -30,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function WorkDetailPage({ params }: Props) {
   const { slug } = await params;
-  const work = getWorkBySlug(slug);
+  const work = await getWork(slug);
 
   if (!work) {
     notFound();
@@ -64,6 +67,35 @@ export default async function WorkDetailPage({ params }: Props) {
                   ))}
                 </dd>
               </div>
+              {work.url || work.githubUrl ? (
+                <div>
+                  <dt className="text-sm font-semibold text-stone-500">
+                    関連リンク
+                  </dt>
+                  <dd className="mt-2 grid gap-2">
+                    {work.url ? (
+                      <a
+                        href={work.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-sm font-semibold text-[#2f6f73] underline"
+                      >
+                        公開サイト
+                      </a>
+                    ) : null}
+                    {work.githubUrl ? (
+                      <a
+                        href={work.githubUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-sm font-semibold text-[#2f6f73] underline"
+                      >
+                        GitHub
+                      </a>
+                    ) : null}
+                  </dd>
+                </div>
+              ) : null}
             </dl>
           </aside>
         </div>

@@ -1,16 +1,17 @@
 import Link from "next/link";
 import { PostCard, WorkCard } from "@/components/content-cards";
 import { Badge, Section } from "@/components/site-shell";
-import {
-  faqs,
-  getFeaturedWorks,
-  getPublishedPosts,
-  profile,
-} from "@/lib/content";
+import { faqs } from "@/lib/content";
+import { getPosts } from "@/lib/payload/getPosts";
+import { getProfile } from "@/lib/payload/getProfile";
+import { getFeaturedWorks } from "@/lib/payload/getWorks";
 
-export default function Home() {
-  const featuredWorks = getFeaturedWorks();
-  const latestPosts = getPublishedPosts().slice(0, 2);
+export default async function Home() {
+  const [featuredWorks, latestPosts, profile] = await Promise.all([
+    getFeaturedWorks(),
+    getPosts().then((posts) => posts.slice(0, 2)),
+    getProfile(),
+  ]);
 
   return (
     <>

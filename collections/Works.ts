@@ -54,6 +54,14 @@ export const Works: CollectionConfig = {
       type: "text",
     },
     {
+      name: "featured",
+      type: "checkbox",
+      defaultValue: false,
+      admin: {
+        description: "トップページの主要実績として表示します。",
+      },
+    },
+    {
       name: "techStack",
       type: "array",
       fields: [

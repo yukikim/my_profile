@@ -2,19 +2,22 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { DetailHeader } from "@/components/content-cards";
 import { Section } from "@/components/site-shell";
-import { getPostBySlug, getPublishedPosts } from "@/lib/content";
+import { getPost } from "@/lib/payload/getPost";
+import { getPosts } from "@/lib/payload/getPosts";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
-export function generateStaticParams() {
-  return getPublishedPosts().map((post) => ({ slug: post.slug }));
+export async function generateStaticParams() {
+  const posts = await getPosts();
+
+  return posts.map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPost(slug);
 
   if (!post) {
     return {
@@ -30,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function PostDetailPage({ params }: Props) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPost(slug);
 
   if (!post) {
     notFound();

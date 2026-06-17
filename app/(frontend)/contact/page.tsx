@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageIntro, Section } from "@/components/site-shell";
-import { profile } from "@/lib/content";
+import { getPayloadClient } from "@/lib/payload/client";
+import { getProfile } from "@/lib/payload/getProfile";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -10,16 +11,47 @@ export const metadata: Metadata = {
 async function submitContact(formData: FormData) {
   "use server";
 
+  const payload = await getPayloadClient();
   const submission = {
+    subject: formData.get("subject"),
     name: formData.get("name"),
     email: formData.get("email"),
     message: formData.get("message"),
   };
 
-  console.info("Contact submission placeholder", submission);
+  if (!payload) {
+    console.info("Contact submission fallback", submission);
+    return;
+  }
+
+  const forms = await payload.find({
+    collection: "forms",
+    limit: 1,
+    where: {
+      name: {
+        equals: "Contact",
+      },
+    },
+  });
+  const form = forms.docs[0];
+
+  if (!form) {
+    console.info("Contact form is not configured", submission);
+    return;
+  }
+
+  await payload.create({
+    collection: "form-submissions",
+    data: {
+      data: submission,
+      form: form.id,
+    },
+  });
 }
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const profile = await getProfile();
+
   return (
     <>
       <PageIntro
@@ -40,6 +72,16 @@ export default function ContactPage() {
               </span>
               <input
                 name="name"
+                required
+                className="min-h-12 rounded-md border border-stone-300 px-3 outline-none transition focus:border-[#2f6f73] focus:ring-2 focus:ring-[#2f6f73]/20"
+              />
+            </label>
+            <label className="grid gap-2">
+              <span className="text-sm font-semibold text-[#15231f]">
+                件名
+              </span>
+              <input
+                name="subject"
                 required
                 className="min-h-12 rounded-md border border-stone-300 px-3 outline-none transition focus:border-[#2f6f73] focus:ring-2 focus:ring-[#2f6f73]/20"
               />
