@@ -24,6 +24,8 @@ export type Work = {
   githubUrl?: string;
   status: Status;
   featured: boolean;
+  startDate: string;
+  endDate: string;
 };
 
 export type Post = {

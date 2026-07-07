@@ -4,6 +4,7 @@ import { DetailHeader } from "@/components/content-cards";
 import { Badge, Section } from "@/components/site-shell";
 import { getWork } from "@/lib/payload/getWork";
 import { getWorks } from "@/lib/payload/getWorks";
+import { formatSlashDate } from "@/lib/formatDate";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -50,6 +51,9 @@ export default async function WorkDetailPage({ params }: Props) {
         <div className="grid gap-8 lg:grid-cols-[1fr_18rem]">
           <article className="prose-block">{work.body}</article>
           <aside className="h-fit rounded-lg border border-stone-200 bg-white p-6">
+            <div>
+              <p>期間: {formatSlashDate(work.startDate)} - {formatSlashDate(work.endDate)}</p>
+            </div>
             <dl className="grid gap-5">
               <div>
                 <dt className="text-sm font-semibold text-stone-500">

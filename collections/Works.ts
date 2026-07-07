@@ -31,6 +31,16 @@ export const Works: CollectionConfig = {
       index: true,
     },
     {
+      name: "startDate",
+      type: "date",
+      required: true,
+    },
+    {
+      name: "endDate",
+      type: "date", 
+      required: true,
+    },
+    {
       name: "excerpt",
       type: "textarea",
     },

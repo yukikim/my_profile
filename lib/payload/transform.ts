@@ -81,6 +81,8 @@ export function mapWork(doc: unknown): Work | null {
     featured: Boolean(work.featured),
     githubUrl: stringOr(work.repositoryUrl, undefined),
     role: stringOr(work.role, "Project"),
+    startDate: stringOr(work.startDate, ""),
+    endDate: stringOr(work.endDate, ""),
     slug,
     status: "published",
     summary: stringOr(work.excerpt, ""),
