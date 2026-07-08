@@ -5,6 +5,7 @@ import { mapWork } from "@/lib/payload/transform";
 export async function getWorks() {
   const payload = await getPayloadClient();
 
+  // payload が取得できない場合は、getPublishedWorks() を呼び出して、公開済みの作品を取得する
   if (!payload) {
     return getPublishedWorks();
   }

@@ -390,6 +390,7 @@ export const siteNavigation = [
   { label: "Contact", href: "/contact" },
 ];
 
+// Works のサンプルデータを公開済みの作品のみ返す関数を追加
 export function getPublishedWorks() {
   return works.filter((work) => isPublished(work));
 }
