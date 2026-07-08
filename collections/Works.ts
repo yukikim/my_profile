@@ -1,6 +1,6 @@
 import type { CollectionConfig } from "payload";
-import { isAdminOrEditor } from "@/access/isAdminOrEditor";
-import { seoField } from "@/fields/seo";
+import { isAdminOrEditor } from "../access/isAdminOrEditor";
+import { seoField } from "../fields/seo";
 
 export const Works: CollectionConfig = {
   slug: "works",

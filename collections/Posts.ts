@@ -1,7 +1,7 @@
 import type { CollectionConfig } from "payload";
-import { isAdminEditorOrAuthor } from "@/access/isAdminEditorOrAuthor";
-import { isAdminOrEditor } from "@/access/isAdminOrEditor";
-import { seoField } from "@/fields/seo";
+import { isAdminEditorOrAuthor } from "../access/isAdminEditorOrAuthor";
+import { isAdminOrEditor } from "../access/isAdminOrEditor";
+import { seoField } from "../fields/seo";
 
 export const Posts: CollectionConfig = {
   slug: "posts",

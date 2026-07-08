@@ -1,5 +1,5 @@
 import type { CollectionConfig } from "payload";
-import { isAdminOrEditor } from "@/access/isAdminOrEditor";
+import { isAdminOrEditor } from "../access/isAdminOrEditor";
 
 export const Categories: CollectionConfig = {
   slug: "categories",

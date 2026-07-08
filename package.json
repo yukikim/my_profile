@@ -2,19 +2,20 @@
   "name": "my_profile",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit -p tsconfig.typecheck.json",
-    "payload": "payload",
+    "payload": "payload --use-swc",
     "seed": "node --import tsx scripts/seed.mts",
-    "migrate": "payload migrate",
-    "migrate:create": "payload migrate:create",
-    "migrate:status": "payload migrate:status",
-    "generate:types": "payload generate:types",
-    "generate:importmap": "payload generate:importmap"
+    "migrate": "payload --use-swc migrate",
+    "migrate:create": "payload --use-swc migrate:create",
+    "migrate:status": "payload --use-swc migrate:status",
+    "generate:types": "payload --use-swc generate:types",
+    "generate:importmap": "payload --use-swc generate:importmap"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.85.1",
@@ -27,6 +28,8 @@
     "sharp": "^0.35.1"
   },
   "devDependencies": {
+    "@swc-node/register": "^1.11.1",
+    "@swc/core": "^1.15.43",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

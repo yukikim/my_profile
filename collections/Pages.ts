@@ -1,13 +1,13 @@
 import type { CollectionConfig } from "payload";
-import { isAdminOrEditor } from "@/access/isAdminOrEditor";
-import { CTA } from "@/blocks/CTA/config";
-import { ContactForm } from "@/blocks/ContactForm/config";
-import { FAQ } from "@/blocks/FAQ/config";
-import { Features } from "@/blocks/Features/config";
-import { Gallery } from "@/blocks/Gallery/config";
-import { Hero } from "@/blocks/Hero/config";
-import { RichText } from "@/blocks/RichText/config";
-import { seoField } from "@/fields/seo";
+import { isAdminOrEditor } from "../access/isAdminOrEditor";
+import { CTA } from "../blocks/CTA/config";
+import { ContactForm } from "../blocks/ContactForm/config";
+import { FAQ } from "../blocks/FAQ/config";
+import { Features } from "../blocks/Features/config";
+import { Gallery } from "../blocks/Gallery/config";
+import { Hero } from "../blocks/Hero/config";
+import { RichText } from "../blocks/RichText/config";
+import { seoField } from "../fields/seo";
 
 export const Pages: CollectionConfig = {
   slug: "pages",

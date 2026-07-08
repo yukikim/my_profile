@@ -4,18 +4,18 @@ import path from "path";
 import { buildConfig } from "payload";
 import sharp from "sharp";
 import { fileURLToPath } from "url";
-import { Categories } from "@/collections/Categories";
-import { Forms } from "@/collections/Forms";
-import { FormSubmissions } from "@/collections/FormSubmissions";
-import { Media } from "@/collections/Media";
-import { Pages } from "@/collections/Pages";
-import { Posts } from "@/collections/Posts";
-import { Users } from "@/collections/Users";
-import { Works } from "@/collections/Works";
-import { Footer } from "@/globals/Footer";
-import { Header } from "@/globals/Header";
-import { Profile } from "@/globals/Profile";
-import { SiteSettings } from "@/globals/SiteSettings";
+import { Categories } from "./collections/Categories";
+import { Forms } from "./collections/Forms";
+import { FormSubmissions } from "./collections/FormSubmissions";
+import { Media } from "./collections/Media";
+import { Pages } from "./collections/Pages";
+import { Posts } from "./collections/Posts";
+import { Users } from "./collections/Users";
+import { Works } from "./collections/Works";
+import { Footer } from "./globals/Footer";
+import { Header } from "./globals/Header";
+import { Profile } from "./globals/Profile";
+import { SiteSettings } from "./globals/SiteSettings";
 import { en } from '@payloadcms/translations/languages/en'
 import { ja } from '@payloadcms/translations/languages/ja'
 

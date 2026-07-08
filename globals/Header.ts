@@ -1,5 +1,5 @@
 import type { GlobalConfig } from "payload";
-import { isAdminOrEditor } from "@/access/isAdminOrEditor";
+import { isAdminOrEditor } from "../access/isAdminOrEditor";
 
 export const Header: GlobalConfig = {
   slug: "header",
