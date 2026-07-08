@@ -20,19 +20,47 @@ import { Profile } from "@/globals/Profile";
 import { SiteSettings } from "@/globals/SiteSettings";
 import { siteTemplates, type SiteTemplateKey } from "@/lib/templates/siteTemplates";
 import type { PageBlock } from "@/lib/content";
+import type {
+  Category,
+  Form,
+  Page,
+  Post as PayloadPost,
+  Profile as PayloadProfile,
+  Work as PayloadWork,
+} from "../payload-types";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 const projectRoot = path.resolve(dirname, "..");
 nextEnv.loadEnvConfig(projectRoot);
 
+type SeedCollection = "categories" | "pages" | "posts" | "works";
+type SeedDataByCollection = {
+  categories: Pick<Category, "description" | "name" | "slug" | "type">;
+  pages: Pick<Page, "layout" | "publishedAt" | "slug" | "status" | "title">;
+  posts: Pick<PayloadPost, "categories" | "content" | "excerpt" | "publishedAt" | "slug" | "status" | "title">;
+  works: Pick<PayloadWork, "categories" | "content" | "endDate" | "excerpt" | "featured" | "publishedAt" | "role" | "slug" | "startDate" | "status" | "techStack" | "title">;
+};
+type SeedDocumentByCollection = {
+  categories: Category;
+  pages: Page;
+  posts: PayloadPost;
+  works: PayloadWork;
+};
+type RichTextDocument = PayloadProfile["bio"];
+type PageLayoutBlock = NonNullable<Page["layout"]>[number];
+
 const templateKey = getTemplateKey();
 const template = siteTemplates[templateKey];
 
-main().catch((error: unknown) => {
-  console.error(error);
-  process.exit(1);
-});
+main()
+  .then(() => {
+    process.exit(0);
+  })
+  .catch((error: unknown) => {
+    console.error(error);
+    process.exit(1);
+  });
 
 async function main() {
   const databaseUri = getRequiredEnv("DATABASE_URI");
@@ -40,6 +68,7 @@ async function main() {
   const config = await buildConfig({
     admin: {
       importMap: {
+        autoGenerate: false,
         baseDir: projectRoot,
       },
       user: Users.slug,
@@ -65,6 +94,7 @@ async function main() {
     secret: process.env.PAYLOAD_SECRET || "development-secret-change-me",
     sharp,
     typescript: {
+      autoGenerate: false,
       outputFile: path.resolve(projectRoot, "payload-types.ts"),
     },
   });
@@ -83,6 +113,17 @@ async function main() {
     payload.logger.info(`Seed completed with template: ${template.label}`);
   } finally {
     await payload.destroy();
+    void closePayloadConnections(payload);
+  }
+}
+
+async function closePayloadConnections(payload: Payload) {
+  const database = payload.db as Payload["db"] & {
+    pool?: { end?: () => Promise<void> };
+  };
+
+  if (database.pool?.end) {
+    await database.pool.end();
   }
 }
 
@@ -136,7 +177,7 @@ async function seedAdminUser(payload: Payload) {
 }
 
 async function seedCategories(payload: Payload) {
-  const result: Record<string, string | number> = {};
+  const result: Record<string, number> = {};
 
   for (const category of template.categories) {
     const doc = await upsertBySlug(payload, "categories", category.slug, category);
@@ -147,7 +188,7 @@ async function seedCategories(payload: Payload) {
   return result;
 }
 
-async function seedContactForm(payload: Payload) {
+async function seedContactForm(payload: Payload): Promise<Form> {
   const existing = await payload.find({
     collection: "forms",
     limit: 1,
@@ -157,23 +198,30 @@ async function seedContactForm(payload: Payload) {
       },
     },
   });
+  const fields = [
+    { label: "お名前", name: "name", required: true, type: "text" },
+    { label: "メールアドレス", name: "email", required: true, type: "email" },
+    { label: "件名", name: "subject", required: true, type: "text" },
+    { label: "本文", name: "message", required: true, type: "textarea" },
+  ] satisfies Form["fields"];
   const data = {
-    fields: [
-      { label: "お名前", name: "name", required: true, type: "text" },
-      { label: "メールアドレス", name: "email", required: true, type: "email" },
-      { label: "件名", name: "subject", required: true, type: "text" },
-      { label: "本文", name: "message", required: true, type: "textarea" },
-    ],
+    fields,
     name: "Contact",
     successMessage: "お問い合わせありがとうございます。内容を確認して返信します。",
-  };
+  } satisfies Pick<Form, "fields" | "name" | "successMessage">;
 
   if (existing.docs[0]) {
-    return payload.update({
+    const updated = await payload.update({
       collection: "forms",
       id: existing.docs[0].id,
       data,
     });
+
+    if ("docs" in updated) {
+      return existing.docs[0];
+    }
+
+    return updated;
   }
 
   return payload.create({
@@ -241,7 +289,7 @@ async function seedGlobals(payload: Payload) {
   });
 }
 
-async function seedPages(payload: Payload, contactFormId: string | number) {
+async function seedPages(payload: Payload, contactFormId: Form["id"]) {
   for (const page of template.pages) {
     await upsertBySlug(payload, "pages", page.slug, {
       layout: page.layout.map((block) => toPayloadBlock(block, contactFormId)),
@@ -255,7 +303,7 @@ async function seedPages(payload: Payload, contactFormId: string | number) {
 
 async function seedPosts(
   payload: Payload,
-  categories: Record<string, string | number>,
+  categories: Record<string, number>,
 ) {
   const categoryId = firstCategoryId(categories);
 
@@ -274,7 +322,7 @@ async function seedPosts(
 
 async function seedWorks(
   payload: Payload,
-  categories: Record<string, string | number>,
+  categories: Record<string, number>,
 ) {
   const categoryId = firstCategoryId(categories);
 
@@ -288,6 +336,8 @@ async function seedWorks(
     publishedAt: new Date().toISOString(),
     role: "Template setup",
     slug: "starter-showcase",
+    startDate: new Date().toISOString(),
+    endDate: new Date().toISOString(),
     status: "published",
     techStack: [
       { technology: "Next.js" },
@@ -300,10 +350,10 @@ async function seedWorks(
 
 async function upsertBySlug(
   payload: Payload,
-  collection: "categories" | "pages" | "posts" | "works",
+  collection: SeedCollection,
   slug: string,
-  data: Record<string, unknown>,
-) {
+  data: SeedDataByCollection[typeof collection],
+): Promise<SeedDocumentByCollection[typeof collection]> {
   const existing = await payload.find({
     collection,
     limit: 1,
@@ -328,27 +378,63 @@ async function upsertBySlug(
   });
 }
 
-function toPayloadBlock(block: PageBlock, contactFormId: string | number) {
-  if (block.blockType === "richText") {
-    return {
-      blockType: block.blockType,
-      content: richText(block.content),
-    };
+function toPayloadBlock(block: PageBlock, contactFormId: Form["id"]): PageLayoutBlock {
+  switch (block.blockType) {
+    case "hero":
+      return {
+        backgroundImage: undefined,
+        blockType: block.blockType,
+        ctaText: block.ctaText,
+        ctaUrl: block.ctaUrl,
+        subtitle: block.subtitle,
+        title: block.title,
+      };
+    case "richText":
+      return {
+        blockType: block.blockType,
+        content: richText(block.content),
+      };
+    case "features":
+      return {
+        blockType: block.blockType,
+        items: block.items.map((item) => ({
+          description: item.description,
+          title: item.title,
+        })),
+        title: block.title,
+      };
+    case "gallery":
+      return {
+        blockType: block.blockType,
+        images: [],
+      };
+    case "faq":
+      return {
+        blockType: block.blockType,
+        items: block.items.map((item) => ({
+          answer: item.answer,
+          question: item.question,
+        })),
+      };
+    case "cta":
+      return {
+        blockType: block.blockType,
+        buttonText: block.buttonText,
+        buttonUrl: block.buttonUrl,
+        description: block.description,
+        title: block.title,
+      };
+    case "contactForm":
+      return {
+        blockType: block.blockType,
+        description: block.description,
+        form: contactFormId,
+        title: block.title,
+      };
   }
-
-  if (block.blockType === "contactForm") {
-    return {
-      blockType: block.blockType,
-      description: block.description,
-      form: contactFormId,
-      title: block.title,
-    };
-  }
-
-  return block;
 }
 
-function richText(text: string) {
+function richText(text: string): RichTextDocument {
   return {
     root: {
       children: [
@@ -380,6 +466,6 @@ function richText(text: string) {
   };
 }
 
-function firstCategoryId(categories: Record<string, string | number>) {
+function firstCategoryId(categories: Record<string, number>) {
   return Object.values(categories)[0];
 }

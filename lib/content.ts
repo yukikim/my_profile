@@ -122,7 +122,7 @@ export type MediaImage = {
 };
 
 export type CmsForm = {
-  id: string;
+  id: number;
   name: string;
   successMessage?: string;
   fields: CmsFormField[];
@@ -193,6 +193,8 @@ export const works: Work[] = [
     technologies: ["Next.js", "TypeScript", "Payload CMS", "PostgreSQL"],
     status: "published",
     featured: true,
+    startDate: "2024-01-01",
+    endDate: "2024-12-31",
   },
   {
     slug: "portfolio-performance-redesign",
@@ -206,6 +208,8 @@ export const works: Work[] = [
     technologies: ["Next.js", "React", "Tailwind CSS"],
     status: "published",
     featured: true,
+    startDate: "2025-01-01",
+    endDate: "2025-06-30",
   },
   {
     slug: "content-operations-playbook",
@@ -219,6 +223,8 @@ export const works: Work[] = [
     technologies: ["Payload CMS", "Content Strategy", "SEO"],
     status: "published",
     featured: false,
+    startDate: "2025-07-01",
+    endDate: "2025-10-31",
   },
 ];
 

@@ -246,10 +246,10 @@ async function richTextToHtml(value: unknown): Promise<string | undefined> {
 
 function mapForm(value: unknown): CmsForm | undefined {
   const form = asRecord(value);
-  const id = stringOr(form.id, "");
+  const id = numberOr(form.id, undefined);
   const name = stringOr(form.name, "");
 
-  if (!id || !name) {
+  if (id === undefined || !name) {
     return undefined;
   }
 
