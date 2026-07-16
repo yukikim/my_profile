@@ -3,13 +3,17 @@ import { PageIntro, Section } from "@/components/site-shell";
 import { getPayloadClient } from "@/lib/payload/client";
 import { getProfile } from "@/lib/payload/getProfile";
 import { sendContactEmail } from "@/lib/email/sendContactEmail";
+import { ContactForm, type ContactFormState } from "./ContactForm";
 
 export const metadata: Metadata = {
   title: "Contact",
   description: "問い合わせフォーム、SNS、外部連絡先。",
 };
 
-async function submitContact(formData: FormData) {
+async function submitContact(
+  _previousState: ContactFormState,
+  formData: FormData,
+): Promise<ContactFormState> {
   "use server";
 
   const payload = await getPayloadClient();
@@ -38,7 +42,10 @@ async function submitContact(formData: FormData) {
 
   if (!payload) {
     console.info("Contact submission fallback", submission);
-    return;
+    return {
+      status: "error",
+      message: "現在お問い合わせを送信できません。時間をおいてお試しください。",
+    };
   }
 
   const forms = await payload.find({
@@ -54,7 +61,10 @@ async function submitContact(formData: FormData) {
 
   if (!form) {
     console.info("Contact form is not configured", submission);
-    return;
+    return {
+      status: "error",
+      message: "お問い合わせフォームが設定されていません。",
+    };
   }
 
   // nodemailerでメール送信
@@ -64,7 +74,10 @@ async function submitContact(formData: FormData) {
       .filter(Boolean) ?? [];
 
   if (notificationEmails.length === 0) {
-    throw new Error("問い合わせ通知先が設定されていません。");
+    return {
+      status: "error",
+      message: "問い合わせ通知先が設定されていません。",
+    };
   }
 
   await payload.create({
@@ -76,6 +89,13 @@ async function submitContact(formData: FormData) {
   });
 
   await sendContactEmail(submission, notificationEmails);
+
+  return {
+    status: "success",
+    message:
+      form.successMessage ??
+      "お問い合わせありがとうございます。内容を確認して返信いたします。",
+  };
 }
 
 export default async function ContactPage() {
@@ -91,57 +111,7 @@ export default async function ContactPage() {
 
       <Section title="お問い合わせフォーム">
         <div className="grid gap-8 lg:grid-cols-[1fr_20rem]">
-          <form
-            action={submitContact}
-            className="grid gap-5 rounded-lg border border-stone-200 bg-white p-6"
-          >
-            <label className="grid gap-2">
-              <span className="text-sm font-semibold text-[#15231f]">
-                お名前
-              </span>
-              <input
-                name="name"
-                required
-                className="min-h-12 rounded-md border border-stone-300 px-3 outline-none transition focus:border-[#2f6f73] focus:ring-2 focus:ring-[#2f6f73]/20"
-              />
-            </label>
-            <label className="grid gap-2">
-              <span className="text-sm font-semibold text-[#15231f]">件名</span>
-              <input
-                name="subject"
-                required
-                className="min-h-12 rounded-md border border-stone-300 px-3 outline-none transition focus:border-[#2f6f73] focus:ring-2 focus:ring-[#2f6f73]/20"
-              />
-            </label>
-            <label className="grid gap-2">
-              <span className="text-sm font-semibold text-[#15231f]">
-                メールアドレス
-              </span>
-              <input
-                name="email"
-                type="email"
-                required
-                className="min-h-12 rounded-md border border-stone-300 px-3 outline-none transition focus:border-[#2f6f73] focus:ring-2 focus:ring-[#2f6f73]/20"
-              />
-            </label>
-            <label className="grid gap-2">
-              <span className="text-sm font-semibold text-[#15231f]">
-                相談内容
-              </span>
-              <textarea
-                name="message"
-                required
-                rows={7}
-                className="rounded-md border border-stone-300 px-3 py-3 outline-none transition focus:border-[#2f6f73] focus:ring-2 focus:ring-[#2f6f73]/20"
-              />
-            </label>
-            <button
-              type="submit"
-              className="inline-flex min-h-12 w-fit items-center justify-center rounded-md bg-[#15231f] px-5 text-sm font-semibold text-white transition hover:bg-[#284139]"
-            >
-              送信する
-            </button>
-          </form>
+          <ContactForm action={submitContact} />
           <aside className="h-fit rounded-lg border border-stone-200 bg-white p-6">
             <h2 className="text-xl font-semibold text-[#15231f]">連絡先</h2>
             <a
