@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { PageIntro, Section } from "@/components/site-shell";
 import { getPayloadClient } from "@/lib/payload/client";
 import { getProfile } from "@/lib/payload/getProfile";
+import { sendContactEmail } from "@/lib/email/sendContactEmail";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -12,11 +13,27 @@ async function submitContact(formData: FormData) {
   "use server";
 
   const payload = await getPayloadClient();
+
+  const getText = (name: string, maxLength: number) => {
+    const value = formData.get(name);
+
+    if (typeof value !== "string") {
+      throw new Error(`${name}が入力されていません。`);
+    }
+
+    const normalized = value.trim();
+
+    if (!normalized || normalized.length > maxLength) {
+      throw new Error(`${name}の入力内容が不正です。`);
+    }
+
+    return normalized;
+  };
   const submission = {
-    subject: formData.get("subject"),
-    name: formData.get("name"),
-    email: formData.get("email"),
-    message: formData.get("message"),
+    subject: getText("subject", 200),
+    name: getText("name", 100),
+    email: getText("email", 254),
+    message: getText("message", 5000),
   };
 
   if (!payload) {
@@ -40,6 +57,16 @@ async function submitContact(formData: FormData) {
     return;
   }
 
+  // nodemailerでメール送信
+  const notificationEmails =
+    form.notificationEmails
+      ?.map((notification) => notification.email)
+      .filter(Boolean) ?? [];
+
+  if (notificationEmails.length === 0) {
+    throw new Error("問い合わせ通知先が設定されていません。");
+  }
+
   await payload.create({
     collection: "form-submissions",
     data: {
@@ -47,6 +74,8 @@ async function submitContact(formData: FormData) {
       form: form.id,
     },
   });
+
+  await sendContactEmail(submission, notificationEmails);
 }
 
 export default async function ContactPage() {
@@ -77,9 +106,7 @@ export default async function ContactPage() {
               />
             </label>
             <label className="grid gap-2">
-              <span className="text-sm font-semibold text-[#15231f]">
-                件名
-              </span>
+              <span className="text-sm font-semibold text-[#15231f]">件名</span>
               <input
                 name="subject"
                 required
