@@ -30,8 +30,10 @@ export async function sendContactEmail(
     },
   });
 
+ // 接続確認
+  // await transporter.verify();
   await transporter.sendMail({
-    from: `"Portfolio Contact" <${gmailUser}>`,
+    from: `"Portfolioからのお問い合わせ" <${gmailUser}>`,
     to: recipients,
     replyTo: submission.email,
     subject: `[お問い合わせ] ${submission.subject.replace(/[\r\n]/g, " ")}`,
