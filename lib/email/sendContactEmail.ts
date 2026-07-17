@@ -30,8 +30,14 @@ export async function sendContactEmail(
     },
   });
 
- // 接続確認
-  // await transporter.verify();
+  // 開発時接続確認
+  try {
+    await transporter.verify();
+  } catch (error) {
+    console.error("Gmail SMTP verification failed", error);
+    throw new Error("GmailのSMTP接続または認証に失敗しました。");
+  }
+
   await transporter.sendMail({
     from: `"Portfolioからのお問い合わせ" <${gmailUser}>`,
     to: recipients,
