@@ -149,41 +149,49 @@ npm run migrate:status
 
 ### 6.1 SDKと起動基盤
 
-- [ ] MCP公式TypeScript SDKの現行安定版を公式リポジトリで再確認する。
-- [ ] SDKとスキーマ検証ライブラリをnpmで追加し、lockfileへ固定する。
-- [ ] `mcp/env.ts` で既存の `.env` 系ファイルを読み込む。
-- [ ] `mcp/errors.ts` に安全なエラー変換を実装する。
-- [ ] `mcp/schemas.ts` に共通入力スキーマを実装する。
-- [ ] `mcp/server.ts` でMCPサーバーとstdio transportを接続する。
-- [ ] SIGINT時にサーバーを終了できるようにする。
-- [ ] 診断ログをstderrへ出し、stdoutへ出さない。
-- [ ] `package.json` にMCP起動用scriptを追加する。
+- [x] MCP公式TypeScript SDKの現行安定版を公式リポジトリで再確認する。
+- [x] SDKとスキーマ検証ライブラリをnpmで追加し、lockfileへ固定する。
+- [x] `mcp/env.ts` で既存の `.env` 系ファイルを読み込む。
+- [x] `mcp/errors.ts` に安全なエラー変換を実装する。
+- [x] `mcp/schemas.ts` に共通入力スキーマを実装する。
+- [x] `mcp/server.ts` でMCPサーバーとstdio transportを接続する。
+- [x] SIGINT時にサーバーを終了できるようにする。
+- [x] 診断ログをstderrへ出し、stdoutへ出さない。
+- [x] `package.json` にMCP起動用scriptを追加する。
 
 ### 6.2 Tool
 
-- [ ] `search_development_logs` を実装する。
-- [ ] `get_recent_development_logs` を実装する。
-- [ ] `search_architecture_decisions` を実装する。
-- [ ] `get_project_history` を実装する。
-- [ ] `get_decision_context` を実装する。
-- [ ] `get_related_decisions` を実装する。
-- [ ] すべてのToolへ読み取り専用であることが分かる説明とannotationを設定する。
-- [ ] Tool結果を構造化出力スキーマで検証する。
+- [x] `search_development_logs` を実装する。
+- [x] `get_recent_development_logs` を実装する。
+- [x] `search_architecture_decisions` を実装する。
+- [x] `get_project_history` を実装する。
+- [x] `get_decision_context` を実装する。
+- [x] `get_related_decisions` を実装する。
+- [x] すべてのToolへ読み取り専用であることが分かる説明とannotationを設定する。
+- [x] Tool結果を構造化出力スキーマで検証する。
 
 ### 6.3 MCPテスト
 
-- [ ] Tool一覧に6個のToolが表示されることを確認する。
-- [ ] 各Toolの正常系を確認する。
-- [ ] 不正な日付、空の必須項目、上限超過を確認する。
-- [ ] 0件時の結果を確認する。
-- [ ] DB停止時に秘密情報を含まないエラーになることを確認する。
-- [ ] stdoutに通常ログが混ざらないことを確認する。
-- [ ] privateは取得でき、draftは取得できないことを確認する。
+- [x] Tool一覧に6個のToolが表示されることを確認する。
+- [x] 各Toolの正常系を確認する。
+- [x] 不正な日付、空の必須項目、上限超過を確認する。
+- [x] 0件時の結果を確認する。
+- [x] DB停止時に秘密情報を含まないエラーになることを確認する。
+- [x] stdoutに通常ログが混ざらないことを確認する。
+- [x] privateは取得でき、draftは取得できないことを確認する。
 
 完了条件:
 
 - MCP Inspectorなどのクライアントから6 Toolを実行できる。
 - 定義したアクセス境界と出力上限が守られる。
+
+実装・検証記録（2026-07-17）:
+
+- MCP TypeScript SDK `1.29.0` とZod `4.4.3` をexact versionで追加した。SDK v2はpre-alphaのため、公式がproduction向けとして案内するv1系を採用した。
+- `mcp/dataSource.ts` で `audience: "trusted-mcp"` を固定し、6 ToolがPhase 3のQuery Serviceとallowlist Mapperを迂回できない構成にした。
+- 全Toolへ入力・出力Zod schema、`readOnlyHint`、最大50件、説明用textと`structuredContent`を設定した。
+- DB障害のfault injectionテストで、接続文字列、SQL、stack traceがTool応答へ含まれないことを確認した。
+- `npm run verify:mcp` で実PostgreSQLとstdio MCP子プロセスへ接続し、6 Toolの実行、private取得、draft除外、stdoutへ通常ログが混ざらないことを確認した。
 
 ## 7. Phase 5: Codex接続と受け入れ確認
 

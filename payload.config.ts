@@ -24,6 +24,12 @@ import { ja } from '@payloadcms/translations/languages/ja'
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
+// stdio MCPではstdoutがJSON-RPC専用なので、Payloadの通常ログもstderrへ退避させます。
+const payloadLogger =
+  process.env.MCP_STDIO_TRANSPORT === "1"
+    ? { options: { level: "info" }, destination: process.stderr }
+    : undefined;
+
 export default buildConfig({
   admin: {
     user: Users.slug,
@@ -54,6 +60,7 @@ export default buildConfig({
   }),
   editor: lexicalEditor({}),
   globals: [Profile, SiteSettings, Header, Footer],
+  logger: payloadLogger,
   secret: process.env.PAYLOAD_SECRET || "development-secret-change-me",
   sharp,
   typescript: {

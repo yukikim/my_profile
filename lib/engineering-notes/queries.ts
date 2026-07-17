@@ -141,6 +141,8 @@ export function buildArchitectureDecisionWhere(
     conditions.push({
       or: [
         { decisionId: { contains: query } },
+        // MCPではADRをslugでも1件特定するため、識別子を検索対象へ含めます。
+        { slug: { contains: query } },
         { title: { contains: query } },
         { context: { contains: query } },
         { decision: { contains: query } },
