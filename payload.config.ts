@@ -46,6 +46,8 @@ export default buildConfig({
   ],
   db: postgresAdapter({
     migrationDir: path.resolve(dirname, "migrations"),
+    // schema変更はmigrationだけで管理し、開発起動時の自動pushで履歴がずれるのを防ぎます。
+    push: false,
     pool: {
       connectionString: process.env.DATABASE_URI || "",
     },

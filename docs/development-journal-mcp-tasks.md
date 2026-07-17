@@ -74,14 +74,14 @@ npm run typecheck
 
 ## 4. Phase 2: Migrationとテストデータ
 
-- [ ] Collection追加用migrationを作成する。
-- [ ] 生成されたmigrationに意図しない破壊的変更がないか確認する。
-- [ ] migrationを適用する。
-- [ ] migration statusを確認する。
-- [ ] 代表的な開発日誌を2件以上登録する。
-- [ ] 代表的なADRを2件以上登録する。
-- [ ] public/private、draft/publishedの全組み合わせを用意する。
-- [ ] 既存seedへ追加するか、開発用fixtureを別に持つか決定する。
+- [x] Collection追加用migrationを作成する。
+- [x] 生成されたmigrationに意図しない破壊的変更がないか確認する。
+- [x] migrationを適用する。
+- [x] migration statusを確認する。
+- [x] 代表的な開発日誌を2件以上登録する。
+- [x] 代表的なADRを2件以上登録する。
+- [x] public/private、draft/publishedの全組み合わせを用意する。
+- [x] 既存seedへ追加するか、開発用fixtureを別に持つか決定する。
 
 初期データ候補:
 
@@ -103,6 +103,14 @@ npm run migrate:status
 
 - 空DBへmigrationを適用できる。
 - 各公開状態・公開範囲のテストデータを管理画面で確認できる。
+
+実施メモ（2026-07-17）:
+
+- 既存DBは開発モードのschema pushで現行schemaになっていたため、既存データを消す `migrate:fresh` は使用しなかった。
+- 一時的な空DBへ全migrationを適用し、2件とも成功することを確認した。
+- 現行DBと検証DBのcolumn、index、constraint、enumが一致することを確認してから、現行DBを正式migration履歴へbaseline化した。
+- `postgresAdapter` の `push` を無効化し、今後のschema変更はmigrationを正本とする。
+- seedは既存の `scripts/seed.mts` へ追加し、slugによる冪等なupsertを維持した。
 
 ## 5. Phase 3: 共通Query Service
 
