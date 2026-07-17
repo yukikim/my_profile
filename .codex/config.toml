@@ -1,0 +1,22 @@
+# この設定は信頼済みのmy_profileプロジェクト内だけで有効になります。
+[mcp_servers.engineering_notes]
+command = "npm"
+args = ["run", "mcp"]
+cwd = "/Users/greenpowermarco/personal_files/my_app/CreateWebsite/my_profile"
+enabled = true
+required = true
+startup_timeout_sec = 20
+tool_timeout_sec = 60
+default_tools_approval_mode = "auto"
+
+# Phase 4で実装した読み取り専用ToolだけをCodexへ公開する追加のallowlistです。
+enabled_tools = [
+  "search_development_logs",
+  "get_recent_development_logs",
+  "search_architecture_decisions",
+  "get_project_history",
+  "get_decision_context",
+  "get_related_decisions",
+]
+
+# DATABASE_URIやPAYLOAD_SECRETはここへ書かず、MCPプロセスが既存の.env系ファイルを読み込みます。

@@ -195,12 +195,12 @@ npm run migrate:status
 
 ## 7. Phase 5: Codex接続と受け入れ確認
 
-- [ ] ローカルMCPサーバーをCodexのプロジェクト設定へ登録する。
-- [ ] 設定ファイルへDB接続文字列やsecretを直書きしない。
-- [ ] MCPサーバーを再起動してTool検出を確認する。
-- [ ] 代表質問をCodexから実行する。
-- [ ] どの日誌・ADRが根拠になったか識別できる出力を確認する。
-- [ ] privateの内容が意図したローカルクライアントだけへ返ることを確認する。
+- [x] ローカルMCPサーバーをCodexのプロジェクト設定へ登録する。
+- [x] 設定ファイルへDB接続文字列やsecretを直書きしない。
+- [x] MCPサーバーを再起動してTool検出を確認する。
+- [x] 代表質問をCodexから実行する。
+- [x] どの日誌・ADRが根拠になったか識別できる出力を確認する。
+- [x] privateの内容が意図したローカルクライアントだけへ返ることを確認する。
 
 受け入れ質問:
 
@@ -214,6 +214,16 @@ npm run migrate:status
 
 - CodexがMCP Toolを使い、保存済みデータに基づいて回答できる。
 - 下書きや禁止情報が回答へ含まれない。
+
+実装・検証記録（2026-07-17）:
+
+- `.codex/config.toml`へ`engineering_notes`を登録し、6 Toolのallowlist、timeout、読み取り専用Toolの自動承認を設定した。
+- DB接続文字列とPayload secretは設定へ記載せず、既存の`.env`系ファイルをMCP子プロセス内で読み込む構成を維持した。
+- `codex mcp list`で、プロジェクト設定の`engineering_notes`がenabledとして検出されることを確認した。
+- 新しい`codex exec`プロセスから5つの受け入れ質問を実行し、MCP Tool callと根拠のslug・decisionIdをJSONLで確認した。
+- PostgreSQL採用理由は`ADR-0002`、フォーム実装は`implement-contact-form-storage`、置換関係は`ADR-0001`と`ADR-0002`を根拠として回答された。
+- privateの`ADR-0001`と`investigate-works-fallback`はローカルCodexから取得でき、draftの`ADR-0004`、`plan-engineering-notes-pages`はTool結果と回答へ含まれなかった。
+- Codexが指定した`limit: 100`は入力スキーマで拒否され、最大50件の境界が実クライアントでも守られることを確認した。
 
 ## 8. Phase 6: Engineering Notes公開画面
 
