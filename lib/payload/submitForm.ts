@@ -13,11 +13,12 @@ export async function submitFormSubmission(formId: number, formData: FormData) {
     return;
   }
 
+  // form-submissionsコレクションで定義されているフィールドでDBに保存する
   await payload.create({
     collection: "form-submissions",
     data: {
-      data,
-      form: formId,
+      data, // 既存のforms レコードのID
+      form: formId, // 名前、メールアドレス、本文などの送信内容
     },
   });
 }
