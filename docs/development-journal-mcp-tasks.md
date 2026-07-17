@@ -114,30 +114,36 @@ npm run migrate:status
 
 ## 5. Phase 3: 共通Query Service
 
-- [ ] `lib/engineering-notes/types.ts` に入力・出力型を定義する。
-- [ ] `lib/engineering-notes/visibility.ts` に必須公開条件を実装する。
-- [ ] `lib/engineering-notes/queries.ts` に検索処理を実装する。
-- [ ] `lib/engineering-notes/mappers.ts` にallowlist方式の変換処理を実装する。
-- [ ] `lib/payload/getDevelopmentLogs.ts` を作成する。
-- [ ] `lib/payload/getArchitectureDecisions.ts` を作成する。
-- [ ] `Audience = public-site | trusted-mcp` を呼び出し元から必須指定にする。
-- [ ] 検索件数を初期10件、最大50件に制限する。
-- [ ] project、tag、日付、Work、キーワードの条件を実装する。
-- [ ] 公開日時が未来の記録を除外する。
-- [ ] relationshipの展開深度と出力サイズを制限する。
+- [x] `lib/engineering-notes/types.ts` に入力・出力型を定義する。
+- [x] `lib/engineering-notes/visibility.ts` に必須公開条件を実装する。
+- [x] `lib/engineering-notes/queries.ts` に検索処理を実装する。
+- [x] `lib/engineering-notes/mappers.ts` にallowlist方式の変換処理を実装する。
+- [x] `lib/payload/getDevelopmentLogs.ts` を作成する。
+- [x] `lib/payload/getArchitectureDecisions.ts` を作成する。
+- [x] `Audience = public-site | trusted-mcp` を呼び出し元から必須指定にする。
+- [x] 検索件数を初期10件、最大50件に制限する。
+- [x] project、tag、日付、Work、キーワードの条件を実装する。
+- [x] 公開日時が未来の記録を除外する。
+- [x] relationshipの展開深度と出力サイズを制限する。
 
 ### テスト
 
-- [ ] public-siteではpublicだけを返すテストを書く。
-- [ ] trusted-mcpではpublishedのpublic/privateを返すテストを書く。
-- [ ] どちらもdraftを返さないテストを書く。
-- [ ] Payloadの生Documentにあるallowlist外フィールドを返さないテストを書く。
-- [ ] limit、日付境界、0件、relationship未設定をテストする。
+- [x] public-siteではpublicだけを返すテストを書く。
+- [x] trusted-mcpではpublishedのpublic/privateを返すテストを書く。
+- [x] どちらもdraftを返さないテストを書く。
+- [x] Payloadの生Documentにあるallowlist外フィールドを返さないテストを書く。
+- [x] limit、日付境界、0件、relationship未設定をテストする。
 
 完了条件:
 
 - 公開条件を呼び出し側が上書きできない。
 - 公開サイトとMCPで同じ検索基盤を安全に共有できる。
+
+実施メモ（2026-07-17）:
+
+- Node.js標準test runnerで、公開条件、limit、Where構築、allowlist Mapperの単体テストを追加した。
+- 実PostgreSQLに接続する `npm run verify:engineering-notes` を追加し、Payloadのaccess control、field path、relationship検索を確認した。
+- 実DBではpublic-siteが日誌1件・ADR 1件、trusted-mcpが公開済みの日誌2件・ADR 2件を取得し、draftはどちらにも含まれないことを確認した。
 
 ## 6. Phase 4: 読み取り専用MCPサーバー
 
