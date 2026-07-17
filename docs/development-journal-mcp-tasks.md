@@ -8,13 +8,13 @@
 
 ## 2. Phase 0: 実装前確認
 
-- [ ] [`development-journal-mcp-overview.md`](./development-journal-mcp-overview.md) の対象範囲を確認する。
-- [ ] [`development-journal-mcp-design.md`](./development-journal-mcp-design.md) のデータ項目を確認する。
-- [ ] `status`、`visibility`、`decisionStatus` の違いを確認する。
-- [ ] 初期transportをstdioとすることを確認する。
-- [ ] 初期MCPを読み取り専用とすることを確認する。
-- [ ] MCPからprivateを読める運用が許容されることを確認する。
-- [ ] 開発日誌とADRに保存してはいけない情報の基準を決める。
+- [x] [`development-journal-mcp-overview.md`](./development-journal-mcp-overview.md) の対象範囲を確認する。
+- [x] [`development-journal-mcp-design.md`](./development-journal-mcp-design.md) のデータ項目を確認する。
+- [x] `status`、`visibility`、`decisionStatus` の違いを確認する。
+- [x] 初期transportをstdioとすることを確認する。
+- [x] 初期MCPを読み取り専用とすることを確認する。
+- [x] MCPからprivateを読める運用が許容されることを確認する。
+- [x] 開発日誌とADRに保存してはいけない情報の基準を決める。
 
 完了条件:
 
