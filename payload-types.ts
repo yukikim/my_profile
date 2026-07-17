@@ -75,6 +75,8 @@ export interface Config {
     works: Work;
     forms: Form;
     'form-submissions': FormSubmission;
+    'development-logs': DevelopmentLog;
+    'architecture-decisions': ArchitectureDecision;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -90,6 +92,8 @@ export interface Config {
     works: WorksSelect<false> | WorksSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
+    'development-logs': DevelopmentLogsSelect<false> | DevelopmentLogsSelect<true>;
+    'architecture-decisions': ArchitectureDecisionsSelect<false> | ArchitectureDecisionsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -456,6 +460,209 @@ export interface FormSubmission {
   createdAt: string;
 }
 /**
+ * 日々の実装内容、問題、原因、解決方法、学び、次の作業を記録します。
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "development-logs".
+ */
+export interface DevelopmentLog {
+  id: number;
+  title: string;
+  /**
+   * 公開URLやMCPの識別に使う一意な値です。例: contact-form-implementation
+   */
+  slug: string;
+  /**
+   * この作業を行った日付です。
+   */
+  logDate: string;
+  /**
+   * MCPでプロジェクト単位に履歴を検索するための名前です。
+   */
+  project: string;
+  /**
+   * この日誌で行った作業の短い概要です。
+   */
+  summary: string;
+  /**
+   * 実装・変更した内容を記録します。
+   */
+  implementation?: string | null;
+  /**
+   * 発生した現象やエラーメッセージを記録します。
+   */
+  problem?: string | null;
+  /**
+   * 調査によって判明した根本原因を記録します。
+   */
+  cause?: string | null;
+  /**
+   * 実施した対処と、解決を確認した方法を記録します。
+   */
+  resolution?: string | null;
+  /**
+   * 学んだことや、同じ問題を防ぐための知識を記録します。
+   */
+  lessonsLearned?: string | null;
+  /**
+   * この記録から引き継ぐ次の作業です。
+   */
+  nextActions?:
+    | {
+        task: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * この日誌に関係するプロフィールサイト上の実績です。
+   */
+  relatedWorks?: (number | Work)[] | null;
+  /**
+   * この作業に関係する設計判断（ADR）です。
+   */
+  relatedDecisions?: (number | ArchitectureDecision)[] | null;
+  /**
+   * MCP検索の絞り込みに使うキーワードです。
+   */
+  tags?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * コンテンツの公開状態です。Payload上の下書き保存と合わせて確認します。
+   */
+  status: 'draft' | 'published';
+  /**
+   * Publicは公開サイトにも表示し、Privateは将来の信頼済みMCPだけで利用します。
+   */
+  visibility: 'public' | 'private';
+  /**
+   * 未設定ならすぐ公開できます。未来日時の場合は、その日時まで外部へ公開しません。
+   */
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * 設計上の背景、候補、採用方針、理由、トレードオフをADRとして記録します。
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "architecture-decisions".
+ */
+export interface ArchitectureDecision {
+  id: number;
+  /**
+   * ADRを長期的に識別するIDです。例: ADR-0001
+   */
+  decisionId: string;
+  title: string;
+  /**
+   * 公開URLやMCPの識別に使う一意な値です。例: choose-postgresql
+   */
+  slug: string;
+  /**
+   * MCPでプロジェクト単位に設計判断を検索するための名前です。
+   */
+  project: string;
+  /**
+   * ADRの検討状態です。下のstatus（公開状態）とは別の役割を持ちます。
+   */
+  decisionStatus: 'proposed' | 'accepted' | 'superseded';
+  /**
+   * 判断が必要になった背景、課題、制約を記録します。
+   */
+  context: string;
+  /**
+   * 比較検討した候補と、それぞれの長所・短所です。
+   */
+  options: {
+    name: string;
+    description?: string | null;
+    pros?:
+      | {
+          item: string;
+          id?: string | null;
+        }[]
+      | null;
+    cons?:
+      | {
+          item: string;
+          id?: string | null;
+        }[]
+      | null;
+    id?: string | null;
+  }[];
+  /**
+   * 最終的に採用した方針を記録します。
+   */
+  decision: string;
+  /**
+   * 他の候補ではなく、この方針を採用した理由です。
+   */
+  rationale: string;
+  /**
+   * この判断によって得られる利点や期待効果です。
+   */
+  positiveConsequences?:
+    | {
+        item: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * 受け入れる必要があるデメリット、制約、将来コストです。
+   */
+  negativeConsequences?:
+    | {
+        item: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * この方針を採用した日付です。
+   */
+  decidedAt?: string | null;
+  /**
+   * このADRが置き換える古いADRです。履歴を削除せず判断の変化を残します。
+   */
+  supersedes?: (number | null) | ArchitectureDecision;
+  /**
+   * この設計判断に関係するプロフィールサイト上の実績です。
+   */
+  relatedWorks?: (number | Work)[] | null;
+  /**
+   * この設計判断に関係する開発日誌です。
+   */
+  relatedLogs?: (number | DevelopmentLog)[] | null;
+  /**
+   * MCP検索の絞り込みに使うキーワードです。
+   */
+  tags?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * コンテンツの公開状態です。decisionStatusとは別に管理します。
+   */
+  status: 'draft' | 'published';
+  /**
+   * Publicは公開サイトにも表示し、Privateは将来の信頼済みMCPだけで利用します。
+   */
+  visibility: 'public' | 'private';
+  /**
+   * 未設定ならすぐ公開できます。未来日時の場合は、その日時まで外部へ公開しません。
+   */
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -510,6 +717,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'form-submissions';
         value: number | FormSubmission;
+      } | null)
+    | ({
+        relationTo: 'development-logs';
+        value: number | DevelopmentLog;
+      } | null)
+    | ({
+        relationTo: 'architecture-decisions';
+        value: number | ArchitectureDecision;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -827,6 +1042,103 @@ export interface FormSubmissionsSelect<T extends boolean = true> {
   data?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "development-logs_select".
+ */
+export interface DevelopmentLogsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  logDate?: T;
+  project?: T;
+  summary?: T;
+  implementation?: T;
+  problem?: T;
+  cause?: T;
+  resolution?: T;
+  lessonsLearned?: T;
+  nextActions?:
+    | T
+    | {
+        task?: T;
+        id?: T;
+      };
+  relatedWorks?: T;
+  relatedDecisions?: T;
+  tags?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
+  status?: T;
+  visibility?: T;
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "architecture-decisions_select".
+ */
+export interface ArchitectureDecisionsSelect<T extends boolean = true> {
+  decisionId?: T;
+  title?: T;
+  slug?: T;
+  project?: T;
+  decisionStatus?: T;
+  context?: T;
+  options?:
+    | T
+    | {
+        name?: T;
+        description?: T;
+        pros?:
+          | T
+          | {
+              item?: T;
+              id?: T;
+            };
+        cons?:
+          | T
+          | {
+              item?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  decision?: T;
+  rationale?: T;
+  positiveConsequences?:
+    | T
+    | {
+        item?: T;
+        id?: T;
+      };
+  negativeConsequences?:
+    | T
+    | {
+        item?: T;
+        id?: T;
+      };
+  decidedAt?: T;
+  supersedes?: T;
+  relatedWorks?: T;
+  relatedLogs?: T;
+  tags?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
+  status?: T;
+  visibility?: T;
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

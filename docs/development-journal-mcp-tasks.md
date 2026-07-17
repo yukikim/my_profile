@@ -24,39 +24,39 @@
 
 ### 3.1 共通フィールドとaccess
 
-- [ ] 未認証read用のaccess関数を `access/readPublishedEngineeringNote.ts` に追加する。
-- [ ] `status = published` を必須にする。
-- [ ] `visibility = public` を必須にする。
-- [ ] `publishedAt` が未来の場合は公開しない条件を実装する。
-- [ ] create/update/deleteは既存のロール判定を再利用する。
+- [x] 未認証read用のaccess関数を `access/readPublishedEngineeringNote.ts` に追加する。
+- [x] `status = published` を必須にする。
+- [x] `visibility = public` を必須にする。
+- [x] `publishedAt` が未来の場合は公開しない条件を実装する。
+- [x] create/update/deleteは既存のロール判定を再利用する。
 
 ### 3.2 DevelopmentLogs
 
-- [ ] `collections/DevelopmentLogs.ts` を作成する。
-- [ ] 基本項目、作業内容、問題、原因、解決方法、学び、次の作業を追加する。
-- [ ] `works` へのrelationshipを追加する。
-- [ ] `architecture-decisions` へのrelationshipを追加する。
-- [ ] `slug` をunique + indexにする。
-- [ ] 管理画面のdefaultColumnsを設定する。
-- [ ] draft、version管理を設定する。
+- [x] `collections/DevelopmentLogs.ts` を作成する。
+- [x] 基本項目、作業内容、問題、原因、解決方法、学び、次の作業を追加する。
+- [x] `works` へのrelationshipを追加する。
+- [x] `architecture-decisions` へのrelationshipを追加する。
+- [x] `slug` をunique + indexにする。
+- [x] 管理画面のdefaultColumnsを設定する。
+- [x] draft、version管理を設定する。
 
 ### 3.3 ArchitectureDecisions
 
-- [ ] `collections/ArchitectureDecisions.ts` を作成する。
-- [ ] `decisionId`、背景、選択肢、判断、理由、影響を追加する。
-- [ ] `decisionStatus` を追加する。
-- [ ] `works` と `development-logs` へのrelationshipを追加する。
-- [ ] `supersedes` の自己relationshipを追加する。
-- [ ] `decisionId` と `slug` をunique + indexにする。
-- [ ] 管理画面のdefaultColumnsを設定する。
-- [ ] draft、version管理を設定する。
+- [x] `collections/ArchitectureDecisions.ts` を作成する。
+- [x] `decisionId`、背景、選択肢、判断、理由、影響を追加する。
+- [x] `decisionStatus` を追加する。
+- [x] `works` と `development-logs` へのrelationshipを追加する。
+- [x] `supersedes` の自己relationshipを追加する。
+- [x] `decisionId` と `slug` をunique + indexにする。
+- [x] 管理画面のdefaultColumnsを設定する。
+- [x] draft、version管理を設定する。
 
 ### 3.4 Configと型
 
-- [ ] `payload.config.ts` に2つのCollectionを登録する。
-- [ ] Payload型を再生成する。
-- [ ] relationshipのCollection slugと生成型を確認する。
-- [ ] ESLintとTypeScriptの形式に合わせて整形する。
+- [x] `payload.config.ts` に2つのCollectionを登録する。
+- [x] Payload型を再生成する。
+- [x] relationshipのCollection slugと生成型を確認する。
+- [x] ESLintとTypeScriptの形式に合わせて整形する。
 
 想定確認コマンド:
 
@@ -292,4 +292,3 @@ git diff --check
 5. `test: cover engineering note visibility and MCP tools`
 6. `feat(frontend): add engineering notes pages`
 7. `docs: add MCP setup and operations guide`
-

@@ -4,7 +4,9 @@ import path from "path";
 import { buildConfig } from "payload";
 import sharp from "sharp";
 import { fileURLToPath } from "url";
+import { ArchitectureDecisions } from "./collections/ArchitectureDecisions";
 import { Categories } from "./collections/Categories";
+import { DevelopmentLogs } from "./collections/DevelopmentLogs";
 import { Forms } from "./collections/Forms";
 import { FormSubmissions } from "./collections/FormSubmissions";
 import { Media } from "./collections/Media";
@@ -38,6 +40,9 @@ export default buildConfig({
     Works,
     Forms,
     FormSubmissions,
+    // Engineering Notesは相互relationshipを持つため、両方を同じPayload設定へ登録します。
+    DevelopmentLogs,
+    ArchitectureDecisions,
   ],
   db: postgresAdapter({
     migrationDir: path.resolve(dirname, "migrations"),
