@@ -3,9 +3,11 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { getPayload } from "payload";
 import {
+  formatEngineeringNoteApplyPreview,
+  formatEngineeringNoteCreateSuccess,
   formatEngineeringNoteDryRunReport,
   formatEngineeringNoteImportError,
-  runEngineeringNoteDraftDryRun,
+  runEngineeringNoteDraftImport,
 } from "../lib/engineering-notes/drafts/importCli";
 
 const filename = fileURLToPath(import.meta.url);
@@ -18,7 +20,7 @@ main().then((exitCode) => {
 
 async function main() {
   try {
-    const report = await runEngineeringNoteDraftDryRun({
+    const result = await runEngineeringNoteDraftImport({
       argv: process.argv.slice(2),
       cwd: process.cwd(),
       loadPayload: async () => {
@@ -29,8 +31,16 @@ async function main() {
         const { default: config } = await import("../payload.config");
         return getPayload({ config });
       },
+      onBeforeCreate: (report) => {
+        console.info(formatEngineeringNoteApplyPreview(report));
+      },
     });
-    console.info(formatEngineeringNoteDryRunReport(report));
+
+    console.info(
+      result.mode === "dry-run"
+        ? formatEngineeringNoteDryRunReport(result.report)
+        : formatEngineeringNoteCreateSuccess(result.created),
+    );
     return 0;
   } catch (error) {
     // 生のErrorをconsoleへ渡さず、安全なcodeとfield pathだけをstderrへ表示します。

@@ -80,9 +80,17 @@ async function main() {
     const serializedDecisions = JSON.stringify(decisions.structuredContent);
 
     assert.match(serializedLogs, /investigate-works-fallback/);
-    assert.doesNotMatch(serializedLogs, /plan-engineering-notes-pages/);
+    // Phase 5で実DB作成した最新draftを使い、公開状態が変わり得る古いfixtureへ依存しません。
+    assert.doesNotMatch(
+      serializedLogs,
+      /my-profile-add-engineering-note-import-cli/,
+    );
     assert.match(serializedDecisions, /initially-consider-mongodb/);
     assert.doesNotMatch(serializedDecisions, /remote-mcp-authorization/);
+    assert.doesNotMatch(
+      serializedDecisions,
+      /my-profile-require-explicit-apply/,
+    );
 
     const invalid = await client.callTool({
       name: "search_development_logs",

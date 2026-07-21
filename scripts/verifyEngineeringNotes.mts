@@ -86,7 +86,9 @@ async function main() {
       trustedLogs.some((log) => log.slug === "investigate-works-fallback"),
     );
     assert.ok(
-      trustedLogs.every((log) => log.slug !== "plan-engineering-notes-pages"),
+      trustedLogs.every(
+        (log) => log.slug !== "my-profile-add-engineering-note-import-cli",
+      ),
     );
     assert.deepEqual(
       taggedLogs.map((log) => log.slug),
@@ -107,6 +109,11 @@ async function main() {
     assert.ok(
       trustedDecisions.every(
         (decision) => decision.slug !== "remote-mcp-authorization",
+      ),
+    );
+    assert.ok(
+      trustedDecisions.every(
+        (decision) => decision.slug !== "my-profile-require-explicit-apply",
       ),
     );
     assert.ok(

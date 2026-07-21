@@ -223,7 +223,7 @@ npm run lint
 - [x] `--apply` がない場合は必ずdry-runで終了する。
 - [x] 未知のCLI optionを拒否する。
 
-Phase 4時点の `--apply` は `APPLY_NOT_AVAILABLE` で拒否し、Phase 5で下書き登録処理を接続する。
+Phase 4のdry-run関数は `--apply` を受け付けず、Phase 5のCLI入口が明示的にcreate-only処理へ分岐する。
 
 ### 7.2 dry-run出力
 
@@ -275,36 +275,36 @@ npm run lint
 
 ### 8.1 登録処理
 
-- [ ] `lib/engineering-notes/drafts/createDraft.ts` を追加する。
-- [ ] `kind` に応じて対象Collectionを固定する。
-- [ ] Development Log入力をPayloadのfield構造へ変換する。
-- [ ] ADR入力をPayloadのfield構造へ変換する。
-- [ ] `nextActions`、`tags`、`options`、pros/consなどの配列をPayload形式へ変換する。
-- [ ] 解決済みrelationshipだけをDocument IDとして設定する。
-- [ ] `status: draft` と `visibility: private` をコード側で固定する。
-- [ ] Payloadのdraft optionをコード側で固定する。
-- [ ] publish、delete、update、upsert処理を実装しない。
-- [ ] Payload/DB終了処理を `finally` で実行する。
+- [x] `lib/engineering-notes/drafts/createDraft.ts` を追加する。
+- [x] `kind` に応じて対象Collectionを固定する。
+- [x] Development Log入力をPayloadのfield構造へ変換する。
+- [x] ADR入力をPayloadのfield構造へ変換する。
+- [x] `nextActions`、`tags`、`options`、pros/consなどの配列をPayload形式へ変換する。
+- [x] 解決済みrelationshipだけをDocument IDとして設定する。
+- [x] `status: draft` と `visibility: private` をコード側で固定する。
+- [x] Payloadのdraft optionをコード側で固定する。
+- [x] publish、delete、update、upsert処理を実装しない。
+- [x] Payload/DB終了処理を `finally` で実行する。
 
 ### 8.2 `--apply` の安全境界
 
-- [ ] `--apply` がある場合だけ登録処理を呼び出す。
-- [ ] schema、秘密情報、重複検証のいずれかが失敗したら登録しない。
-- [ ] 未解決relationshipを許可する条件をPhase 0の決定どおり実装する。
-- [ ] 作成直前にもCollection、kind、slugまたはADR ID、固定状態を表示する。
-- [ ] 成功時はDocument ID、kind、slugまたはADR IDだけを表示する。
-- [ ] 失敗時は接続文字列、SQL、stack traceを表示しない。
-- [ ] 同じファイルの再実行は重複エラーとなり、2件目を作成しない。
+- [x] `--apply` がある場合だけ登録処理を呼び出す。
+- [x] schema、秘密情報、重複検証のいずれかが失敗したら登録しない。
+- [x] 未解決relationshipを許可する条件をPhase 0の決定どおり実装する。
+- [x] 作成直前にもCollection、kind、slugまたはADR ID、固定状態を表示する。
+- [x] 成功時はDocument ID、kind、slugまたはADR IDだけを表示する。
+- [x] 失敗時は接続文字列、SQL、stack traceを表示しない。
+- [x] 同じファイルの再実行は重複エラーとなり、2件目を作成しない。
 
 ### 8.3 実DB検証
 
-- [ ] Development Logを `--apply` で1件作成する。
-- [ ] ADRを `--apply` で1件作成する。
+- [x] Development Logを `--apply` で1件作成する。
+- [x] ADRを `--apply` で1件作成する。
 - [ ] Payload管理画面から両方を確認する。
-- [ ] `status: draft`、`visibility: private`、Payload draftであることを確認する。
-- [ ] 公開サイトから取得できないことを確認する。
-- [ ] 未認証Payload APIから取得できないことを確認する。
-- [ ] 読み取り専用MCPから取得できないことを確認する。
+- [x] `status: draft`、`visibility: private`、Payload draftであることを確認する。
+- [x] 公開サイトから取得できないことを確認する。
+- [x] 未認証Payload APIから取得できないことを確認する。
+- [x] 読み取り専用MCPから取得できないことを確認する。
 - [ ] 管理画面から公開後、visibilityに応じて取得できることを確認する。
 
 想定確認コマンド:

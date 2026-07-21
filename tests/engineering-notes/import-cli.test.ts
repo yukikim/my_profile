@@ -6,10 +6,13 @@ import test, { type TestContext } from "node:test";
 import type { Payload } from "payload";
 import {
   EngineeringNoteImportCliError,
+  formatEngineeringNoteApplyPreview,
+  formatEngineeringNoteCreateSuccess,
   formatEngineeringNoteDryRunReport,
   formatEngineeringNoteImportError,
   parseImportCliArguments,
   readEngineeringNoteDraftFile,
+  runEngineeringNoteDraftImport,
   runEngineeringNoteDraftDryRun,
 } from "../../lib/engineering-notes/drafts/importCli";
 import type {
@@ -246,4 +249,135 @@ test("Phase 4では--applyを明示的に拒否し、DBへ接続しない", asyn
       error.code === "APPLY_NOT_AVAILABLE",
   );
   assert.equal(loadCount, 0);
+});
+
+test("--applyは事前表示後に1件だけ作成し、成功結果へ本文を含めない", async (t) => {
+  const { file } = await fixtureFile(t, JSON.stringify(validDraft));
+  let beforeCreate = false;
+  let createCount = 0;
+  let destroyCount = 0;
+  const payload = {
+    create: async () => {
+      assert.equal(beforeCreate, true);
+      createCount += 1;
+      return { id: 501 };
+    },
+    destroy: async () => {
+      destroyCount += 1;
+    },
+    find: async () => emptyFindResult(),
+  } as unknown as Payload;
+
+  const result = await runEngineeringNoteDraftImport({
+    argv: ["--file", file, "--apply"],
+    loadPayload: async () => payload,
+    onBeforeCreate: (report) => {
+      const output = formatEngineeringNoteApplyPreview(report);
+      assert.match(output, /mode: apply/);
+      assert.match(output, /collection: development-logs/);
+      assert.match(output, /status: draft/);
+      assert.match(output, /visibility: private/);
+      beforeCreate = true;
+    },
+  });
+
+  assert.equal(result.mode, "apply");
+  if (result.mode === "apply") {
+    const output = formatEngineeringNoteCreateSuccess(result.created);
+    assert.match(output, /result: created/);
+    assert.match(output, /document-id: 501/);
+    assert.match(output, /slug: my-profile-add-dry-run-cli/);
+    assert.equal(output.includes(validDraft.summary), false);
+  }
+  assert.equal(createCount, 1);
+  assert.equal(destroyCount, 1);
+});
+
+test("同じファイルの--apply再実行は重複で停止し、2件目を作成しない", async (t) => {
+  const { file } = await fixtureFile(t, JSON.stringify(validDraft));
+  let created = false;
+  let createCount = 0;
+  let destroyCount = 0;
+  const payload = {
+    create: async () => {
+      created = true;
+      createCount += 1;
+      return { id: 601 };
+    },
+    destroy: async () => {
+      destroyCount += 1;
+    },
+    find: async (args: { collection: string }) => {
+      if (created && args.collection === "development-logs") {
+        return {
+          ...emptyFindResult(),
+          docs: [{ id: 601, slug: validDraft.slug }],
+          totalDocs: 1,
+        };
+      }
+      return emptyFindResult();
+    },
+  } as unknown as Payload;
+  const input = {
+    argv: ["--file", file, "--apply"],
+    loadPayload: async () => payload,
+  };
+
+  await runEngineeringNoteDraftImport(input);
+  await assert.rejects(runEngineeringNoteDraftImport(input), /same identifier/);
+
+  assert.equal(createCount, 1);
+  assert.equal(destroyCount, 2);
+});
+
+test("--applyでも秘密情報検証失敗時はPayloadを初期化しない", async (t) => {
+  const { file } = await fixtureFile(
+    t,
+    JSON.stringify({ ...validDraft, summary: "password=not-for-storage" }),
+  );
+  let loadCount = 0;
+
+  await assert.rejects(
+    runEngineeringNoteDraftImport({
+      argv: ["--file", file, "--apply"],
+      loadPayload: async () => {
+        loadCount += 1;
+        return fakePayload().payload;
+      },
+    }),
+    (error: unknown) =>
+      error instanceof EngineeringNoteImportCliError &&
+      error.code === "SENSITIVE_CONTENT",
+  );
+  assert.equal(loadCount, 0);
+});
+
+test("--applyの作成失敗を安全に表示し、finallyでPayloadを終了する", async (t) => {
+  const { file } = await fixtureFile(t, JSON.stringify(validDraft));
+  const unsafe = "postgresql://admin:password@db/private INSERT stack";
+  let destroyCount = 0;
+  const payload = {
+    create: async () => {
+      throw new Error(unsafe);
+    },
+    destroy: async () => {
+      destroyCount += 1;
+    },
+    find: async () => emptyFindResult(),
+  } as unknown as Payload;
+
+  await assert.rejects(
+    runEngineeringNoteDraftImport({
+      argv: ["--file", file, "--apply"],
+      loadPayload: async () => payload,
+    }),
+    (error: unknown) => {
+      const output = formatEngineeringNoteImportError(error);
+      assert.match(output, /error: CREATE_FAILED/);
+      assert.equal(output.includes(unsafe), false);
+      assert.equal(output.includes("stack"), false);
+      return true;
+    },
+  );
+  assert.equal(destroyCount, 1);
 });
