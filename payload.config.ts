@@ -24,11 +24,14 @@ import { ja } from "@payloadcms/translations/languages/ja";
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
-// stdio MCPではstdoutがJSON-RPC専用なので、Payloadの通常ログもstderrへ退避させます。
+// import CLIではDB例外の詳細を安全な固定エラーへ変換するため、変換前のPayload内部ログを抑止します。
+// stdio MCPではstdoutがJSON-RPC専用なので、Payloadの通常ログをstderrへ退避させます。
 const payloadLogger =
-  process.env.MCP_STDIO_TRANSPORT === "1"
-    ? { options: { level: "info" }, destination: process.stderr }
-    : undefined;
+  process.env.ENGINEERING_NOTE_IMPORT_CLI === "1"
+    ? { options: { level: "silent" } }
+    : process.env.MCP_STDIO_TRANSPORT === "1"
+      ? { options: { level: "info" }, destination: process.stderr }
+      : undefined;
 
 export default buildConfig({
   admin: {

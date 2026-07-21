@@ -214,14 +214,16 @@ npm run lint
 
 ### 7.1 CLI基盤
 
-- [ ] `scripts/importEngineeringNoteDraft.mts` を追加する。
-- [ ] `package.json` に `import:engineering-note` scriptを追加する。
-- [ ] `--file` の絶対パスまたは現在位置から解決した明示パスだけを受け取る。
-- [ ] 対象ファイルが通常ファイルであることを確認する。
-- [ ] JSONを読み込み、Phase 2のschemaで検証する。
-- [ ] Phase 3の秘密情報、重複、relationship検証を呼び出す。
-- [ ] `--apply` がない場合は必ずdry-runで終了する。
-- [ ] 未知のCLI optionを拒否する。
+- [x] `scripts/importEngineeringNoteDraft.mts` を追加する。
+- [x] `package.json` に `import:engineering-note` scriptを追加する。
+- [x] `--file` の絶対パスまたは現在位置から解決した明示パスだけを受け取る。
+- [x] 対象ファイルが通常ファイルであることを確認する。
+- [x] JSONを読み込み、Phase 2のschemaで検証する。
+- [x] Phase 3の秘密情報、重複、relationship検証を呼び出す。
+- [x] `--apply` がない場合は必ずdry-runで終了する。
+- [x] 未知のCLI optionを拒否する。
+
+Phase 4時点の `--apply` は `APPLY_NOT_AVAILABLE` で拒否し、Phase 5で下書き登録処理を接続する。
 
 ### 7.2 dry-run出力
 
@@ -238,21 +240,21 @@ sensitive-content: none
 result: ready to create as draft + private
 ```
 
-- [ ] kind、project、slugまたはADR IDを表示する。
-- [ ] 固定される公開状態を表示する。
-- [ ] relationshipの解決件数と警告を表示する。
-- [ ] 秘密情報検査の結果を表示する。
-- [ ] 本文、環境変数、DB接続情報を表示しない。
-- [ ] dry-runでは `payload.create` を呼ばない。
+- [x] kind、project、slugまたはADR IDを表示する。
+- [x] 固定される公開状態を表示する。
+- [x] relationshipの解決件数と警告を表示する。
+- [x] 秘密情報検査の結果を表示する。
+- [x] 本文、環境変数、DB接続情報を表示しない。
+- [x] dry-runでは `payload.create` を呼ばない。
 
 ### 7.3 CLIテスト
 
-- [ ] `--file` 不足を拒否する。
-- [ ] 存在しないファイルを拒否する。
-- [ ] JSON解析エラーを安全に表示する。
-- [ ] schema違反をフィールド単位で表示する。
-- [ ] dry-runでDBへ書き込まれないことを確認する。
-- [ ] 秘密情報候補を含む入力を拒否する。
+- [x] `--file` 不足を拒否する。
+- [x] 存在しないファイルを拒否する。
+- [x] JSON解析エラーを安全に表示する。
+- [x] schema違反をフィールド単位で表示する。
+- [x] dry-runでDBへ書き込まれないことを確認する。
+- [x] 秘密情報候補を含む入力を拒否する。
 
 想定確認コマンド:
 
