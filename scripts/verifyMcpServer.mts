@@ -92,6 +92,54 @@ async function main() {
       /my-profile-require-explicit-apply/,
     );
 
+    // Phase 6の受け入れデータを実MCPへ通し、project絞り込みと相互参照を同時に確認します。
+    const externalLogs = await client.callTool({
+      name: "search_development_logs",
+      arguments: { project: "go-todo", visibility: "all", limit: 50 },
+    });
+    const externalDecisions = await client.callTool({
+      name: "search_architecture_decisions",
+      arguments: { project: "go-todo", visibility: "all", limit: 50 },
+    });
+    const externalHistory = await client.callTool({
+      name: "get_project_history",
+      arguments: { project: "go-todo", limit: 50 },
+    });
+    const serializedExternalLogs = JSON.stringify(
+      externalLogs.structuredContent,
+    );
+    const serializedExternalDecisions = JSON.stringify(
+      externalDecisions.structuredContent,
+    );
+    const serializedExternalHistory = JSON.stringify(
+      externalHistory.structuredContent,
+    );
+
+    assert.match(serializedExternalLogs, /go-todo-split-layered-packages/);
+    assert.match(serializedExternalLogs, /GO-TODO-ADR-0002/);
+    assert.doesNotMatch(serializedExternalLogs, /payload-sample/);
+    assert.match(
+      serializedExternalDecisions,
+      /go-todo-choose-postgresql-repository/,
+    );
+    assert.match(serializedExternalDecisions, /GO-TODO-ADR-0002/);
+    assert.match(serializedExternalDecisions, /go-todo-split-layered-packages/);
+    assert.match(serializedExternalHistory, /go-todo-split-layered-packages/);
+    assert.match(serializedExternalHistory, /GO-TODO-ADR-0002/);
+
+    // 履歴は種別を統合した後も日付の降順を保つ必要があります。
+    const historyItems = (
+      externalHistory.structuredContent as {
+        items: Array<{ date: string | null }>;
+      }
+    ).items;
+    for (let index = 1; index < historyItems.length; index += 1) {
+      assert.ok(
+        (historyItems[index - 1]?.date ?? "") >=
+          (historyItems[index]?.date ?? ""),
+      );
+    }
+
     const invalid = await client.callTool({
       name: "search_development_logs",
       arguments: { from: "not-a-date" },
@@ -100,7 +148,7 @@ async function main() {
 
     assert.match(stderr, /stdio transportへ接続しました/);
     console.info(
-      "MCP verified: 6 tools, structured output, private access, draft exclusion, and clean stdio.",
+      "MCP verified: 6 tools, structured output, private access, draft exclusion, cross-project history, and clean stdio.",
     );
   } finally {
     await client.close();

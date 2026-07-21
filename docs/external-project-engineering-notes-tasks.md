@@ -330,31 +330,31 @@ npm run verify:mcp
 
 性質の異なる2プロジェクト以上で確認する。
 
-- [ ] `my_profile` 自身の作業
-- [ ] Goなど別言語のプロジェクト
-- [ ] PayloadまたはNext.jsを使う別プロジェクト
+- [x] `my_profile` 自身の作業
+- [x] Goなど別言語のプロジェクト
+- [x] PayloadまたはNext.jsを使う別プロジェクト
 
 ### 9.2 受け入れシナリオ
 
-- [ ] 実装完了からDevelopment Log JSONを作成する。
-- [ ] エラー調査から問題・原因・解決を持つDevelopment Log JSONを作成する。
-- [ ] 技術選定から複数optionsを持つADR JSONを作成する。
-- [ ] Development LogとADRを相互に関連付ける。
-- [ ] 対応するWorkがない記録を作成する。
-- [ ] 重複したslugまたはADR IDを意図的に指定して拒否を確認する。
-- [ ] 秘密情報候補を含むfixtureで拒否を確認する。
+- [x] 実装完了からDevelopment Log JSONを作成する。
+- [x] エラー調査から問題・原因・解決を持つDevelopment Log JSONを作成する。
+- [x] 技術選定から複数optionsを持つADR JSONを作成する。
+- [x] Development LogとADRを相互に関連付ける。
+- [x] 対応するWorkがない記録を作成する。
+- [x] 重複したslugまたはADR IDを意図的に指定して拒否を確認する。
+- [x] 秘密情報候補を含むfixtureで拒否を確認する。
 
 ### 9.3 公開後の検索確認
 
-- [ ] Payload管理画面で内容をレビューする。
-- [ ] 1件をprivate publishedとして公開する。
-- [ ] 1件をpublic publishedとして公開する。
-- [ ] private記録が公開ページに表示されないことを確認する。
-- [ ] public記録がEngineering Notesへ表示されることを確認する。
-- [ ] MCPの `search_development_logs` でproject絞り込みを確認する。
-- [ ] MCPの `search_architecture_decisions` でADRを確認する。
-- [ ] MCPの `get_project_history` で両方を時系列取得する。
-- [ ] 回答に根拠となるslugまたはADR IDが含まれることを確認する。
+- [x] Payload管理画面で内容をレビューする。
+- [x] 1件をprivate publishedとして公開する。
+- [x] 1件をpublic publishedとして公開する。
+- [x] private記録が公開ページに表示されないことを確認する。
+- [x] public記録がEngineering Notesへ表示されることを確認する。
+- [x] MCPの `search_development_logs` でproject絞り込みを確認する。
+- [x] MCPの `search_architecture_decisions` でADRを確認する。
+- [x] MCPの `get_project_history` で両方を時系列取得する。
+- [x] 回答に根拠となるslugまたはADR IDが含まれることを確認する。
 
 完了条件:
 

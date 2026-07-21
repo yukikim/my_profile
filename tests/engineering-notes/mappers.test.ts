@@ -14,6 +14,7 @@ test("開発日誌Mapperはallowlist外の値を返さない", () => {
     logDate: "2026-07-17T00:00:00.000Z",
     project: "my_profile",
     summary: "概要",
+    relatedDecisions: [9],
     status: "published",
     visibility: "public",
     createdAt: "2026-07-17T00:00:00.000Z",
@@ -27,6 +28,7 @@ test("開発日誌Mapperはallowlist外の値を返さない", () => {
   assert.equal("secret" in result, false);
   assert.equal("createdAt" in result, false);
   assert.deepEqual(result.nextActions, []);
+  assert.deepEqual(result.relatedDecisionIds, []);
 });
 
 test("ADR Mapperはarrayとrelationshipを安全な形式へ変換する", () => {
@@ -55,6 +57,8 @@ test("ADR Mapperはarrayとrelationshipを安全な形式へ変換する", () =>
       },
       4,
     ],
+    relatedLogs: [5],
+    supersedes: 6,
     status: "published",
     visibility: "public",
     createdAt: "2026-07-17T00:00:00.000Z",
@@ -67,5 +71,7 @@ test("ADR Mapperはarrayとrelationshipを安全な形式へ変換する", () =>
   assert.deepEqual(result.relatedWorks, [
     { slug: "profile-site", title: "プロフィールサイト" },
   ]);
+  assert.deepEqual(result.relatedLogSlugs, []);
+  assert.equal(result.supersedesDecisionId, undefined);
   assert.equal("status" in result, false);
 });

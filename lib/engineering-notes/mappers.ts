@@ -24,6 +24,20 @@ function mapRelatedWork(work: number | Work): RelatedWorkSummary | null {
   };
 }
 
+/**
+ * depth付き取得でもDocumentへ展開されないIDは、アクセス制御で隠された関連先の可能性があります。
+ * DB内部IDを公開用のslugやADR IDとして代用せず、展開済みDocumentだけを採用します。
+ */
+function mapRelatedDecisionId(
+  decision: number | ArchitectureDecision,
+): string | null {
+  return typeof decision === "number" ? null : decision.decisionId;
+}
+
+function mapRelatedLogSlug(log: number | DevelopmentLog): string | null {
+  return typeof log === "number" ? null : log.slug;
+}
+
 /** 開発日誌のPayload Documentをallowlist形式へ変換します。 */
 export function mapDevelopmentLog(log: DevelopmentLog): DevelopmentLogResult {
   return {
@@ -36,9 +50,10 @@ export function mapDevelopmentLog(log: DevelopmentLog): DevelopmentLogResult {
     problem: log.problem ?? undefined,
     project: log.project,
     relatedDecisionIds:
-      log.relatedDecisions?.map((decision) =>
-        typeof decision === "number" ? String(decision) : decision.decisionId,
-      ) ?? [],
+      log.relatedDecisions
+        ?.map(mapRelatedDecisionId)
+        .filter((decisionId): decisionId is string => decisionId !== null) ??
+      [],
     relatedWorks:
       log.relatedWorks
         ?.map(mapRelatedWork)
@@ -76,9 +91,9 @@ export function mapArchitectureDecision(
     project: architectureDecision.project,
     rationale: architectureDecision.rationale,
     relatedLogSlugs:
-      architectureDecision.relatedLogs?.map((log) =>
-        typeof log === "number" ? String(log) : log.slug,
-      ) ?? [],
+      architectureDecision.relatedLogs
+        ?.map(mapRelatedLogSlug)
+        .filter((slug): slug is string => slug !== null) ?? [],
     relatedWorks:
       architectureDecision.relatedWorks
         ?.map(mapRelatedWork)
@@ -86,7 +101,7 @@ export function mapArchitectureDecision(
     slug: architectureDecision.slug,
     supersedesDecisionId:
       typeof architectureDecision.supersedes === "number"
-        ? String(architectureDecision.supersedes)
+        ? undefined
         : architectureDecision.supersedes?.decisionId,
     tags: architectureDecision.tags?.map((tag) => tag.label) ?? [],
     title: architectureDecision.title,

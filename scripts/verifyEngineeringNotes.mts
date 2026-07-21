@@ -90,6 +90,19 @@ async function main() {
         (log) => log.slug !== "my-profile-add-engineering-note-import-cli",
       ),
     );
+    const externalProjectLog = trustedLogs.find(
+      (log) => log.slug === "go-todo-split-layered-packages",
+    );
+    assert.ok(externalProjectLog);
+    assert.equal(externalProjectLog.visibility, "private");
+    assert.deepEqual(externalProjectLog.relatedWorks, []);
+    assert.ok(
+      externalProjectLog.relatedDecisionIds.includes("GO-TODO-ADR-0002"),
+    );
+    // private publishedはtrusted-mcpでは取得できても、公開サイトには混ざらない境界を確認します。
+    assert.ok(
+      publicLogs.every((log) => log.slug !== "go-todo-split-layered-packages"),
+    );
     assert.deepEqual(
       taggedLogs.map((log) => log.slug),
       ["investigate-works-fallback"],
@@ -116,6 +129,24 @@ async function main() {
         (decision) => decision.slug !== "my-profile-require-explicit-apply",
       ),
     );
+    const externalProjectDecision = trustedDecisions.find(
+      (decision) =>
+        decision.decisionId === "GO-TODO-ADR-0002" &&
+        decision.slug === "go-todo-choose-postgresql-repository",
+    );
+    assert.ok(externalProjectDecision);
+    assert.deepEqual(externalProjectDecision.relatedWorks, []);
+    assert.ok(
+      externalProjectDecision.relatedLogSlugs.includes(
+        "go-todo-split-layered-packages",
+      ),
+    );
+    const publicExternalProjectDecision = publicDecisions.find(
+      (decision) => decision.decisionId === "GO-TODO-ADR-0002",
+    );
+    assert.ok(publicExternalProjectDecision);
+    // 公開ADR自体は表示しても、関連先がprivateならrelationshipの識別子も公開しません。
+    assert.deepEqual(publicExternalProjectDecision.relatedLogSlugs, []);
     assert.ok(
       anonymousApiLogs.docs.every(
         (log) => log.status === "published" && log.visibility === "public",
@@ -135,6 +166,16 @@ async function main() {
     assert.ok(
       anonymousApiDecisions.docs.every(
         (decision) => decision.slug !== "initially-consider-mongodb",
+      ),
+    );
+    assert.ok(
+      anonymousApiLogs.docs.every(
+        (log) => log.slug !== "go-todo-split-layered-packages",
+      ),
+    );
+    assert.ok(
+      anonymousApiDecisions.docs.some(
+        (decision) => decision.decisionId === "GO-TODO-ADR-0002",
       ),
     );
 
