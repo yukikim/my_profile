@@ -959,7 +959,27 @@ Collection、Global、Field、Blockを変更したらmigrationを作成し、本
 
 MCP応答はallowlist形式へ変換し、Payload Document、DB接続文字列、secret、ユーザー情報、stack traceを返さない。
 
-### 15.2 ローカルセットアップ
+### 15.2 外部プロジェクトから下書きを登録する
+
+別プロジェクトの実装・障害調査・技術選定は、JSON下書きとして検証してからPayloadへ登録できる。登録CLIは必ず`my_profile`のプロジェクトrootで実行し、作成状態を`draft + private + Payload draft`へ固定する。
+
+> **重要:** JSONへAPI key、token、password、`.env`の値、DB接続文字列、個人情報、非公開URLを入力しない。対象プロジェクトへ`my_profile`の`DATABASE_URI`や`PAYLOAD_SECRET`をコピーしない。
+
+最初に副作用のないdry-runを行う。
+
+```bash
+npm run import:engineering-note -- --file /absolute/path/to/draft.json
+```
+
+出力されたkind、project、slug、ADR ID、重複、relationship、秘密情報warning、固定公開状態を確認した後だけ、`--apply`で1件作成する。
+
+```bash
+npm run import:engineering-note -- --file /absolute/path/to/draft.json --apply
+```
+
+CLIはcreate-onlyで、公開・更新・削除は行わない。作成後はPayload管理画面で内容をレビューし、privateまたはpublicとして公開する。Codex依頼テンプレート、JSONサンプル、エラーコード、Git管理上の注意、レビュー手順は[`docs/external-project-engineering-notes-prompts.md`](docs/external-project-engineering-notes-prompts.md)を参照する。
+
+### 15.3 ローカルセットアップ
 
 ```bash
 cp .env.example .env
@@ -987,7 +1007,7 @@ Codexはプロジェクトの`.codex/config.toml`から`engineering_notes`サー
 codex mcp list
 ```
 
-### 15.3 検証
+### 15.4 検証
 
 ```bash
 npm run format:check
@@ -1001,12 +1021,16 @@ npm run migrate:status
 npm run build
 ```
 
+production buildはNext.js 16の公式CLIでサポートされるwebpack経路へ固定している。開発サーバーは従来どおり`npm run dev`を使う。
+
 設計、Tool一覧、Codex接続、トラブルシュートは次を参照する。
 
 - `docs/development-journal-mcp-overview.md`
 - `docs/development-journal-mcp-design.md`
 - `docs/development-journal-mcp-codex.md`
 - `docs/development-journal-mcp-tasks.md`
+- `docs/external-project-engineering-notes-prompts.md`
+- `docs/external-project-engineering-notes-design.md`
 
 ## 16. 将来拡張
 

@@ -1,0 +1,17 @@
+{
+  "kind": "development-log",
+  "title": "Todoの保存先をPostgreSQLへ変更",
+  "slug": "example-go-api-add-postgresql-repository",
+  "logDate": "2026-07-21T00:00:00.000Z",
+  "project": "example-go-api",
+  "summary": "メモリ上だけで保持していたTodoをPostgreSQLへ永続化した。",
+  "implementation": "repository interfaceとPostgreSQL実装を追加し、起動処理から依存関係を組み立てた。",
+  "problem": "アプリを再起動すると登録済みのTodoが失われていた。",
+  "cause": "Todoをプロセスのメモリ上だけで保持していた。",
+  "resolution": "PostgreSQLへ保存し、再起動後も同じTodoを取得できることを確認した。",
+  "lessonsLearned": "保存方式をinterfaceの背後へ分離すると、業務処理からDB実装を切り離せる。",
+  "nextActions": ["repositoryの異常系テストを追加する。"],
+  "relatedWorkSlugs": [],
+  "relatedDecisionIds": [],
+  "tags": ["go", "postgresql", "repository"]
+}

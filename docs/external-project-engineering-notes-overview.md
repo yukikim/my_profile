@@ -4,7 +4,7 @@
 
 本書は、`my_profile` または別プロジェクトで行った作業から、Development LogとArchitecture Decision Record（ADR）の下書きを作成し、`my_profile` のPayload CMSへ安全に蓄積する取り組みの目的、対象範囲、進め方を定義する。
 
-具体的なデータ形式、登録境界、重複処理、セキュリティ方針は [`external-project-engineering-notes-design.md`](./external-project-engineering-notes-design.md) を参照する。
+具体的なデータ形式、登録境界、重複処理、セキュリティ方針は[`external-project-engineering-notes-design.md`](./external-project-engineering-notes-design.md)、実際の作成・登録手順は[`external-project-engineering-notes-prompts.md`](./external-project-engineering-notes-prompts.md)を参照する。
 
 ## 2. 背景
 
@@ -16,9 +16,7 @@
 - 公開可能な記録をEngineering Notes画面へ表示する。
 - 読み取り専用MCPから、公開済みの記録をCodexで検索する。
 
-一方、記録の作成はPayload管理画面からの手入力が中心である。作業を行ったプロジェクトと記録先の `my_profile` が異なる場合、作業内容を転記して構造化する負担が生じる。
-
-そこで、各プロジェクトでCodexが作業内容を整理し、Payloadへ登録可能な下書きを作成する運用を整える。
+以前は記録の作成をPayload管理画面からの手入力に依存していた。現在は、各プロジェクトでCodexが作業内容をJSONへ整理し、`my_profile`のローカルCLIが検証後にPayload draftを作成する運用を利用できる。
 
 ## 3. 目標
 
@@ -32,8 +30,8 @@
 
 ### 3.2 運用上の目標
 
-- 最初は管理画面への手動登録で運用を確認する。
-- 運用が固まった後、構造化ファイルをPayloadへ登録するローカルスクリプトを追加する。
+- JSON下書きはdry-runで検証し、利用者が`--apply`を明示した場合だけ1件作成する。
+- CLIはcreate-onlyとし、更新・削除・公開を提供しない。
 - 必要性が明確になった場合だけ、書き込み専用MCP Toolへ発展させる。
 - 既存の読み取り専用MCPは変更せず、作成処理と検索処理の権限を分離する。
 
@@ -68,23 +66,14 @@ privateで公開     publicで公開
 
 ## 5. 基本ワークフロー
 
-### 5.1 初期運用
-
 1. 対象プロジェクトで実装、調査、修正、設計判断を行う。
-2. Codexへ、作業内容からDevelopment LogまたはADRの下書きを作るよう依頼する。
-3. Codexが、現在のCollection項目に対応する下書きを提示する。
-4. 利用者が秘密情報、事実関係、公開可能性を確認する。
-5. Payload管理画面から下書きを登録する。
-6. 必要に応じて `relatedWorks`、関連日誌、関連ADRを設定する。
-7. 管理画面で最終確認後、`private` または `public` として公開する。
-
-### 5.2 自動化後の運用
-
-1. Codexが定義済みのJSON形式で下書きファイルを生成する。
-2. `my_profile` 側のローカル登録スクリプトがファイルを検証する。
-3. 重複、禁止情報、relationshipの解決結果を事前表示する。
-4. 利用者の明示操作でPayloadへ `draft + private` として登録する。
-5. 公開はPayload管理画面から行う。
+2. Codexが定義済みJSON形式でDevelopment LogまたはADRを1件生成する。
+3. 利用者が秘密情報と事実関係を確認する。
+4. `my_profile`のCLIをdry-runし、重複、禁止情報、relationshipを確認する。
+5. 利用者が`--apply`を明示し、Payloadへ`draft + private`として1件登録する。
+6. Payload管理画面で内容、relationship、公開範囲をレビューする。
+7. 管理画面から`private`または`public`として公開する。
+8. 公開ページと読み取り専用MCPで公開境界を確認する。
 
 ## 6. Development LogとADRの使い分け
 
@@ -99,14 +88,17 @@ privateで公開     publicで公開
 - 問題解決によって既存ADRを置き換える必要が生じた。
 - 作業経緯と最終判断を別々の観点で残す価値がある。
 
-## 7. 初期リリース範囲
+## 7. 現在のリリース範囲
 
 ### 対象
 
 - Codexを使ったDevelopment Log下書きの作成
 - Codexを使ったADR下書きの作成
+- JSON schema検証と秘密情報候補の検査
+- dry-runと明示的な`--apply`を持つローカル登録CLI
+- slug、ADR ID、relationshipの事前検証
 - `project` を使った複数プロジェクトの分類
-- Payload管理画面からの手動登録
+- Payload管理画面でのレビューと公開
 - `draft + private` を初期状態とするレビュー運用
 - slug、ADR ID、タグの命名規則
 - 保存禁止情報の確認手順
@@ -121,21 +113,21 @@ privateで公開     publicで公開
 - AIだけによる公開可否の決定
 - 既存記録の自動上書き
 
-## 8. 段階的な進め方
+## 8. 実装済みステップと将来拡張
 
-### Phase 1: 手動登録で形式を固める
+### 完了: 手動登録で形式を固める
 
 Codexが作成した下書きを利用者が確認し、Payload管理画面へ手動登録する。複数プロジェクトで試し、必須項目、粒度、命名規則が実用的か確認する。
 
-### Phase 2: 下書きファイルを標準化する
+### 完了: 下書きファイルを標準化する
 
 Development LogとADRのJSON形式を定義する。Codexの出力を機械検証できるようにし、手動転記時の項目漏れを減らす。
 
-### Phase 3: ローカル登録スクリプトを追加する
+### 完了: ローカル登録スクリプトを追加する
 
 `my_profile` 内で下書きファイルを検証し、Payload Local APIを使って `draft + private` で登録する。登録前に差分、警告、重複を表示する。
 
-### Phase 4: 作成支援をMCP化する
+### 任意: 作成支援をMCP化する
 
 複数プロジェクトから同じ操作を繰り返す必要が生じた場合、下書き作成専用Toolを検討する。Toolは公開処理を持たず、既存の読み取り専用MCPとは権限と設定を分離する。
 

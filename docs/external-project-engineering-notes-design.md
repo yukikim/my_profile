@@ -23,7 +23,7 @@ Collection schemaの変更は初期段階では行わない。既存の `project
 
 ## 3. システム構成
 
-### 3.1 初期構成
+### 3.1 作成責務の境界
 
 ```text
 対象プロジェクト
@@ -32,18 +32,18 @@ Collection schemaの変更は初期段階では行わない。既存の `project
     ▼
 Codex
     │
-    │ 人が確認できる構造化下書き
+    │ CLI schemaに合うJSON下書き
     ▼
 利用者
     │
-    │ Payload Adminから手動登録
+    │ 内容確認・dry-run・明示的な--apply
     ▼
-my_profile / Payload CMS / PostgreSQL
+my_profileのローカル登録CLI
 ```
 
-初期構成では、CodexはPayloadへの書き込みを行わない。利用者が下書きを確認して管理画面へ登録する。
+CodexはJSON候補を作成するが、Payloadへの書き込みは行わない。利用者が根拠と内容を確認し、`--apply`を明示した場合だけCLIが1件作成する。
 
-### 3.2 将来のローカル登録構成
+### 3.2 現在のローカル登録構成
 
 ```text
 対象プロジェクト
@@ -390,21 +390,28 @@ JSON形式はPhase 2で確定した。正本となる入力型とschemaは
 
 ## 13. エラー方針
 
-| コード案                | 条件                          | 処理                         |
-| ----------------------- | ----------------------------- | ---------------------------- |
-| `INVALID_INPUT`         | 必須項目、形式、上限の違反    | 登録しない                   |
-| `DUPLICATE_SLUG`        | slugが既に存在する            | 既存記録を示して中止         |
-| `DUPLICATE_DECISION_ID` | ADR IDが既に存在する          | 既存記録を示して中止         |
-| `RELATION_NOT_FOUND`    | relationship対象が存在しない  | 警告し、確認を求める         |
-| `SENSITIVE_CONTENT`     | 禁止情報候補を検出した        | 登録を中止して確認を求める   |
-| `DATABASE_UNAVAILABLE`  | PayloadまたはDBへ接続できない | 秘密情報を隠して中止         |
-| `CREATE_FAILED`         | Payload createが失敗した      | 安全な概要だけを表示して中止 |
+| コード                       | 条件                                  | 処理                           |
+| ---------------------------- | ------------------------------------- | ------------------------------ |
+| `INVALID_ARGUMENTS`          | 未知option、位置引数、option重複      | 登録しない                     |
+| `MISSING_FILE`               | `--file`または値がない                | 登録しない                     |
+| `FILE_NOT_FOUND`             | 入力ファイルが存在しない              | 登録しない                     |
+| `FILE_NOT_REGULAR`           | directoryなど通常ファイル以外         | 登録しない                     |
+| `FILE_UNREADABLE`            | 入力ファイルを読み取れない            | 登録しない                     |
+| `INVALID_JSON`               | JSON構文違反                          | 登録しない                     |
+| `INVALID_INPUT`              | 必須項目、形式、上限、未知fieldの違反 | 登録しない                     |
+| `DUPLICATE_ENGINEERING_NOTE` | slugまたはADR IDが既に存在する        | 既存記録を示して中止           |
+| `RELATION_NOT_FOUND`         | relationship対象が存在しない          | 警告し、対象だけ設定しない     |
+| `RELATION_DATA_INTEGRITY`    | relationshipが複数Documentへ一致      | データ不整合として中止         |
+| `SENSITIVE_CONTENT`          | 禁止情報候補を検出した                | 登録を中止して確認を求める     |
+| `DATABASE_UNAVAILABLE`       | PayloadまたはDBへ接続できない         | 秘密情報を隠して中止           |
+| `CREATE_FAILED`              | Payload createが失敗した              | 安全な概要だけを表示して中止   |
+| `INTERNAL_ERROR`             | 未分類の内部エラー                    | 内部messageやstackを隠して中止 |
 
 部分的な登録を避けるため、1ファイル1Documentを基本とする。将来複数件を一括登録する場合は、事前検証を全件へ行い、成功・失敗の扱いを別途定義する。
 
 ## 14. 想定ファイル構成
 
-Phase 2の入力境界と、Phase 3以降に追加する検証・登録処理を次の構成にする。
+実装済みの入力境界、検証、登録処理は次の構成とする。
 
 ```text
 lib/engineering-notes/drafts/
@@ -413,13 +420,17 @@ lib/engineering-notes/drafts/
 ├─ normalize.ts         # trim後の重複除去とISO日時検証（Phase 2）
 ├─ sensitiveContent.ts  # 禁止情報候補の検査（Phase 3）
 ├─ relationships.ts     # slug / decisionIdの解決（Phase 3）
-└─ createDraft.ts       # draft + private固定の登録処理（後続Phase）
+├─ duplicates.ts        # slug / decisionIdのcreate-only重複検証
+├─ importCli.ts         # dry-run / apply分岐と安全な出力整形
+└─ createDraft.ts       # draft + private固定の登録処理
 
 scripts/
 └─ importEngineeringNoteDraft.mts
 ```
 
 下書きJSONの保存場所は対象プロジェクト側で固定せず、登録コマンドへ明示的なファイルパスを渡す。下書きをGit管理する場合は、秘密情報を含まないことを人が確認してから追加する。
+
+実行手順、Codex依頼テンプレート、JSONサンプル、エラー対処は[`external-project-engineering-notes-prompts.md`](./external-project-engineering-notes-prompts.md)へ集約する。
 
 ## 15. テスト方針
 
@@ -440,13 +451,11 @@ scripts/
 - 管理画面では内容を確認できる。
 - 管理画面から公開した後だけ、設定したvisibilityに応じて取得できる。
 
-## 16. 未決事項
+## 16. Phase 7で確定した運用
 
-Phase 2開始前に次を決定する。
-
-- JSON schemaをリポジトリへ正式に配置するか。
-- プロジェクト名の既存 `my_profile` 表記を維持するか、将来正規化するか。
-- ADR IDの採番を手動にするか、登録側で候補を提示するか。
-- 禁止情報検査で登録を中止する条件と、警告だけにする条件。
-- relationshipが見つからない場合に登録を継続するか、常に中止するか。
-- 下書きファイルを一時ファイルとして扱うか、各プロジェクトの履歴としてGit管理するか。
+- JSONの正本は`lib/engineering-notes/drafts/types.ts`と`schemas.ts`、利用者向けサンプルは`docs/examples/engineering-notes/`に置く。
+- 既存の`project: my_profile`は変更せず、新規プロジェクトはlowercase-kebab-caseを推奨する。
+- ADR IDは利用者が既存IDを確認して採番し、CLIが重複を拒否する。
+- credential値など重大な秘密情報候補は登録を中止し、長大なログなどはwarningとしてレビューを求める。
+- relationship未検出はwarningとして対象だけを設定せず登録でき、複数一致はデータ不整合として中止する。
+- 一時下書きはrepository外を推奨し、Git管理する場合は秘密情報・個人情報・絶対pathがないことを人が確認する。

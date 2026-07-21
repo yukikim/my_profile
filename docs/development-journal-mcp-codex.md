@@ -4,6 +4,8 @@
 
 Phase 4で実装したstdio MCPサーバーを、このリポジトリを信頼して開いたCodexから利用する。Codexの回答では、根拠となった開発日誌の`slug`またはADRの`decisionId`を識別できるようにする。
 
+このMCPは公開済み記録の読み取り専用であり、下書き作成・更新・公開・削除を行わない。外部プロジェクトからJSON下書きを作成し、ローカルCLIで登録する手順は[`external-project-engineering-notes-prompts.md`](./external-project-engineering-notes-prompts.md)を参照する。
+
 ## 2. プロジェクト設定
 
 接続設定は`.codex/config.toml`に置く。プロジェクト設定には次の情報だけを記載する。

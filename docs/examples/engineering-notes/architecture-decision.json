@@ -1,0 +1,31 @@
+{
+  "kind": "architecture-decision",
+  "decisionId": "EXAMPLE-GO-API-ADR-0001",
+  "title": "Todoの保存先にPostgreSQLを採用する",
+  "slug": "example-go-api-choose-postgresql",
+  "project": "example-go-api",
+  "decisionStatus": "accepted",
+  "context": "再起動後もTodoを保持でき、想定する本番環境にも近い永続化方式が必要になった。",
+  "options": [
+    {
+      "name": "PostgreSQL",
+      "description": "repository層からPostgreSQLへ保存する。",
+      "pros": ["SQLと本番に近い構成を学べる。"],
+      "cons": ["ローカルDBとmigrationの管理が必要になる。"]
+    },
+    {
+      "name": "SQLite",
+      "description": "単一ファイルへTodoを保存する。",
+      "pros": ["ローカル構築が簡単になる。"],
+      "cons": ["想定する本番構成との差が大きくなる。"]
+    }
+  ],
+  "decision": "PostgreSQLを採用する。",
+  "rationale": "学習対象と想定する本番構成を統一できるため。",
+  "positiveConsequences": ["ローカルと本番で同じSQLを利用できる。"],
+  "negativeConsequences": ["migrationとDB起動の運用が必要になる。"],
+  "decidedAt": "2026-07-21T00:00:00.000Z",
+  "relatedWorkSlugs": [],
+  "relatedLogSlugs": [],
+  "tags": ["database", "postgresql"]
+}

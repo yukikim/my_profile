@@ -80,17 +80,10 @@ async function main() {
     const serializedDecisions = JSON.stringify(decisions.structuredContent);
 
     assert.match(serializedLogs, /investigate-works-fallback/);
-    // Phase 5で実DB作成した最新draftを使い、公開状態が変わり得る古いfixtureへ依存しません。
-    assert.doesNotMatch(
-      serializedLogs,
-      /my-profile-add-engineering-note-import-cli/,
-    );
     assert.match(serializedDecisions, /initially-consider-mongodb/);
-    assert.doesNotMatch(serializedDecisions, /remote-mcp-authorization/);
-    assert.doesNotMatch(
-      serializedDecisions,
-      /my-profile-require-explicit-apply/,
-    );
+
+    // 管理画面で後日公開され得る特定draftのslugへ依存せず、公開境界はQuery Serviceの単体検証と
+    // 下記のprivate/public受け入れデータで継続確認します。
 
     // Phase 6の受け入れデータを実MCPへ通し、project絞り込みと相互参照を同時に確認します。
     const externalLogs = await client.callTool({
@@ -148,7 +141,7 @@ async function main() {
 
     assert.match(stderr, /stdio transportへ接続しました/);
     console.info(
-      "MCP verified: 6 tools, structured output, private access, draft exclusion, cross-project history, and clean stdio.",
+      "MCP verified: 6 tools, structured output, private access, cross-project history, and clean stdio.",
     );
   } finally {
     await client.close();

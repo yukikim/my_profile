@@ -85,11 +85,6 @@ async function main() {
     assert.ok(
       trustedLogs.some((log) => log.slug === "investigate-works-fallback"),
     );
-    assert.ok(
-      trustedLogs.every(
-        (log) => log.slug !== "my-profile-add-engineering-note-import-cli",
-      ),
-    );
     const externalProjectLog = trustedLogs.find(
       (log) => log.slug === "go-todo-split-layered-packages",
     );
@@ -117,16 +112,6 @@ async function main() {
     assert.ok(
       trustedDecisions.some(
         (decision) => decision.slug === "initially-consider-mongodb",
-      ),
-    );
-    assert.ok(
-      trustedDecisions.every(
-        (decision) => decision.slug !== "remote-mcp-authorization",
-      ),
-    );
-    assert.ok(
-      trustedDecisions.every(
-        (decision) => decision.slug !== "my-profile-require-explicit-apply",
       ),
     );
     const externalProjectDecision = trustedDecisions.find(

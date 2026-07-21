@@ -364,15 +364,15 @@ npm run verify:mcp
 
 ## 10. Phase 7: ドキュメントと運用整備
 
-- [ ] `README.md` に下書き登録機能の概要とリンクを追加する。
-- [ ] `docs/external-project-engineering-notes-prompts.md` を完成させる。
-- [ ] Development LogとADRのJSONサンプルを用意する。
-- [ ] dry-runと `--apply` の実行例を追加する。
-- [ ] エラーコードと対処方法を追加する。
-- [ ] 下書きファイルをGit管理する場合の注意を追加する。
-- [ ] 秘密情報を入力しない注意を目立つ位置へ追加する。
-- [ ] Payload管理画面でのレビュー・公開手順を追加する。
-- [ ] 既存のMCP接続ガイドから本機能の文書へリンクするか決定する。
+- [x] `README.md` に下書き登録機能の概要とリンクを追加する。
+- [x] `docs/external-project-engineering-notes-prompts.md` を完成させる。
+- [x] Development LogとADRのJSONサンプルを用意する。
+- [x] dry-runと `--apply` の実行例を追加する。
+- [x] エラーコードと対処方法を追加する。
+- [x] 下書きファイルをGit管理する場合の注意を追加する。
+- [x] 秘密情報を入力しない注意を目立つ位置へ追加する。
+- [x] Payload管理画面でのレビュー・公開手順を追加する。
+- [x] 既存のMCP接続ガイドから本機能の文書へリンクするか決定する。
 
 最終確認コマンド:
 
@@ -390,6 +390,15 @@ npm run build
 - 初めて利用する人が文書だけでdry-run、登録、レビューを実行できる。
 - 全テスト、typecheck、lint、buildが成功する。
 - 既存の読み取り専用MCPと公開ページに回帰がない。
+
+実装・検証記録（2026-07-21）:
+
+- Codex依頼テンプレート、保存禁止情報、dry-run、`--apply`、エラー対処、Git管理、管理画面レビュー、公開後確認を`external-project-engineering-notes-prompts.md`へ集約した。
+- Development LogとADRのJSONサンプルを`docs/examples/engineering-notes/`へ追加し、両方を実DBでdry-runして重複・relationship・秘密情報・固定公開状態を確認した。
+- README、外部プロジェクト概要、基本設計、既存MCP Codex接続ガイドを現在のcreate-only CLI運用へ揃えた。
+- 管理画面で後から公開される記録の過去状態へ依存しないよう、実DB検証を公開範囲とプロジェクト横断の受け入れデータ中心へ更新した。
+- Next.js 16のproduction buildは公式CLIのwebpack経路へ固定し、ローカルPostgreSQLの実データを使う`npm run build`が成功した。
+- formatter、typecheck、Engineering Notesテスト46件、MCPテスト4件、実DB公開境界、stdio MCP、2件のmigration適用を確認した。lintはエラー0件で、既存の自動生成migrationにwarningが4件残る。
 
 ## 11. Phase 8: 書き込みMCPの検討（任意）
 
