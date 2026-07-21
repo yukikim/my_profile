@@ -1,8 +1,5 @@
 import type { Payload, Where } from "payload";
-import {
-  mapArchitectureDecision,
-  mapDevelopmentLog,
-} from "./mappers";
+import { mapArchitectureDecision, mapDevelopmentLog } from "./mappers";
 import type {
   ArchitectureDecisionQuery,
   ArchitectureDecisionResult,
@@ -85,11 +82,7 @@ export function buildDevelopmentLogWhere(
   now = new Date().toISOString(),
 ): Where {
   const conditions: Where[] = [
-    buildEngineeringNoteVisibilityWhere(
-      input.audience,
-      input.visibility,
-      now,
-    ),
+    buildEngineeringNoteVisibilityWhere(input.audience, input.visibility, now),
   ];
   const query = normalizeOptionalText(input.query);
 
@@ -119,11 +112,7 @@ export function buildArchitectureDecisionWhere(
   now = new Date().toISOString(),
 ): Where {
   const conditions: Where[] = [
-    buildEngineeringNoteVisibilityWhere(
-      input.audience,
-      input.visibility,
-      now,
-    ),
+    buildEngineeringNoteVisibilityWhere(input.audience, input.visibility, now),
   ];
   const query = normalizeOptionalText(input.query);
 

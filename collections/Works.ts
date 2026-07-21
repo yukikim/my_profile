@@ -37,7 +37,7 @@ export const Works: CollectionConfig = {
     },
     {
       name: "endDate",
-      type: "date", 
+      type: "date",
       required: true,
     },
     {

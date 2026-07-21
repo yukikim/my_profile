@@ -118,9 +118,7 @@ function Features({ block }: { block: FeaturesBlock }) {
             <h3 className="text-xl font-semibold text-[#15231f]">
               {item.title}
             </h3>
-            <p className="mt-3 leading-7 text-stone-700">
-              {item.description}
-            </p>
+            <p className="mt-3 leading-7 text-stone-700">{item.description}</p>
           </article>
         ))}
       </div>

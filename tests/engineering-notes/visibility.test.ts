@@ -22,15 +22,9 @@ test("public-siteはprivate指定を受けてもpublicへ固定する", () => {
 });
 
 test("trusted-mcpはprivateだけに絞り込める", () => {
-  const where = buildEngineeringNoteVisibilityWhere(
-    "trusted-mcp",
-    "private",
-  );
+  const where = buildEngineeringNoteVisibilityWhere("trusted-mcp", "private");
 
-  assert.match(
-    JSON.stringify(where),
-    /"visibility":\{"equals":"private"\}/,
-  );
+  assert.match(JSON.stringify(where), /"visibility":\{"equals":"private"\}/);
 });
 
 test("limitは1から最大値までに制限する", () => {

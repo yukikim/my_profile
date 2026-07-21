@@ -272,17 +272,17 @@ npm run migrate:status
 
 ## 9. Phase 7: 最終検証とドキュメント更新
 
-- [ ] formatterを実行する。
-- [ ] lintを実行する。
-- [ ] typecheckを実行する。
-- [ ] buildを実行する。
-- [ ] MCP関連テストを実行する。
-- [ ] access controlのテストを実行する。
-- [ ] migration statusを確認する。
-- [ ] `README.md` にEngineering NotesとMCPの概要を追記する。
-- [ ] MCPの起動方法、設定例、トラブルシュートを `docs/` に追記する。
-- [ ] `.env.example` に必要な変数が不足していないか確認する。
-- [ ] secretや個人情報がGit差分へ含まれていないか確認する。
+- [x] formatterを実行する。
+- [x] lintを実行する。
+- [x] typecheckを実行する。
+- [x] buildを実行する。
+- [x] MCP関連テストを実行する。
+- [x] access controlのテストを実行する。
+- [x] migration statusを確認する。
+- [x] `README.md` にEngineering NotesとMCPの概要を追記する。
+- [x] MCPの起動方法、設定例、トラブルシュートを `docs/` に追記する。
+- [x] `.env.example` に必要な変数が不足していないか確認する。
+- [x] secretや個人情報がGit差分へ含まれていないか確認する。
 
 想定確認コマンド:
 
@@ -298,6 +298,16 @@ git diff --check
 
 - 全受け入れ条件と自動チェックが成功する。
 - 新しい開発者がドキュメントだけでMCPを起動・確認できる。
+
+実装・検証記録（2026-07-21）:
+
+- Prettierを開発依存へ固定し、`format`と`format:check`スクリプト、生成物を除外する`.prettierignore`を追加した。
+- READMEへEngineering Notes・MCPの概要と起動手順を追加し、Codex設定とトラブルシュートを`docs/development-journal-mcp-codex.md`へ集約した。
+- `.env.example`をDocker ComposeのPostgreSQL設定と揃え、必須値・任意値・秘密値をコミットしない理由をコメントで明示した。
+- formatter、typecheck、production build、MCPテスト（4件）、access controlを含むEngineering Notesテスト（12件）が成功した。
+- lintはエラー0件で、既存の自動生成migrationに未使用引数のwarningが4件残ることを確認した。
+- 2件のmigrationが適用済みであること、公開・非公開・draft境界、MCPの6 Tool、stdioのJSON-RPC出力を検証スクリプトで再確認した。
+- Git差分の空白エラー、`.env`のignore状態、ソース差分に秘密値らしい文字列がないことを確認した。
 
 ## 10. 将来タスク: 書き込み支援
 

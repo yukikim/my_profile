@@ -1,10 +1,7 @@
 import { cache } from "react";
 import { getArchitectureDecisions } from "@/lib/payload/getArchitectureDecisions";
 import { getDevelopmentLogs } from "@/lib/payload/getDevelopmentLogs";
-import type {
-  ArchitectureDecisionResult,
-  DevelopmentLogResult,
-} from "./types";
+import type { ArchitectureDecisionResult, DevelopmentLogResult } from "./types";
 
 /** 公開画面で一度に扱う上限です。Query Service側の最大値と合わせて大量取得を防ぎます。 */
 const PUBLIC_ENGINEERING_NOTES_LIMIT = 50;

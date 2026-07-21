@@ -171,8 +171,7 @@ export const ArchitectureDecisions: CollectionConfig = {
       name: "negativeConsequences",
       type: "array",
       admin: {
-        description:
-          "受け入れる必要があるデメリット、制約、将来コストです。",
+        description: "受け入れる必要があるデメリット、制約、将来コストです。",
       },
       fields: [
         {

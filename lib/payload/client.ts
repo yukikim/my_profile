@@ -10,7 +10,10 @@ export const getPayloadClient = cache(async (): Promise<Payload | null> => {
   try {
     return await getPayload({ config });
   } catch (error) {
-    console.warn("Payload is unavailable. Falling back to local content.", error);
+    console.warn(
+      "Payload is unavailable. Falling back to local content.",
+      error,
+    );
     return null;
   }
 });

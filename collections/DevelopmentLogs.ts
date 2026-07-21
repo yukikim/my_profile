@@ -65,8 +65,7 @@ export const DevelopmentLogs: CollectionConfig = {
       defaultValue: "my_profile",
       index: true,
       admin: {
-        description:
-          "MCPでプロジェクト単位に履歴を検索するための名前です。",
+        description: "MCPでプロジェクト単位に履歴を検索するための名前です。",
       },
     },
     {

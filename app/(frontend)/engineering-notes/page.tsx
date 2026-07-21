@@ -47,9 +47,7 @@ export default async function EngineeringNotesPage() {
       date: decision.decidedAt,
       decision,
     })),
-  ].sort((left, right) =>
-    (right.date ?? "").localeCompare(left.date ?? ""),
-  );
+  ].sort((left, right) => (right.date ?? "").localeCompare(left.date ?? ""));
 
   return (
     <>

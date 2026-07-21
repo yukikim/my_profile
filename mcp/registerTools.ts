@@ -5,10 +5,7 @@ import type {
   DevelopmentLogResult,
 } from "../lib/engineering-notes/types";
 import type { EngineeringNotesDataSource } from "./dataSource";
-import {
-  createErrorToolResult,
-  EngineeringNotesMcpError,
-} from "./errors";
+import { createErrorToolResult, EngineeringNotesMcpError } from "./errors";
 import {
   architectureDecisionListOutputSchema,
   decisionContextInputSchema,
@@ -121,7 +118,9 @@ export function registerEngineeringNotesTools(
     async (input) =>
       runSafely(async () => {
         // 現在時刻を基準に期間開始を計算し、Query ServiceへISO文字列で渡します。
-        const from = new Date(Date.now() - input.days * 86_400_000).toISOString();
+        const from = new Date(
+          Date.now() - input.days * 86_400_000,
+        ).toISOString();
         const items = await dataSource.searchDevelopmentLogs({
           project: input.project,
           from,
@@ -223,11 +222,13 @@ export function registerEngineeringNotesTools(
         }
 
         const relatedLogs = decision.relatedLogSlugs.length
-          ? (await dataSource.searchDevelopmentLogs({
-              project: decision.project,
-              visibility: "all",
-              limit: 50,
-            })).filter((log) => decision.relatedLogSlugs.includes(log.slug))
+          ? (
+              await dataSource.searchDevelopmentLogs({
+                project: decision.project,
+                visibility: "all",
+                limit: 50,
+              })
+            ).filter((log) => decision.relatedLogSlugs.includes(log.slug))
           : [];
 
         return { decision, relatedLogs };

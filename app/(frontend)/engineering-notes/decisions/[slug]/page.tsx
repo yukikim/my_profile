@@ -172,7 +172,10 @@ export default async function ArchitectureDecisionDetailPage({
             <h3 className="text-xl font-semibold text-[#15231f]">判断の変遷</h3>
             <div className="mt-4 grid gap-3">
               {supersededDecision ? (
-                <DecisionLink prefix="置き換えたADR" decision={supersededDecision} />
+                <DecisionLink
+                  prefix="置き換えたADR"
+                  decision={supersededDecision}
+                />
               ) : null}
               {supersedingDecisions.map((item) => (
                 <DecisionLink
@@ -254,7 +257,7 @@ function DecisionLink({
 }) {
   return (
     <p className="text-sm leading-6 text-stone-600">
-      {prefix}: {" "}
+      {prefix}:{" "}
       <Link
         href={`/engineering-notes/decisions/${decision.slug}`}
         className="font-semibold text-[#2f6f73] underline"

@@ -90,8 +90,7 @@ function createFakeDataSource(): EngineeringNotesDataSource {
         .filter((log) => !input.project || log.project === input.project)
         .filter(
           (log) =>
-            !input.query ||
-            `${log.title} ${log.summary}`.includes(input.query),
+            !input.query || `${log.title} ${log.summary}`.includes(input.query),
         )
         .filter(
           (log) =>
@@ -151,8 +150,12 @@ async function withMcpClient(
   action: (client: Client) => Promise<void>,
 ) {
   const server = createEngineeringNotesMcpServer(dataSource);
-  const client = new Client({ name: "engineering-notes-test", version: "1.0.0" });
-  const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
+  const client = new Client({
+    name: "engineering-notes-test",
+    version: "1.0.0",
+  });
+  const [clientTransport, serverTransport] =
+    InMemoryTransport.createLinkedPair();
 
   await server.connect(serverTransport);
   await client.connect(clientTransport);
@@ -237,12 +240,13 @@ test("不正日付、空の必須項目、limit上限超過を入力検証で拒
 });
 
 test("DB相当の失敗でも接続文字列やstack traceをTool応答へ含めない", async () => {
+  // 実値ではなく識別用のsentinelを使い、内部詳細が応答へ漏れないことだけを安全に検証します。
   const failingDataSource: EngineeringNotesDataSource = {
     async searchDevelopmentLogs() {
-      throw new Error("connect ECONNREFUSED postgres://admin:secret@db/internal");
+      throw new Error("connect ECONNREFUSED database-credential-sentinel");
     },
     async searchArchitectureDecisions() {
-      throw new Error("SQL SELECT * FROM users; PAYLOAD_SECRET=top-secret");
+      throw new Error("internal-query-sentinel");
     },
   };
 
@@ -255,6 +259,9 @@ test("DB相当の失敗でも接続文字列やstack traceをTool応答へ含め
 
     assert.equal(result.isError, true);
     assert.match(serialized, /QUERY_FAILED/);
-    assert.doesNotMatch(serialized, /postgres|admin|secret|SELECT|stack/i);
+    assert.doesNotMatch(
+      serialized,
+      /credential|sentinel|internal-query|stack/i,
+    );
   });
 });

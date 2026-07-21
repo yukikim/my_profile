@@ -1,0 +1,19 @@
+# Next.js・Payload・TypeScriptが生成するファイルは手動整形の対象外です。
+.next/
+node_modules/
+payload-types.ts
+next-env.d.ts
+tsconfig.tsbuildinfo
+app/(payload)/admin/importMap.js
+
+# エージェント向け指示はCodexが管理する原文を維持します。
+AGENTS.md
+
+# migrationはPayloadが生成したSQLとコードをそのまま履歴として保持します。
+migrations/
+
+# アップロード済みmediaとbuild成果物はソースコードではありません。
+public/media/
+build/
+out/
+coverage/

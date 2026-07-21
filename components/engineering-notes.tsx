@@ -67,20 +67,14 @@ export function ArchitectureDecisionCard({
           {decision.title}
         </Link>
       </h2>
-      <p className="mt-4 flex-1 leading-7 text-stone-700">
-        {decision.context}
-      </p>
+      <p className="mt-4 flex-1 leading-7 text-stone-700">{decision.context}</p>
       <TagList tags={decision.tags} />
     </article>
   );
 }
 
 /** 詳細ページ上部でコンテンツ種別を短く示します。 */
-export function NoteTypeLabel({
-  type,
-}: {
-  type: keyof typeof noteTypeStyles;
-}) {
+export function NoteTypeLabel({ type }: { type: keyof typeof noteTypeStyles }) {
   const style = noteTypeStyles[type];
 
   return (

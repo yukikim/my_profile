@@ -138,7 +138,8 @@ export type CmsFormField = {
 export const profile: Profile = {
   name: "Marco Green",
   title: "Product-minded Web Developer",
-  tagline: "CMS設計から公開サイトの実装まで、更新し続けられるWeb体験を作ります。",
+  tagline:
+    "CMS設計から公開サイトの実装まで、更新し続けられるWeb体験を作ります。",
   introduction:
     "Next.js、TypeScript、CMSを中心に、事業や個人の情報発信を長く運用できる形へ整える開発者です。要件整理、情報設計、UI実装、運用導線の設計を一貫して扱います。",
   location: "Tokyo / Remote",
@@ -186,8 +187,7 @@ export const works: Work[] = [
     title: "プロフィールCMS基盤",
     summary:
       "個人プロフィール、実績、記事、問い合わせを一元管理するPayload CMS想定の情報設計。",
-    body:
-      "固定ページ、実績、記事、カテゴリ、メディアを分け、公開状態とSEO情報を持つCMS基盤を設計しました。トップページはブロック構成に対応し、将来的な企業サイトやLPへの転用も見据えています。",
+    body: "固定ページ、実績、記事、カテゴリ、メディアを分け、公開状態とSEO情報を持つCMS基盤を設計しました。トップページはブロック構成に対応し、将来的な企業サイトやLPへの転用も見据えています。",
     category: "CMS",
     role: "Information architecture / Frontend implementation",
     technologies: ["Next.js", "TypeScript", "Payload CMS", "PostgreSQL"],
@@ -199,10 +199,8 @@ export const works: Work[] = [
   {
     slug: "portfolio-performance-redesign",
     title: "ポートフォリオ高速化リニューアル",
-    summary:
-      "表示速度、導線、実績の見せ方を見直したポートフォリオサイト改善。",
-    body:
-      "画像配信、ページ構造、カードUIを整理し、採用担当者や見込み顧客が短時間で判断できる構成へ改善しました。実績詳細では担当範囲と技術選定の理由を明確に表示しています。",
+    summary: "表示速度、導線、実績の見せ方を見直したポートフォリオサイト改善。",
+    body: "画像配信、ページ構造、カードUIを整理し、採用担当者や見込み顧客が短時間で判断できる構成へ改善しました。実績詳細では担当範囲と技術選定の理由を明確に表示しています。",
     category: "Frontend",
     role: "UI design / Performance tuning",
     technologies: ["Next.js", "React", "Tailwind CSS"],
@@ -216,8 +214,7 @@ export const works: Work[] = [
     title: "コンテンツ運用プレイブック",
     summary:
       "記事、ニュース、固定ページを運用チームが迷わず更新できる編集ルールを整備。",
-    body:
-      "CMSのフィールド定義、入力ガイド、公開フローを整理し、編集者がコードに触れずにコンテンツを更新できる状態を作りました。カテゴリとタグの使い分けも明文化しています。",
+    body: "CMSのフィールド定義、入力ガイド、公開フローを整理し、編集者がコードに触れずにコンテンツを更新できる状態を作りました。カテゴリとタグの使い分けも明文化しています。",
     category: "Operations",
     role: "CMS modeling / Documentation",
     technologies: ["Payload CMS", "Content Strategy", "SEO"],
@@ -234,8 +231,7 @@ export const posts: Post[] = [
     title: "プロフィールサイトをCMS前提で作る理由",
     excerpt:
       "個人サイトでも更新導線を先に設計すると、実績や記事を継続して積み上げやすくなります。",
-    body:
-      "プロフィールサイトは一度作って終わりではなく、経歴、実績、記事、問い合わせ導線を更新し続ける媒体です。CMSを前提にすると、コンテンツの責務が明確になり、後から企業サイトやLPへ展開する時にも構成を再利用できます。",
+    body: "プロフィールサイトは一度作って終わりではなく、経歴、実績、記事、問い合わせ導線を更新し続ける媒体です。CMSを前提にすると、コンテンツの責務が明確になり、後から企業サイトやLPへ展開する時にも構成を再利用できます。",
     category: "CMS",
     publishedAt: "2026-06-10",
     status: "published",
@@ -245,8 +241,7 @@ export const posts: Post[] = [
     title: "最初のブロックエディタは小さく始める",
     excerpt:
       "Hero、RichText、CTAから始めると、過度な汎用化を避けつつページ編集の価値を出せます。",
-    body:
-      "初期段階のブロックエディタは、すべての表現を網羅するよりも、公開サイトで確実に使うブロックへ絞る方が運用しやすくなります。よく使うブロックから型と表示コンポーネントを揃え、必要に応じてGalleryやFAQを追加します。",
+    body: "初期段階のブロックエディタは、すべての表現を網羅するよりも、公開サイトで確実に使うブロックへ絞る方が運用しやすくなります。よく使うブロックから型と表示コンポーネントを揃え、必要に応じてGalleryやFAQを追加します。",
     category: "Frontend",
     publishedAt: "2026-06-08",
     status: "published",
@@ -256,8 +251,7 @@ export const posts: Post[] = [
     title: "下書きと公開済みの境界をUIにも反映する",
     excerpt:
       "CMSのstatus設計は、公開ページの取得条件と管理画面の編集体験を同時に決めます。",
-    body:
-      "公開前コンテンツが一般閲覧者に出ないように、コレクションにはdraftとpublishedの状態を持たせます。公開ページではpublishedのみを取得し、プレビューや管理画面では状態を明確に見分けられる設計にします。",
+    body: "公開前コンテンツが一般閲覧者に出ないように、コレクションにはdraftとpublishedの状態を持たせます。公開ページではpublishedのみを取得し、プレビューや管理画面では状態を明確に見分けられる設計にします。",
     category: "Operations",
     publishedAt: "2026-06-05",
     status: "published",

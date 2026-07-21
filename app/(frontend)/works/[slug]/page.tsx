@@ -52,7 +52,10 @@ export default async function WorkDetailPage({ params }: Props) {
           <article className="prose-block">{work.body}</article>
           <aside className="h-fit rounded-lg border border-stone-200 bg-white p-6">
             <div>
-              <p>期間: {formatSlashDate(work.startDate)} - {formatSlashDate(work.endDate)}</p>
+              <p>
+                期間: {formatSlashDate(work.startDate)} -{" "}
+                {formatSlashDate(work.endDate)}
+              </p>
             </div>
             <dl className="grid gap-5">
               <div>

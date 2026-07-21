@@ -19,10 +19,7 @@ export function normalizeEngineeringNotesLimit(limit?: number) {
     return DEFAULT_ENGINEERING_NOTES_LIMIT;
   }
 
-  return Math.min(
-    MAX_ENGINEERING_NOTES_LIMIT,
-    Math.max(1, Math.trunc(limit)),
-  );
+  return Math.min(MAX_ENGINEERING_NOTES_LIMIT, Math.max(1, Math.trunc(limit)));
 }
 
 /**

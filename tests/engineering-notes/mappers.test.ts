@@ -1,9 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import type {
-  ArchitectureDecision,
-  DevelopmentLog,
-} from "../../payload-types";
+import type { ArchitectureDecision, DevelopmentLog } from "../../payload-types";
 import {
   mapArchitectureDecision,
   mapDevelopmentLog,

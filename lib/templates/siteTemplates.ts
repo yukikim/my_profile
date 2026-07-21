@@ -8,7 +8,11 @@ export type SiteTemplate = {
   siteName: string;
   siteDescription: string;
   navigation: { label: string; href: string }[];
-  categories: { name: string; slug: string; type: "common" | "post" | "work" }[];
+  categories: {
+    name: string;
+    slug: string;
+    type: "common" | "post" | "work";
+  }[];
   pages: CmsPage[];
 };
 
@@ -16,7 +20,8 @@ const contactCta: PageBlock = {
   blockType: "cta",
   buttonText: "問い合わせる",
   buttonUrl: "/contact",
-  description: "CMS構成、ページ設計、公開後の更新運用までまとめて相談できます。",
+  description:
+    "CMS構成、ページ設計、公開後の更新運用までまとめて相談できます。",
   title: "サイト構築を相談する",
 };
 
@@ -79,7 +84,9 @@ export const siteTemplates: Record<SiteTemplateKey, SiteTemplate> = {
       ]),
       templatePage("company", "Company", [
         hero("会社情報"),
-        richText("沿革、所在地、代表メッセージなどを固定ページとして管理します。"),
+        richText(
+          "沿革、所在地、代表メッセージなどを固定ページとして管理します。",
+        ),
       ]),
     ],
     siteDescription:
@@ -142,7 +149,11 @@ export const siteTemplates: Record<SiteTemplateKey, SiteTemplate> = {
   },
 };
 
-function templatePage(slug: string, title: string, layout: PageBlock[]): CmsPage {
+function templatePage(
+  slug: string,
+  title: string,
+  layout: PageBlock[],
+): CmsPage {
   return {
     layout,
     publishedAt: new Date().toISOString(),
@@ -189,7 +200,8 @@ function faq(): PageBlock {
         question: "公開後に構成を変えられますか？",
       },
       {
-        answer: "企業サイト、LP、ブログなどに合わせて初期データを切り替えられます。",
+        answer:
+          "企業サイト、LP、ブログなどに合わせて初期データを切り替えられます。",
         question: "別用途のサイトにも使えますか？",
       },
     ],

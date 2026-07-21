@@ -80,7 +80,10 @@ export default async function Home() {
               ["Deploy", "Vercel と PostgreSQL を想定した構成"],
               ["SEO", "ページごとのタイトル、説明文、公開状態を管理"],
             ].map(([title, text]) => (
-              <div key={title} className="rounded-lg border border-stone-200 bg-white p-5">
+              <div
+                key={title}
+                className="rounded-lg border border-stone-200 bg-white p-5"
+              >
                 <h3 className="font-semibold text-[#15231f]">{title}</h3>
                 <p className="mt-2 text-sm leading-6 text-stone-600">{text}</p>
               </div>

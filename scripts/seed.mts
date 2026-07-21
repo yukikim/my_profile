@@ -20,7 +20,10 @@ import { Footer } from "@/globals/Footer";
 import { Header } from "@/globals/Header";
 import { Profile } from "@/globals/Profile";
 import { SiteSettings } from "@/globals/SiteSettings";
-import { siteTemplates, type SiteTemplateKey } from "@/lib/templates/siteTemplates";
+import {
+  siteTemplates,
+  type SiteTemplateKey,
+} from "@/lib/templates/siteTemplates";
 import type { PageBlock } from "@/lib/content";
 import type {
   ArchitectureDecision,
@@ -90,8 +93,31 @@ type SeedDataByCollection = {
     | "visibility"
   >;
   pages: Pick<Page, "layout" | "publishedAt" | "slug" | "status" | "title">;
-  posts: Pick<PayloadPost, "categories" | "content" | "excerpt" | "publishedAt" | "slug" | "status" | "title">;
-  works: Pick<PayloadWork, "categories" | "content" | "endDate" | "excerpt" | "featured" | "publishedAt" | "role" | "slug" | "startDate" | "status" | "techStack" | "title">;
+  posts: Pick<
+    PayloadPost,
+    | "categories"
+    | "content"
+    | "excerpt"
+    | "publishedAt"
+    | "slug"
+    | "status"
+    | "title"
+  >;
+  works: Pick<
+    PayloadWork,
+    | "categories"
+    | "content"
+    | "endDate"
+    | "excerpt"
+    | "featured"
+    | "publishedAt"
+    | "role"
+    | "slug"
+    | "startDate"
+    | "status"
+    | "techStack"
+    | "title"
+  >;
 };
 type SeedDocumentByCollection = {
   "architecture-decisions": ArchitectureDecision;
@@ -260,7 +286,12 @@ async function seedCategories(payload: Payload) {
   const result: Record<string, number> = {};
 
   for (const category of template.categories) {
-    const doc = await upsertBySlug(payload, "categories", category.slug, category);
+    const doc = await upsertBySlug(
+      payload,
+      "categories",
+      category.slug,
+      category,
+    );
 
     result[category.slug] = doc.id;
   }
@@ -287,7 +318,8 @@ async function seedContactForm(payload: Payload): Promise<Form> {
   const data = {
     fields,
     name: "Contact",
-    successMessage: "お問い合わせありがとうございます。内容を確認して返信します。",
+    successMessage:
+      "お問い合わせありがとうございます。内容を確認して返信します。",
   } satisfies Pick<Form, "fields" | "name" | "successMessage">;
 
   if (existing.docs[0]) {
@@ -348,7 +380,8 @@ async function seedGlobals(payload: Payload) {
       ),
       careers: [
         {
-          description: "Payload CMS と Next.js を使ったサイトテンプレートを整備。",
+          description:
+            "Payload CMS と Next.js を使ったサイトテンプレートを整備。",
           period: "Now",
           title: template.label,
         },
@@ -381,10 +414,7 @@ async function seedPages(payload: Payload, contactFormId: Form["id"]) {
   }
 }
 
-async function seedPosts(
-  payload: Payload,
-  categories: Record<string, number>,
-) {
+async function seedPosts(payload: Payload, categories: Record<string, number>) {
   const categoryId = firstCategoryId(categories);
 
   await upsertBySlug(payload, "posts", "welcome-to-cms-template", {
@@ -404,10 +434,7 @@ async function seedPosts(
  * Engineering Notesから参照するサンプルWorkを返します。
  * 呼び出し側が返却IDをrelationshipへ設定することで、文字列ではなくDB上の関連を作れます。
  */
-async function seedWorks(
-  payload: Payload,
-  categories: Record<string, number>,
-) {
+async function seedWorks(payload: Payload, categories: Record<string, number>) {
   const categoryId = firstCategoryId(categories);
 
   return upsertBySlug(payload, "works", "starter-showcase", {
@@ -559,9 +586,7 @@ async function seedEngineeringNotes(payload: Payload, relatedWorkId: number) {
           pros: [{ item: "リモートクライアントから利用できる。" }],
         },
       ],
-      positiveConsequences: [
-        { item: "読み取り専用MCPの学習に範囲を絞れる。" },
-      ],
+      positiveConsequences: [{ item: "読み取り専用MCPの学習に範囲を絞れる。" }],
       project: "my_profile",
       publishedAt: undefined,
       rationale:
@@ -586,13 +611,10 @@ async function seedEngineeringNotes(payload: Payload, relatedWorkId: number) {
       context:
         "将来MCPをリモート公開する場合は、privateな開発記録を保護する認可が必要になる。",
       decidedAt: undefined,
-      decision:
-        "リモート化の要件が確定するまで認可方式の最終決定を保留する。",
+      decision: "リモート化の要件が確定するまで認可方式の最終決定を保留する。",
       decisionId: "ADR-0004",
       decisionStatus: "proposed",
-      negativeConsequences: [
-        { item: "リモートMCPはMVPに含められない。" },
-      ],
+      negativeConsequences: [{ item: "リモートMCPはMVPに含められない。" }],
       options: [
         {
           cons: [{ item: "認可サーバーを含む追加実装が必要になる。" }],
@@ -786,7 +808,10 @@ async function upsertBySlug(
   });
 }
 
-function toPayloadBlock(block: PageBlock, contactFormId: Form["id"]): PageLayoutBlock {
+function toPayloadBlock(
+  block: PageBlock,
+  contactFormId: Form["id"],
+): PageLayoutBlock {
   switch (block.blockType) {
     case "hero":
       return {

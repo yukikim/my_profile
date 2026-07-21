@@ -37,25 +37,25 @@ CLIでは、プロジェクトrootで`codex mcp list`を実行して設定の読
 
 期待する主な根拠:
 
-| 質問 | 使用するTool | 根拠として識別できる値 |
-| --- | --- | --- |
-| PostgreSQL採用理由 | `get_decision_context` | `ADR-0002` |
-| 問い合わせフォーム | `search_development_logs` | `implement-contact-form-storage` |
-| Work関連ADR | `get_related_decisions` | `ADR-0001`、`ADR-0002` |
-| 直近の次アクション | `get_recent_development_logs` | 各日誌の`slug` |
-| ADRの置換関係 | `get_related_decisions` | `ADR-0001`、`ADR-0002` |
+| 質問               | 使用するTool                  | 根拠として識別できる値           |
+| ------------------ | ----------------------------- | -------------------------------- |
+| PostgreSQL採用理由 | `get_decision_context`        | `ADR-0002`                       |
+| 問い合わせフォーム | `search_development_logs`     | `implement-contact-form-storage` |
+| Work関連ADR        | `get_related_decisions`       | `ADR-0001`、`ADR-0002`           |
+| 直近の次アクション | `get_recent_development_logs` | 各日誌の`slug`                   |
+| ADRの置換関係      | `get_related_decisions`       | `ADR-0001`、`ADR-0002`           |
 
 ## 5. 受け入れ結果
 
 2026-07-17に、新しい`codex exec`プロセスから上記5問を一度に実行した。CodexのJSONLイベントで、`server: "engineering_notes"`のMCP Tool callと次の根拠を確認した。
 
-| 質問 | Codexが実際に使用したTool | 確認した根拠 |
-| --- | --- | --- |
-| PostgreSQL採用理由 | `search_architecture_decisions` | `ADR-0002` |
-| 問い合わせフォーム | `search_development_logs` | `implement-contact-form-storage` |
-| Work関連ADR | `search_architecture_decisions` | `ADR-0001`、`ADR-0002` |
-| 直近の次アクション | `get_recent_development_logs` | `investigate-works-fallback`、`implement-contact-form-storage` |
-| ADRの置換関係 | `get_related_decisions` | `ADR-0001`、`ADR-0002` |
+| 質問               | Codexが実際に使用したTool       | 確認した根拠                                                   |
+| ------------------ | ------------------------------- | -------------------------------------------------------------- |
+| PostgreSQL採用理由 | `search_architecture_decisions` | `ADR-0002`                                                     |
+| 問い合わせフォーム | `search_development_logs`       | `implement-contact-form-storage`                               |
+| Work関連ADR        | `search_architecture_decisions` | `ADR-0001`、`ADR-0002`                                         |
+| 直近の次アクション | `get_recent_development_logs`   | `investigate-works-fallback`、`implement-contact-form-storage` |
+| ADRの置換関係      | `get_related_decisions`         | `ADR-0001`、`ADR-0002`                                         |
 
 `ADR-0001`と`investigate-works-fallback`はprivateだが、信頼済みローカルCodexから取得できた。一方、draftの`ADR-0004`と`plan-engineering-notes-pages`は取得結果にも回答にも含まれなかった。
 
@@ -68,3 +68,66 @@ Codexが検索時に誤って`limit: 100`を指定した呼び出しは、MCPの
 - Payload Documentはallowlist Mapperを通し、ユーザー情報や内部フィールドを返さない。
 - DB接続文字列、secret、SQL、stack traceをTool応答へ含めない。
 - ローカルのプロジェクト設定であり、ChatGPT webや外部MCPクライアントへ自動公開されない。
+
+## 7. 起動と検証
+
+プロジェクトrootでPostgreSQLを起動し、migrationとseedを適用する。
+
+```bash
+docker compose up -d postgres
+npm run migrate
+npm run seed
+```
+
+MCPプロトコル、実DB境界、Codex設定は次の順で確認できる。
+
+```bash
+npm run test:mcp
+npm run verify:engineering-notes
+npm run verify:mcp
+codex mcp list
+```
+
+`npm run mcp`をterminalから直接実行した場合、stdio MCPはクライアントからのJSON-RPC入力を待つため、通常のWebサーバーのような操作画面は表示されない。
+
+## 8. トラブルシュート
+
+### `engineering_notes`が検出されない
+
+1. このリポジトリがCodexで信頼済みになっているか確認する。
+2. `.codex/config.toml`の`cwd`が現在のプロジェクトrootと一致するか確認する。
+3. `codex mcp list`でenabledになっているか確認する。
+4. 設定変更後にCodexアプリまたはIDE拡張を再起動する。
+
+### DB接続エラーになる
+
+```bash
+docker compose ps
+docker compose up -d postgres
+npm run migrate:status
+```
+
+`.env`の`DATABASE_URI`を確認する。接続文字列を`.codex/config.toml`へコピーせず、MCPプロセスがプロジェクトrootの`.env`系ファイルから読み込む構成を維持する。
+
+### Toolは見えるが結果が0件になる
+
+- `npm run seed`を実行したか確認する。
+- 記録の`status`とPayloadの`_status`がpublishedか確認する。
+- public画面の場合は`visibility: public`か確認する。
+- `publishedAt`が未来日時になっていないか確認する。
+- draftはMCPでも取得できないため、管理画面で公開してから再確認する。
+
+### MCP通信がJSON解析エラーになる
+
+stdioではstdoutがJSON-RPC専用になる。通常ログを`console.log`で出さず、診断はstderrへ出す。現在のMCP起動時はPayload loggerもstderrへ切り替えている。
+
+### 安全性をまとめて再確認する
+
+```bash
+npm run test:engineering-notes
+npm run test:mcp
+npm run verify:engineering-notes
+npm run verify:mcp
+```
+
+実DB検証では、public/private/draftの境界、未認証Payload API、構造化出力、秘密情報のマスキング、stdoutの通信純度を確認する。

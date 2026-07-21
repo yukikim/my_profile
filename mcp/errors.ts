@@ -1,10 +1,7 @@
 import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 
 /** クライアントが処理方針を判断できる、安全な公開用エラーコードです。 */
-export type McpToolErrorCode =
-  | "INVALID_INPUT"
-  | "NOT_FOUND"
-  | "QUERY_FAILED";
+export type McpToolErrorCode = "INVALID_INPUT" | "NOT_FOUND" | "QUERY_FAILED";
 
 /**
  * 想定内の失敗を、安全なコードとメッセージで表すエラーです。

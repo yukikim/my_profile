@@ -25,9 +25,7 @@ function mapRelatedWork(work: number | Work): RelatedWorkSummary | null {
 }
 
 /** 開発日誌のPayload Documentをallowlist形式へ変換します。 */
-export function mapDevelopmentLog(
-  log: DevelopmentLog,
-): DevelopmentLogResult {
+export function mapDevelopmentLog(log: DevelopmentLog): DevelopmentLogResult {
   return {
     cause: log.cause ?? undefined,
     id: String(log.id),
@@ -39,9 +37,7 @@ export function mapDevelopmentLog(
     project: log.project,
     relatedDecisionIds:
       log.relatedDecisions?.map((decision) =>
-        typeof decision === "number"
-          ? String(decision)
-          : decision.decisionId,
+        typeof decision === "number" ? String(decision) : decision.decisionId,
       ) ?? [],
     relatedWorks:
       log.relatedWorks
@@ -68,8 +64,7 @@ export function mapArchitectureDecision(
     decisionStatus: architectureDecision.decisionStatus,
     id: String(architectureDecision.id),
     negativeConsequences:
-      architectureDecision.negativeConsequences?.map((item) => item.item) ??
-      [],
+      architectureDecision.negativeConsequences?.map((item) => item.item) ?? [],
     options: architectureDecision.options.map((option) => ({
       cons: option.cons?.map((item) => item.item) ?? [],
       description: option.description ?? undefined,
@@ -77,8 +72,7 @@ export function mapArchitectureDecision(
       pros: option.pros?.map((item) => item.item) ?? [],
     })),
     positiveConsequences:
-      architectureDecision.positiveConsequences?.map((item) => item.item) ??
-      [],
+      architectureDecision.positiveConsequences?.map((item) => item.item) ?? [],
     project: architectureDecision.project,
     rationale: architectureDecision.rationale,
     relatedLogSlugs:

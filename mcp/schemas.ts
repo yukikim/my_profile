@@ -58,7 +58,8 @@ export const projectHistoryInputSchema = z
     limit: limitSchema,
   })
   .refine((input) => input.includeLogs || input.includeDecisions, {
-    message: "includeLogsまたはincludeDecisionsの少なくとも一方をtrueにしてください。",
+    message:
+      "includeLogsまたはincludeDecisionsの少なくとも一方をtrueにしてください。",
   });
 
 /** ADRの一意な識別子はdecisionIdかslugのどちらか一方だけを許可します。 */
