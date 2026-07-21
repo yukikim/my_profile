@@ -12,7 +12,7 @@ export async function SiteHeader() {
     ? header.navigation
     : [
         ...header.navigation,
-        { href: "/engineering-notes", label: "Engineering Notes" },
+        { href: "/engineering-notes", label: "Catch-up Dev Notes" },
       ];
 
   return (
