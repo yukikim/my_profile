@@ -189,7 +189,9 @@ payload-sample-use-local-payload-api
 
 ### 7.3 下書きJSON例
 
-JSON形式はPhase 2で確定する。初期案は次のとおりとする。
+JSON形式はPhase 2で確定した。正本となる入力型とschemaは
+`lib/engineering-notes/drafts/types.ts` と `lib/engineering-notes/drafts/schemas.ts` に置く。
+入力例は次のとおりとする。
 
 ```json
 {
@@ -319,6 +321,23 @@ JSON形式はPhase 2で確定する。初期案は次のとおりとする。
 - 配列要素に空文字や重複がない。
 - 文字数と配列件数が設定した上限内である。
 
+上限は1ファイル1Documentを前提に次の値へ固定する。
+
+| 対象                             | 上限                  |
+| -------------------------------- | --------------------- |
+| JSONファイル                     | 256 KiB（UTF-8 byte） |
+| slug、ADR ID、relationship識別子 | 120文字               |
+| title、option名                  | 200文字               |
+| project                          | 80文字                |
+| summary                          | 1,000文字             |
+| 本文系field                      | 10,000文字            |
+| option description               | 4,000文字             |
+| 配列内の本文                     | 1,000文字             |
+| tag                              | 50文字                |
+| 各配列（ADR optionsを含む）      | 20件                  |
+
+文字列長はZodのstring length、ファイルサイズはUTF-8 byte数で判定する。配列は各要素をtrimして空文字を拒否し、完全一致する重複を入力順のまま除去する。
+
 ### 11.2 重複検証
 
 初期登録はcreate-onlyとし、次の場合は自動上書きしない。
@@ -385,15 +404,16 @@ JSON形式はPhase 2で確定する。初期案は次のとおりとする。
 
 ## 14. 想定ファイル構成
 
-Phase 3でローカル登録を実装する場合、次の構成を候補とする。
+Phase 2の入力境界と、Phase 3以降に追加する検証・登録処理を次の構成にする。
 
 ```text
 lib/engineering-notes/drafts/
-├─ types.ts             # 入力型
-├─ schemas.ts           # 入力検証
-├─ sensitiveContent.ts  # 禁止情報候補の検査
-├─ relationships.ts     # slug / decisionIdの解決
-└─ createDraft.ts       # draft + private固定の登録処理
+├─ types.ts             # Payload生成型と分離した入力型（Phase 2）
+├─ schemas.ts           # Zod検証、上限、JSON parse境界（Phase 2）
+├─ normalize.ts         # trim後の重複除去とISO日時検証（Phase 2）
+├─ sensitiveContent.ts  # 禁止情報候補の検査（Phase 3）
+├─ relationships.ts     # slug / decisionIdの解決（Phase 3）
+└─ createDraft.ts       # draft + private固定の登録処理（後続Phase）
 
 scripts/
 └─ importEngineeringNoteDraft.mts

@@ -111,43 +111,43 @@ docs/external-project-engineering-notes-prompts.md
 
 ### 5.1 ファイル構成
 
-- [ ] `lib/engineering-notes/drafts/types.ts` を追加する。
-- [ ] `lib/engineering-notes/drafts/schemas.ts` を追加する。
-- [ ] `lib/engineering-notes/drafts/normalize.ts` を追加する。
-- [ ] `tests/engineering-notes/drafts.test.ts` を追加する。
+- [x] `lib/engineering-notes/drafts/types.ts` を追加する。
+- [x] `lib/engineering-notes/drafts/schemas.ts` を追加する。
+- [x] `lib/engineering-notes/drafts/normalize.ts` を追加する。
+- [x] `tests/engineering-notes/drafts.test.ts` を追加する。
 
 ### 5.2 入力型
 
-- [ ] `kind: "development-log" | "architecture-decision"` を判別キーにする。
-- [ ] Development Log入力型を基本設計のJSON案に合わせて定義する。
-- [ ] ADR入力型を基本設計のJSON案に合わせて定義する。
-- [ ] `status`、`visibility`、`_status` を入力型へ含めない。
-- [ ] relationshipはDB IDではなくslugまたはADR IDで受け取る。
-- [ ] Payloadの生成型と入力型を分離する。
+- [x] `kind: "development-log" | "architecture-decision"` を判別キーにする。
+- [x] Development Log入力型を基本設計のJSON案に合わせて定義する。
+- [x] ADR入力型を基本設計のJSON案に合わせて定義する。
+- [x] `status`、`visibility`、`_status` を入力型へ含めない。
+- [x] relationshipはDB IDではなくslugまたはADR IDで受け取る。
+- [x] Payloadの生成型と入力型を分離する。
 
 ### 5.3 schema検証
 
-- [ ] Zod schemaで必須項目を検証する。
-- [ ] 文字列をtrimし、空文字を拒否する。
-- [ ] `logDate` と `decidedAt` をISO 8601として検証する。
-- [ ] ADRの `options` を最低1件必須にする。
-- [ ] `decisionStatus` を許可値へ限定する。
-- [ ] 配列の空文字と重複を正規化または拒否する。
-- [ ] slugの文字種を検証する。
-- [ ] ADR IDの形式を検証する。
-- [ ] ファイルサイズ、文字数、配列件数の上限を実装する。
-- [ ] 未知のフィールドを拒否する。
+- [x] Zod schemaで必須項目を検証する。
+- [x] 文字列をtrimし、空文字を拒否する。
+- [x] `logDate` と `decidedAt` をISO 8601として検証する。
+- [x] ADRの `options` を最低1件必須にする。
+- [x] `decisionStatus` を許可値へ限定する。
+- [x] 配列の空文字と重複を正規化または拒否する。
+- [x] slugの文字種を検証する。
+- [x] ADR IDの形式を検証する。
+- [x] ファイルサイズ、文字数、配列件数の上限を実装する。
+- [x] 未知のフィールドを拒否する。
 
 ### 5.4 テスト
 
-- [ ] Development Logの正常入力を受理する。
-- [ ] ADRの正常入力を受理する。
-- [ ] 必須項目不足を拒否する。
-- [ ] 不正な日付を拒否する。
-- [ ] 空のADR `options` を拒否する。
-- [ ] `status` や `visibility` を含む入力を拒否する。
-- [ ] 未知のフィールドを拒否する。
-- [ ] trim、配列重複除去、上限を確認する。
+- [x] Development Logの正常入力を受理する。
+- [x] ADRの正常入力を受理する。
+- [x] 必須項目不足を拒否する。
+- [x] 不正な日付を拒否する。
+- [x] 空のADR `options` を拒否する。
+- [x] `status` や `visibility` を含む入力を拒否する。
+- [x] 未知のフィールドを拒否する。
+- [x] trim、配列重複除去、上限を確認する。
 
 想定確認コマンド:
 
