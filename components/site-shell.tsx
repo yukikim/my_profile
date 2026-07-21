@@ -5,6 +5,15 @@ import { getProfile } from "@/lib/payload/getProfile";
 
 export async function SiteHeader() {
   const [header, profile] = await Promise.all([getHeader(), getProfile()]);
+  // CMS設定にまだ導線がない環境でも、Phase 6の公開ページへ到達できるよう補完します。
+  const navigation = header.navigation.some(
+    (item) => item.href === "/engineering-notes",
+  )
+    ? header.navigation
+    : [
+        ...header.navigation,
+        { href: "/engineering-notes", label: "Engineering Notes" },
+      ];
 
   return (
     <header className="sticky top-0 z-20 border-b border-stone-200 bg-[#f8f5ef]/92 backdrop-blur">
@@ -19,7 +28,7 @@ export async function SiteHeader() {
         </Link>
         <nav aria-label="Primary navigation">
           <ul className="flex flex-wrap items-center justify-end gap-1 text-sm font-medium text-stone-700">
-            {header.navigation.map((item) => (
+            {navigation.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}

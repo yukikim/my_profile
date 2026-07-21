@@ -15,10 +15,16 @@ const projectRoot = path.resolve(dirname, "..");
 // standalone Node.jsでもNext.jsと同じ環境変数を利用できるよう、プロジェクトrootから読み込みます。
 nextEnv.loadEnvConfig(projectRoot);
 
-main().catch((error: unknown) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+main().then(
+  () => {
+    // Payload内部の補助handleが残っても、全assertionと終了処理の完了後なら検証CLIを正常終了できます。
+    process.exit(0);
+  },
+  (error: unknown) => {
+    console.error(error);
+    process.exit(1);
+  },
+);
 
 /**
  * 実DBに対してpublic-siteとtrusted-mcpの境界を検証します。
@@ -58,6 +64,21 @@ async function main() {
       audience: "trusted-mcp",
       visibility: "all",
     });
+    // Query Serviceの追加条件を使わず、Collection accessだけでも非公開記録が除外されるか確認します。
+    const anonymousApiLogs = await payload.find({
+      collection: "development-logs",
+      depth: 0,
+      draft: false,
+      limit: 50,
+      overrideAccess: false,
+    });
+    const anonymousApiDecisions = await payload.find({
+      collection: "architecture-decisions",
+      depth: 0,
+      draft: false,
+      limit: 50,
+      overrideAccess: false,
+    });
 
     assert.ok(publicLogs.length >= 1);
     assert.ok(publicLogs.every((log) => log.visibility === "public"));
@@ -88,24 +109,37 @@ async function main() {
         (decision) => decision.slug !== "remote-mcp-authorization",
       ),
     );
+    assert.ok(
+      anonymousApiLogs.docs.every(
+        (log) => log.status === "published" && log.visibility === "public",
+      ),
+    );
+    assert.ok(
+      anonymousApiLogs.docs.every(
+        (log) => log.slug !== "investigate-works-fallback",
+      ),
+    );
+    assert.ok(
+      anonymousApiDecisions.docs.every(
+        (decision) =>
+          decision.status === "published" && decision.visibility === "public",
+      ),
+    );
+    assert.ok(
+      anonymousApiDecisions.docs.every(
+        (decision) => decision.slug !== "initially-consider-mongodb",
+      ),
+    );
 
     payload.logger.info(
-      `Engineering Notes verified: public logs=${publicLogs.length}, trusted logs=${trustedLogs.length}, public decisions=${publicDecisions.length}, trusted decisions=${trustedDecisions.length}`,
+      `Engineering Notes verified: public logs=${publicLogs.length}, trusted logs=${trustedLogs.length}, public decisions=${publicDecisions.length}, trusted decisions=${trustedDecisions.length}, anonymous API logs=${anonymousApiLogs.totalDocs}, anonymous API decisions=${anonymousApiDecisions.totalDocs}`,
     );
   } finally {
     await closePayload(payload);
   }
 }
 
-/** PayloadとPostgreSQL poolを閉じ、検証コマンドが接続待ちで終了しない状態を防ぎます。 */
+/** Payloadの内部状態を破棄します。CLI固有の残存handleはmain完了後にプロセス側で終了します。 */
 async function closePayload(payload: Payload) {
   await payload.destroy();
-
-  const database = payload.db as Payload["db"] & {
-    pool?: { end?: () => Promise<void> };
-  };
-
-  if (database.pool?.end) {
-    await database.pool.end();
-  }
 }

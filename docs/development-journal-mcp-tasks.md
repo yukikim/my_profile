@@ -229,36 +229,46 @@ npm run migrate:status
 
 ### 8.1 Next.js現行仕様の確認
 
-- [ ] `node_modules/next/dist/docs/` からApp Routerのデータ取得ガイドを読む。
-- [ ] キャッシュと再検証の現行仕様を読む。
-- [ ] 動的ルートとmetadataの現行仕様を読む。
-- [ ] 採用する方式を短いADRとして記録する。
+- [x] `node_modules/next/dist/docs/` からApp Routerのデータ取得ガイドを読む。
+- [x] キャッシュと再検証の現行仕様を読む。
+- [x] 動的ルートとmetadataの現行仕様を読む。
+- [x] 採用する方式を短いADRとして記録する。
 
 ### 8.2 画面実装
 
-- [ ] `/engineering-notes` の一覧ページを作成する。
-- [ ] 日誌とADRを識別できる表示にする。
-- [ ] project、tag、種別を表示する。
-- [ ] `/engineering-notes/logs/[slug]` を作成する。
-- [ ] `/engineering-notes/decisions/[slug]` を作成する。
-- [ ] 関連Workへのリンクを表示する。
-- [ ] 関連日誌・ADRへのリンクを表示する。
-- [ ] HeaderまたはFooterからの導線を追加するか決定する。
-- [ ] title、descriptionなどのmetadataを設定する。
-- [ ] 存在しないslugをnot-foundへ送る。
+- [x] `/engineering-notes` の一覧ページを作成する。
+- [x] 日誌とADRを識別できる表示にする。
+- [x] project、tag、種別を表示する。
+- [x] `/engineering-notes/logs/[slug]` を作成する。
+- [x] `/engineering-notes/decisions/[slug]` を作成する。
+- [x] 関連Workへのリンクを表示する。
+- [x] 関連日誌・ADRへのリンクを表示する。
+- [x] HeaderまたはFooterからの導線を追加するか決定する。
+- [x] title、descriptionなどのmetadataを設定する。
+- [x] 存在しないslugをnot-foundへ送る。
 
 ### 8.3 公開境界の確認
 
-- [ ] public + publishedを表示できる。
-- [ ] privateをURLから取得できない。
-- [ ] draftをURLから取得できない。
-- [ ] 未来のpublishedAtを持つ記録を取得できない。
-- [ ] Payload APIを直接呼んでもprivateを取得できない。
+- [x] public + publishedを表示できる。
+- [x] privateをURLから取得できない。
+- [x] draftをURLから取得できない。
+- [x] 未来のpublishedAtを持つ記録を取得できない。
+- [x] Payload APIを直接呼んでもprivateを取得できない。
 
 完了条件:
 
 - 公開可能なEngineering Notesだけを閲覧できる。
 - 実績と設計判断・開発過程を相互に移動できる。
+
+実装・検証記録（2026-07-21）:
+
+- Next.js 16.2.9の同梱ドキュメントからServer Componentのデータ取得、Cache Components未使用時のISR、Promise形式の動的`params`、`generateStaticParams`、`generateMetadata`、`notFound()`を確認した。
+- 採用方式を`docs/adr/ADR-0005-engineering-notes-public-rendering.md`へ記録し、Server Component、5分ISR、React `cache()`、公開slugだけの静的生成を採用した。
+- `/engineering-notes`、`/engineering-notes/logs/[slug]`、`/engineering-notes/decisions/[slug]`とHeader導線を実装した。
+- 本番buildで公開日誌`implement-contact-form-storage`と公開ADR`choose-postgresql`だけが詳細ページとして静的生成されることを確認した。
+- ブラウザで一覧、日誌詳細、ADR詳細、関連Work、metadataを確認し、privateの`initially-consider-mongodb`とdraftの`plan-engineering-notes-pages`が404になることを確認した。
+- 未認証Payload REST APIへprivate条件・private slug・draft slugを直接指定し、すべて`totalDocs: 0`になることを確認した。
+- access controlの単体テストで`publishedAt`未設定または現在以前だけを許可し、未来日時を除外するWhere条件を確認した。
 
 ## 9. Phase 7: 最終検証とドキュメント更新
 
