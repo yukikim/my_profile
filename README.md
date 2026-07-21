@@ -979,6 +979,106 @@ npm run import:engineering-note -- --file /absolute/path/to/draft.json --apply
 
 CLIはcreate-onlyで、公開・更新・削除は行わない。作成後はPayload管理画面で内容をレビューし、privateまたはpublicとして公開する。Codex依頼テンプレート、JSONサンプル、エラーコード、Git管理上の注意、レビュー手順は[`docs/external-project-engineering-notes-prompts.md`](docs/external-project-engineering-notes-prompts.md)を参照する。
 
+#### 15.2.1 `light_bi_tool`を登録する具体例
+
+ここでは、`light_bi_tool`で実装した「ウィジェットのグラフ色指定」をDevelopment Logとして登録する。対象リポジトリでCodexを開き、実装の根拠を確認できる状態から始める。
+
+```bash
+cd /Users/greenpowermarco/personal_files/my_app/light_bi_tool
+codex
+```
+
+Codexへ次のプロンプトを貼る。commit hashはこの例の対象実装を固定するための値である。別の作業を登録するときは、対象commit、作業内容、日付を置き換える。
+
+```text
+このリポジトリの実装根拠を調査し、my_profileのEngineering Notes登録CLIへ渡す
+Development Log JSONを1件作成してください。
+
+project: light_bi_tool
+プロジェクト表示名: かんたんBIツール（LightBI）
+対象commit:
+- d7aeb4d6（グラフ色の指定処理）
+- 83db7008（設定型とREADMEの追記）
+作業日時: 2026-02-24T12:12:58+09:00
+対象機能: line/barウィジェットのグラフ色指定
+
+必ず確認する根拠:
+- git show d7aeb4d6
+- git show 83db7008
+- app/components/charts/BarChart.tsx
+- app/components/charts/LineChart.tsx
+- app/components/widgets/WidgetRenderer.tsx
+- README.mdの「ウィジェットのグラフ設定（config JSON）」
+- 現在実行できるlint/buildなどの検証結果
+
+規則:
+- kindは"development-log"とする。
+- title、slug、logDate、project、summaryを必ず含める。
+- projectは"light_bi_tool"とする。
+- slugは"light-bi-tool-"で始まるlowercase-kebab-caseにする。
+- 実装内容はimplementation、再利用できる知識はlessonsLearnedへ分ける。
+- 検証に成功したと確認できる内容だけを書く。失敗や未実行を成功扱いしない。
+- 確認できない任意項目は推測せず省略する。
+- relatedWorkSlugsとrelatedDecisionIdsは、対応先を確認できなければ空配列にする。
+- status、visibility、_status、DB IDは出力しない。
+- API key、token、password、.envの値、個人情報、絶対path、長大なログ、
+  stack trace、ソースコード全文を含めない。
+- 返答は説明を付けず、保存可能なJSONコードブロック1つだけにする。
+```
+
+Codexが返すJSONは、たとえば次の形になる。これは形式の例なので、実際にはCodexが確認した差分と検証結果を読み、根拠と一致していることを確認する。
+
+```json
+{
+  "kind": "development-log",
+  "title": "ウィジェットのグラフ色をconfig JSONから指定可能にした",
+  "slug": "light-bi-tool-add-widget-chart-colors",
+  "logDate": "2026-02-24T12:12:58+09:00",
+  "project": "light_bi_tool",
+  "summary": "lineとbarのウィジェットで、系列ごとの色またはカラーパレットをconfig JSONから指定できるようにした。",
+  "implementation": "BarChartとLineChartへcolorsとcolorsByKeyを追加し、series.color、colorsByKey、colors、デフォルト色の順で系列色を解決するようにした。WidgetRendererの設定型とREADMEの設定例も同じ仕様へ揃えた。",
+  "lessonsLearned": "設定値の優先順位とフォールバックを明示すると、系列単位の指定と共通パレットを両立しながら既存のデフォルト表示を維持できる。",
+  "nextActions": ["系列色の優先順位とフォールバックを自動テストで固定する。"],
+  "relatedWorkSlugs": [],
+  "relatedDecisionIds": [],
+  "tags": ["nextjs", "recharts", "visualization"]
+}
+```
+
+JSONコードブロックの中身だけを、リポジトリへcommitしない一時ファイルへ保存する。コードブロックの先頭にある言語指定行と末尾の区切り行は、JSONファイルへ含めない。
+
+```bash
+vi /tmp/light-bi-tool-add-widget-chart-colors.json
+```
+
+別ターミナルで`my_profile`のプロジェクトrootへ移動し、PostgreSQLが起動していることを確認する。対象の`light_bi_tool`へ`my_profile`の`.env`をコピーしてはいけない。
+
+```bash
+cd /Users/greenpowermarco/personal_files/my_app/CreateWebsite/my_profile
+docker compose up -d postgres
+```
+
+まず`--apply`なしでdry-runする。
+
+```bash
+npm run import:engineering-note -- --file /tmp/light-bi-tool-add-widget-chart-colors.json
+```
+
+少なくとも次を確認する。
+
+- `kind: development-log`、`project: light_bi_tool`、意図した`slug`になっている。
+- `duplicate: none`になっている。
+- relationship warningが空配列を意図したものか、識別子の誤記ではないかを確認する。
+- sensitive warningがなく、固定公開状態が`draft / private / true`になっている。
+
+元JSONとdry-run結果に問題がなければ、同じファイルを`--apply`付きで1件登録する。
+
+```bash
+npm run import:engineering-note -- --file /tmp/light-bi-tool-add-widget-chart-colors.json --apply
+```
+
+`result: created`と表示されたら、`npm run dev`で管理画面を開き、`Development Logs`から`light-bi-tool-add-widget-chart-colors`を検索して内容をレビューする。CLIを同じslugで再実行しても更新はされない。修正はPayload管理画面で行い、レビューが終わるまで`Draft + Private`を維持する。
+
 ### 15.3 ローカルセットアップ
 
 ```bash
