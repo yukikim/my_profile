@@ -167,42 +167,42 @@ npm run lint
 
 ### 6.1 秘密情報検査
 
-- [ ] `lib/engineering-notes/drafts/sensitiveContent.ts` を追加する。
-- [ ] オブジェクト内の全文字列を検査対象にする。
-- [ ] password、secret、token、API key候補を検出する。
-- [ ] DB接続文字列、`.env` 形式、秘密鍵形式を検出する。
-- [ ] 長大なログ、stack trace、コード全文の候補を検出する。
-- [ ] 検出結果へ本文を含めず、フィールドパスと理由だけを返す。
-- [ ] 即時拒否と警告を区別する。
+- [x] `lib/engineering-notes/drafts/sensitiveContent.ts` を追加する。
+- [x] オブジェクト内の全文字列を検査対象にする。
+- [x] password、secret、token、API key候補を検出する。
+- [x] DB接続文字列、`.env` 形式、秘密鍵形式を検出する。
+- [x] 長大なログ、stack trace、コード全文の候補を検出する。
+- [x] 検出結果へ本文を含めず、フィールドパスと理由だけを返す。
+- [x] 即時拒否と警告を区別する。
 
 ### 6.2 重複検査
 
-- [ ] `lib/engineering-notes/drafts/duplicates.ts` を追加する。
-- [ ] Development Log slugの完全一致を検索する。
-- [ ] ADR slugの完全一致を検索する。
-- [ ] ADR `decisionId` の完全一致を検索する。
-- [ ] 重複時に既存Document ID、slug、ADR IDだけを返す。
-- [ ] create-onlyとし、更新・upsertを実装しない。
+- [x] `lib/engineering-notes/drafts/duplicates.ts` を追加する。
+- [x] Development Log slugの完全一致を検索する。
+- [x] ADR slugの完全一致を検索する。
+- [x] ADR `decisionId` の完全一致を検索する。
+- [x] 重複時に既存Document ID、slug、ADR IDだけを返す。
+- [x] create-onlyとし、更新・upsertを実装しない。
 
 ### 6.3 relationship解決
 
-- [ ] `lib/engineering-notes/drafts/relationships.ts` を追加する。
-- [ ] Work slugをDocument IDへ解決する。
-- [ ] Development Log slugをDocument IDへ解決する。
-- [ ] ADR IDをDocument IDへ解決する。
-- [ ] `supersedesDecisionId` をADR Document IDへ解決する。
-- [ ] 0件を警告、複数件をデータ不整合エラーにする。
-- [ ] relationship未指定を正常として扱う。
-- [ ] 外部プロジェクトに対応するWorkがなくても登録可能にする。
+- [x] `lib/engineering-notes/drafts/relationships.ts` を追加する。
+- [x] Work slugをDocument IDへ解決する。
+- [x] Development Log slugをDocument IDへ解決する。
+- [x] ADR IDをDocument IDへ解決する。
+- [x] `supersedesDecisionId` をADR Document IDへ解決する。
+- [x] 0件を警告、複数件をデータ不整合エラーにする。
+- [x] relationship未指定を正常として扱う。
+- [x] 外部プロジェクトに対応するWorkがなくても登録可能にする。
 
 ### 6.4 テスト
 
-- [ ] 秘密情報候補を検出できる。
-- [ ] 検査結果に秘密値そのものが含まれない。
-- [ ] 重複slugとADR IDを拒否できる。
-- [ ] 各relationshipを識別子から解決できる。
-- [ ] relationship 0件、1件、複数件を確認する。
-- [ ] DBエラーを安全なエラーへ変換できる。
+- [x] 秘密情報候補を検出できる。
+- [x] 検査結果に秘密値そのものが含まれない。
+- [x] 重複slugとADR IDを拒否できる。
+- [x] 各relationshipを識別子から解決できる。
+- [x] relationship 0件、1件、複数件を確認する。
+- [x] DBエラーを安全なエラーへ変換できる。
 
 完了条件:
 
