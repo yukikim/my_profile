@@ -8,7 +8,7 @@ export const FormSubmissions: CollectionConfig = {
     defaultColumns: ["form", "createdAt"],
   },
   access: {
-    create: () => true,
+    create: isAdminOrEditor,
     delete: isAdminOrEditor,
     read: isAdminOrEditor,
     update: isAdminOrEditor,

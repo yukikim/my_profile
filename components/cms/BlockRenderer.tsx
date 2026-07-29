@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { CONTACT_HONEYPOT_FIELD } from "@/lib/contact/constants";
 import { submitFormSubmission } from "@/lib/payload/submitForm";
 import type {
   ContactFormBlock,
@@ -217,6 +218,21 @@ function ContactForm({ block }: { block: ContactFormBlock }) {
         <p className="mt-3 leading-7 text-stone-700">{block.description}</p>
         {block.form && formAction ? (
           <form action={formAction} className="mt-6 grid gap-5">
+            <div
+              aria-hidden="true"
+              className="absolute -left-[10000px] top-auto h-px w-px overflow-hidden"
+            >
+              <label htmlFor={`contact-website-${block.form.id}`}>
+                ウェブサイト
+              </label>
+              <input
+                id={`contact-website-${block.form.id}`}
+                name={CONTACT_HONEYPOT_FIELD}
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
             {block.form.fields.map((field) => (
               <label key={field.name} className="grid gap-2">
                 <span className="text-sm font-semibold text-[#15231f]">

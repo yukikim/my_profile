@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useRef } from "react";
+import { CONTACT_HONEYPOT_FIELD } from "@/lib/contact/constants";
 
 export type ContactFormState = {
   status: "idle" | "success" | "error";
@@ -35,6 +36,20 @@ export function ContactForm({ action }: ContactFormProps) {
       action={formAction}
       className="grid gap-5 rounded-lg border border-stone-200 bg-white p-6"
     >
+      <div
+        aria-hidden="true"
+        className="absolute -left-[10000px] top-auto h-px w-px overflow-hidden"
+      >
+        <label htmlFor="contact-website">ウェブサイト</label>
+        <input
+          id="contact-website"
+          name={CONTACT_HONEYPOT_FIELD}
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          disabled={pending}
+        />
+      </div>
       <label className="grid gap-2">
         <span className="text-sm font-semibold text-[#15231f]">お名前</span>
         <input

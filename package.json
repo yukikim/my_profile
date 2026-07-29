@@ -10,6 +10,7 @@
     "lint": "eslint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "test:contact": "node --import tsx --test tests/contact/*.test.ts",
     "test:engineering-notes": "node --import tsx --test tests/engineering-notes/*.test.ts",
     "test:mcp": "node --import tsx --test tests/mcp/*.test.ts",
     "typecheck": "next typegen && tsc --noEmit -p tsconfig.typecheck.json",

@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { PageIntro, Section } from "@/components/site-shell";
+import {
+  contactRateLimiter,
+  getContactClientKey,
+  parseContactFormData,
+} from "@/lib/contact/security";
 import { getPayloadClient } from "@/lib/payload/client";
 import { getProfile } from "@/lib/payload/getProfile";
 import { sendContactEmail } from "@/lib/email/sendContactEmail";
@@ -16,29 +22,36 @@ async function submitContact(
 ): Promise<ContactFormState> {
   "use server";
 
+  const parsed = parseContactFormData(formData);
+
+  if (!parsed.success) {
+    if (parsed.reason === "spam") {
+      // Honeypotの存在をbotへ知らせず、保存もメール送信もしません。
+      return {
+        status: "success",
+        message:
+          "お問い合わせありがとうございます。内容を確認して返信いたします。",
+      };
+    }
+
+    return {
+      status: "error",
+      message: "入力内容を確認して、もう一度送信してください。",
+    };
+  }
+
+  const clientKey = getContactClientKey(await headers());
+
+  if (clientKey && !contactRateLimiter.consume(clientKey)) {
+    return {
+      status: "error",
+      message:
+        "短時間に送信できる回数を超えました。時間をおいてお試しください。",
+    };
+  }
+
+  const submission = parsed.data;
   const payload = await getPayloadClient();
-
-  const getText = (name: string, maxLength: number) => {
-    const value = formData.get(name);
-
-    if (typeof value !== "string") {
-      throw new Error(`${name}が入力されていません。`);
-    }
-
-    const normalized = value.trim();
-
-    if (!normalized || normalized.length > maxLength) {
-      throw new Error(`${name}の入力内容が不正です。`);
-    }
-
-    return normalized;
-  };
-  const submission = {
-    subject: getText("subject", 200),
-    name: getText("name", 100),
-    email: getText("email", 254),
-    message: getText("message", 5000),
-  };
 
   if (!payload) {
     console.info("Contact submission fallback", submission);
@@ -82,6 +95,8 @@ async function submitContact(
 
   await payload.create({
     collection: "form-submissions",
+    // 公開REST APIはcreate不可にし、この信頼済みServer Actionだけが保存します。
+    overrideAccess: true,
     data: {
       data: submission,
       form: form.id,
