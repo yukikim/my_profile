@@ -1,10 +1,12 @@
 import Link from "next/link";
+import { MobileMenu } from "@/components/mobile-menu";
 import { getFooter } from "@/lib/payload/getFooter";
 import { getHeader } from "@/lib/payload/getHeader";
 import { getProfile } from "@/lib/payload/getProfile";
 
 export async function SiteHeader() {
   const [header, profile] = await Promise.all([getHeader(), getProfile()]);
+
   // CMS設定にまだ導線がない環境でも、Phase 6の公開ページへ到達できるよう補完します。
   const navigation = header.navigation.some(
     (item) => item.href === "/engineering-notes",
@@ -26,7 +28,8 @@ export async function SiteHeader() {
             {profile.name}
           </span>
         </Link>
-        <nav aria-label="Primary navigation">
+        {/* PC向けメニュー */}
+        <nav aria-label="Primary navigation" className="hidden md:block">
           <ul className="flex flex-wrap items-center justify-end gap-1 text-sm font-medium text-stone-700">
             {navigation.map((item) => (
               <li key={item.href}>
@@ -50,6 +53,7 @@ export async function SiteHeader() {
             ) : null}
           </ul>
         </nav>
+        <MobileMenu navigation={navigation} />
       </div>
     </header>
   );
