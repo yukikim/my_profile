@@ -53,7 +53,7 @@ export default async function EngineeringNotesPage() {
     <>
       <PageIntro
         eyebrow="Catch Up Dev Notes"
-        title="How and why it was built"
+        title="どのように? & なぜ? の記録"
         description="個人的な開発における成果だけでなく、直面した問題、解決までの過程、設計判断の理由を公開可能な範囲で記録しています。"
       />
       <Section title="開発日誌・設計判断">
