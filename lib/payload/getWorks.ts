@@ -1,4 +1,4 @@
-import { getPublishedWorks } from "@/lib/content";
+import { getPublishedWorks, type Work } from "@/lib/content";
 import { getPayloadClient } from "@/lib/payload/client";
 import { mapWork } from "@/lib/payload/transform";
 
@@ -41,7 +41,9 @@ export async function getWorks() {
     },
   });
 
-  const works = result.docs.map(mapWork).filter((work) => work !== null);
+  const works = result.docs
+    .map(mapWork)
+    .filter((work): work is Work => work !== null);
 
   return works.length ? works : getPublishedWorks();
 }

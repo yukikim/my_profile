@@ -1,4 +1,4 @@
-import { getPublishedPosts } from "@/lib/content";
+import { getPublishedPosts, type Post } from "@/lib/content";
 import { getPayloadClient } from "@/lib/payload/client";
 import { mapPost } from "@/lib/payload/transform";
 
@@ -40,7 +40,9 @@ export async function getPosts() {
     },
   });
 
-  const posts = result.docs.map(mapPost).filter((post) => post !== null);
+  const posts = result.docs
+    .map(mapPost)
+    .filter((post): post is Post => post !== null);
 
   return posts.length ? posts : getPublishedPosts();
 }
