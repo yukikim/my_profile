@@ -68,7 +68,7 @@ export async function SiteFooter() {
   const [footer, profile] = await Promise.all([getFooter(), getProfile()]);
 
   return (
-    <footer className="bg-slate-950 text-white">
+    <footer className="bg-slate-700 text-white">
       <div className="mx-auto grid w-full max-w-7xl gap-8 px-5 py-12 sm:px-8 md:grid-cols-[1.4fr_1fr] lg:px-10 lg:py-16">
         <div>
           <p className="text-xl font-bold tracking-tight">{profile.name}</p>
