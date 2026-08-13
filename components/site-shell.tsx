@@ -18,24 +18,29 @@ export async function SiteHeader() {
       ];
 
   return (
-    <header className="sticky top-0 z-20 border-b border-stone-200 bg-[#f8f5ef]/92 backdrop-blur">
-      <div className="mx-auto flex min-h-16 w-full max-w-6xl items-center justify-between gap-4 px-5 py-3 sm:px-8">
-        <Link href="/" className="flex items-center gap-3" aria-label="Go home">
-          <span className="grid size-10 place-items-center rounded-md bg-[#15231f] text-sm font-semibold text-[#f8f5ef]">
-            MG
-          </span>
-          <span className="hidden text-sm font-semibold text-[#15231f] sm:block">
+    <header className="sticky top-0 z-20 border-b border-teal-100 bg-white/92 backdrop-blur">
+      <div className="mx-auto flex min-h-[5.25rem] w-full max-w-7xl items-center justify-between gap-4 px-5 py-3 sm:px-8 lg:px-10">
+        <Link
+          href="/"
+          className="flex items-center gap-2.5"
+          aria-label="Go home"
+        >
+          <span
+            className="size-4 rounded-full bg-teal-500"
+            aria-hidden="true"
+          />
+          <span className="text-xs font-semibold tracking-[0.08em] text-slate-950 sm:text-sm">
             {profile.name}
           </span>
         </Link>
         {/* PC向けメニュー */}
         <nav aria-label="Primary navigation" className="hidden md:block">
-          <ul className="flex flex-wrap items-center justify-end gap-1 text-sm font-medium text-stone-700">
+          <ul className="flex flex-wrap items-center justify-end gap-2 text-xs font-medium tracking-wide text-slate-700">
             {navigation.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="rounded-md px-3 py-2 transition hover:bg-white hover:text-[#15231f]"
+                  className="rounded-full px-3 py-2 transition hover:bg-teal-50 hover:text-teal-700"
                 >
                   {item.label}
                 </Link>
@@ -45,7 +50,7 @@ export async function SiteHeader() {
               <li>
                 <Link
                   href={header.ctaButton.href}
-                  className="rounded-md bg-[#15231f] px-3 py-2 text-white transition hover:bg-[#284139]"
+                  className="rounded-full bg-teal-500 px-4 py-2.5 font-semibold text-white transition hover:bg-teal-600"
                 >
                   {header.ctaButton.label}
                 </Link>
@@ -63,11 +68,11 @@ export async function SiteFooter() {
   const [footer, profile] = await Promise.all([getFooter(), getProfile()]);
 
   return (
-    <footer className="border-t border-stone-200 bg-[#15231f] text-[#f8f5ef]">
-      <div className="mx-auto grid w-full max-w-6xl gap-8 px-5 py-10 sm:px-8 md:grid-cols-[1.4fr_1fr]">
+    <footer className="bg-slate-950 text-white">
+      <div className="mx-auto grid w-full max-w-7xl gap-8 px-5 py-12 sm:px-8 md:grid-cols-[1.4fr_1fr] lg:px-10 lg:py-16">
         <div>
-          <p className="text-base font-semibold">{profile.name}</p>
-          <p className="mt-3 max-w-xl text-sm leading-6 text-stone-300">
+          <p className="text-xl font-bold tracking-tight">{profile.name}</p>
+          <p className="mt-3 max-w-xl text-sm leading-6 text-slate-300">
             {profile.tagline}
           </p>
         </div>
@@ -76,7 +81,7 @@ export async function SiteFooter() {
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm text-stone-300 transition hover:text-white"
+              className="text-sm text-slate-300 transition hover:text-teal-300"
             >
               {item.label}
             </Link>
@@ -87,13 +92,13 @@ export async function SiteFooter() {
               href={social.href}
               target="_blank"
               rel="noreferrer"
-              className="text-sm text-stone-300 transition hover:text-white"
+              className="text-sm text-slate-300 transition hover:text-teal-300"
             >
               {social.label}
             </a>
           ))}
         </div>
-        <p className="text-xs text-stone-400 md:col-span-2">
+        <p className="text-xs text-slate-400 md:col-span-2">
           {footer.copyright}
         </p>
       </div>
@@ -111,15 +116,15 @@ export function PageIntro({
   description: string;
 }) {
   return (
-    <section className="border-b border-stone-200 bg-[#f8f5ef]">
-      <div className="mx-auto w-full max-w-6xl px-5 py-14 sm:px-8 sm:py-20">
-        <p className="text-sm font-semibold uppercase text-[#a9422f]">
+    <section className="border-b border-teal-100 bg-teal-50">
+      <div className="mx-auto w-full max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:px-10">
+        <p className="text-xs font-semibold uppercase tracking-[0.12em] text-teal-700">
           {eyebrow}
         </p>
-        <h1 className="mt-4 max-w-4xl text-4xl font-semibold leading-tight text-[#15231f] sm:text-6xl">
+        <h1 className="mt-4 max-w-4xl text-4xl font-bold leading-tight tracking-tight text-slate-950 sm:text-6xl">
           {title}
         </h1>
-        <p className="mt-6 max-w-2xl text-lg leading-8 text-stone-700">
+        <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-700">
           {description}
         </p>
       </div>
@@ -137,13 +142,13 @@ export function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="mx-auto w-full max-w-6xl px-5 py-14 sm:px-8 sm:py-18">
+    <section className="mx-auto w-full max-w-7xl px-5 py-14 sm:px-8 sm:py-18 lg:px-10">
       {eyebrow ? (
-        <p className="text-sm font-semibold uppercase text-[#a9422f]">
+        <p className="text-xs font-semibold uppercase tracking-[0.12em] text-teal-700">
           {eyebrow}
         </p>
       ) : null}
-      <h2 className="mt-3 text-3xl font-semibold leading-tight text-[#15231f] sm:text-4xl">
+      <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-slate-950 sm:text-4xl">
         {title}
       </h2>
       <div className="mt-8">{children}</div>
@@ -153,7 +158,7 @@ export function Section({
 
 export function Badge({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center rounded-md border border-stone-300 bg-white px-3 py-1 text-sm font-medium text-stone-700">
+    <span className="inline-flex items-center rounded-full bg-teal-100 px-3 py-1 text-sm font-medium text-teal-800">
       {children}
     </span>
   );
