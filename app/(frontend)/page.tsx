@@ -55,7 +55,12 @@ export default async function Home() {
 
   return (
     <>
-      <section className="bg-[linear-gradient(to_right_top,#8fe0eb,#86e9e0,#91f0cb,#aef4af,#d6f494)]">
+      <section className="relative">
+
+        <div className="fixed -z-10 w-172 h-100 bg-white/95 rounded-full blur-3xl -top-10 -left-10"></div>
+        <div className="absolute -z-11 w-120 h-120 bg-sky-500/80 rounded-full blur-3xl bottom-0 right-0"></div>
+        <div className="absolute -z-12 w-190 h-160 bg-indigo-200/70 rounded-full blur-3xl top-10 right-230"></div>
+
         <div className="mx-auto grid min-h-[calc(100svh-5.25rem)] w-full max-w-7xl items-top gap-12 px-5 py-14 sm:px-8 lg:grid-cols-[1.08fr_0.92fr] lg:px-10 lg:pt-36 lg:pb-76">
           <div>
             <p className="hidden sm:inline-flex rounded-full bg-teal-100 px-4 py-2 text-xs font-semibold tracking-[0.12em] text-teal-700 uppercase">
