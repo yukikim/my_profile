@@ -26,7 +26,7 @@ function SectionHeading({
       <p className="text-xs font-semibold tracking-[0.12em] text-teal-700 uppercase">
         {eyebrow}
       </p>
-      <h2 className="mt-3 text-4xl font-bold leading-tight tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
+      <h2 className="mt-3 text-4xl font-bold leading-tight tracking-tight text-main-text sm:text-5xl lg:text-6xl">
         {title}
       </h2>
       <p className="mt-4 max-w-2xl text-lg leading-8 text-slate-700">
@@ -61,7 +61,7 @@ export default async function Home() {
             <p className="hidden sm:inline-flex rounded-full bg-teal-100 px-4 py-2 text-xs font-semibold tracking-[0.12em] text-teal-700 uppercase">
               ●&nbsp; Profile and Professional Experience
             </p>
-            <h1 className="mt-6 text-[2.0rem] font-bold leading-[1.18] tracking-[-0.04em] text-slate-700 sm:text-4xl lg:text-5xl">
+            <h1 className="mt-6 text-[2.0rem] font-bold leading-[1.18] tracking-[-0.04em] text-main-text sm:text-4xl lg:text-5xl">
               わたしのプロフィール
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-8 text-slate-700">
@@ -132,7 +132,7 @@ export default async function Home() {
             <p className="text-xs font-semibold tracking-[0.12em] text-teal-700 uppercase">
               Profile
             </p>
-            <h2 className="mt-4 text-4xl font-bold leading-tight tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
+            <h2 className="mt-4 text-4xl font-bold leading-tight tracking-tight text-main-text sm:text-5xl lg:text-6xl">
               更新のたびに、
               <br />
               サイトが強くなる。

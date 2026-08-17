@@ -24,6 +24,8 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-system-sans);
   --font-mono: var(--font-system-mono);
+
+  --color-main-text: oklch(37.3% 0.034 259.733);
 }
 
 body {
