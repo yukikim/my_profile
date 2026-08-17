@@ -55,32 +55,36 @@ export default async function Home() {
 
   return (
     <>
-      <section className="bg-teal-50">
-        <div className="mx-auto grid min-h-[calc(100svh-5.25rem)] w-full max-w-7xl items-center gap-12 px-5 py-14 sm:px-8 lg:grid-cols-[1.08fr_0.92fr] lg:px-10 lg:py-18">
+      <section className="bg-[linear-gradient(to_right_top,#8fe0eb,#86e9e0,#91f0cb,#aef4af,#d6f494)]">
+        <div className="mx-auto grid min-h-[calc(100svh-5.25rem)] w-full max-w-7xl items-top gap-12 px-5 py-14 sm:px-8 lg:grid-cols-[1.08fr_0.92fr] lg:px-10 lg:py-44">
           <div>
-            <p className="inline-flex rounded-full bg-teal-100 px-4 py-2 text-xs font-semibold tracking-[0.12em] text-teal-700 uppercase">
-              ●&nbsp; Profile CMS Portfolio
+            <p className="hidden sm:inline-flex rounded-full bg-teal-100 px-4 py-2 text-xs font-semibold tracking-[0.12em] text-teal-700 uppercase">
+              ●&nbsp; Profile and Professional Experience
             </p>
-            <h1 className="mt-6 text-[2.5rem] font-bold leading-[1.18] tracking-[-0.04em] text-slate-950 sm:text-6xl lg:text-7xl">
-              つくる。育てる。
-              <br />
-              もっと届く。
+            <h1 className="mt-6 text-[2.0rem] font-bold leading-[1.18] tracking-[-0.04em] text-slate-950 sm:text-4xl lg:text-5xl">
+              わたしのプロフィール
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-8 text-slate-700">
               {profile.tagline}
             </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-8 flex flex-col gap-2 sm:flex-row">
               <Link
-                href="/works"
-                className="inline-flex min-h-12 items-center justify-center rounded-full bg-teal-500 px-6 text-sm font-semibold text-white transition hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
-              >
-                実績を見る&nbsp; →
-              </Link>
-              <Link
-                href="/contact"
+                href="/about"
                 className="inline-flex min-h-12 items-center justify-center rounded-full border border-teal-200 bg-white px-6 text-sm font-semibold text-teal-700 transition hover:border-teal-500 hover:bg-teal-100 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
               >
-                相談してみる
+                わたしについて&nbsp; →
+              </Link>
+              <Link
+                href="/works"
+                className="inline-flex min-h-12 items-center justify-center rounded-full border border-teal-200 bg-white px-6 text-sm font-semibold text-teal-700 transition hover:border-teal-500 hover:bg-teal-100 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
+              >
+                職務経歴&nbsp; →
+              </Link>
+              <Link
+                href="/engineering-notes"
+                className="inline-flex min-h-12 items-center justify-center rounded-full border border-teal-200 bg-white px-6 text-sm font-semibold text-teal-700 transition hover:border-teal-500 hover:bg-teal-100 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
+              >
+                開発ノート&nbsp; →
               </Link>
             </div>
           </div>
