@@ -22,7 +22,7 @@ export async function SiteHeader() {
   const navigation = header.navigation
 
   return (
-    <header className="sticky top-0 z-20 border-b border-teal-100 bg-white/92 backdrop-blur">
+    <header className="sticky top-0 z-20 border-b border-teal-100 bg-white/70 backdrop-blur">
       <div className="mx-auto flex min-h-[5.25rem] w-full max-w-7xl items-center justify-between gap-4 px-5 py-3 sm:px-8 lg:px-10">
         <Link
           href="/"

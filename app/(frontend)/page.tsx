@@ -56,7 +56,7 @@ export default async function Home() {
   return (
     <>
       <section className="bg-[linear-gradient(to_right_top,#8fe0eb,#86e9e0,#91f0cb,#aef4af,#d6f494)]">
-        <div className="mx-auto grid min-h-[calc(100svh-5.25rem)] w-full max-w-7xl items-top gap-12 px-5 py-14 sm:px-8 lg:grid-cols-[1.08fr_0.92fr] lg:px-10 lg:py-44">
+        <div className="mx-auto grid min-h-[calc(100svh-5.25rem)] w-full max-w-7xl items-top gap-12 px-5 py-14 sm:px-8 lg:grid-cols-[1.08fr_0.92fr] lg:px-10 lg:pt-36 lg:pb-76">
           <div>
             <p className="hidden sm:inline-flex rounded-full bg-teal-100 px-4 py-2 text-xs font-semibold tracking-[0.12em] text-teal-700 uppercase">
               ●&nbsp; Profile and Professional Experience
@@ -100,8 +100,8 @@ export default async function Home() {
             </div>
             <div className="mt-5 rounded-3xl bg-teal-500 p-6 text-white">
               <p className="text-sm">更新できるコンテンツ</p>
-              <p className="mt-2 text-4xl font-bold tracking-tight sm:text-5xl">
-                Always fresh
+              <p className="mt-2 text-2xl font-bold tracking-tight sm:text-4xl">
+                This is a CMS site.
               </p>
             </div>
             <div className="mt-4 grid grid-cols-3 gap-3 sm:gap-4">
