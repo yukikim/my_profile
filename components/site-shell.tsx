@@ -8,14 +8,18 @@ export async function SiteHeader() {
   const [header, profile] = await Promise.all([getHeader(), getProfile()]);
 
   // CMS設定にまだ導線がない環境でも、Phase 6の公開ページへ到達できるよう補完します。
-  const navigation = header.navigation.some(
-    (item) => item.href === "/engineering-notes",
-  )
-    ? header.navigation
-    : [
-        ...header.navigation,
-        { href: "/engineering-notes", label: "Dev Notes" },
-      ];
+  // const navigation = header.navigation.some(
+  //   (item) => item.href === "/engineering-notes",
+  // )
+  //   ? header.navigation
+  //   : [
+  //       ...header.navigation,
+  //       { href: "/engineering-notes", label: "Dev Notes" },
+  //     ];
+
+  console.log("header.ctaButton", header.ctaButton);
+
+  const navigation = header.navigation
 
   return (
     <header className="sticky top-0 z-20 border-b border-teal-100 bg-white/92 backdrop-blur">
@@ -46,7 +50,7 @@ export async function SiteHeader() {
                 </Link>
               </li>
             ))}
-            {header.ctaButton ? (
+            {header.ctaButton?.label.trim() && header.ctaButton.href.trim() ? (
               <li>
                 <Link
                   href={header.ctaButton.href}
