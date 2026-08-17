@@ -61,7 +61,7 @@ export default async function Home() {
             <p className="hidden sm:inline-flex rounded-full bg-teal-100 px-4 py-2 text-xs font-semibold tracking-[0.12em] text-teal-700 uppercase">
               ●&nbsp; Profile and Professional Experience
             </p>
-            <h1 className="mt-6 text-[2.0rem] font-bold leading-[1.18] tracking-[-0.04em] text-slate-950 sm:text-4xl lg:text-5xl">
+            <h1 className="mt-6 text-[2.0rem] font-bold leading-[1.18] tracking-[-0.04em] text-slate-700 sm:text-4xl lg:text-5xl">
               わたしのプロフィール
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-8 text-slate-700">
@@ -110,7 +110,7 @@ export default async function Home() {
                   key={metric.label}
                   className={`rounded-2xl p-4 sm:p-5 ${metric.className}`}
                 >
-                  <p className="text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+                  <p className="text-3xl font-bold tracking-tight text-slate-500 sm:text-4xl">
                     {String(metric.value).padStart(2, "0")}
                   </p>
                   <p className="mt-1 text-xs font-medium text-slate-600">
