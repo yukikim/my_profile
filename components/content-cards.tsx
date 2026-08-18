@@ -1,16 +1,25 @@
 import Link from "next/link";
 import type { Post, Work } from "@/lib/content";
 import { Badge } from "@/components/site-shell";
+import {
+  formatApproximateMonthDuration,
+  formatSlashDate,
+} from "@/lib/formatDate";
 
 export function WorkCard({ work }: { work: Work }) {
   return (
-    <article className="grid min-h-80 overflow-hidden rounded-3xl border border-teal-200 bg-white shadow-[var(--bright-shadow-card)] transition duration-300 hover:-translate-y-1 hover:shadow-[var(--bright-shadow-floating)]">
+    <article className="grid min-h-80 overflow-hidden rounded-3xl border border-teal-200 bg-white shadow-xs transition duration-300 hover:-translate-y-1 hover:shadow-md">
       <div className="mx-6 mt-6 h-1 rounded-full bg-yellow-300" />
       <div className="flex h-full flex-col p-6 pt-4 sm:p-8 sm:pt-4">
         <div className="flex flex-wrap items-center gap-2">
           <Badge>{work.category}</Badge>
           <span className="text-sm text-slate-500">{work.role}</span>
         </div>
+        <p className="text-right text-xs">
+          期間: {formatSlashDate(work.startDate)} -{" "}
+          {formatSlashDate(work.endDate)}（
+          {formatApproximateMonthDuration(work.startDate, work.endDate)}）
+        </p>
         <h3 className="mt-5 text-2xl font-bold leading-snug text-slate-950">
           {work.title}
         </h3>

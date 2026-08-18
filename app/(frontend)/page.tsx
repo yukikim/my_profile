@@ -92,7 +92,7 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="rounded-[2rem] bg-white p-6 shadow-[var(--bright-shadow-floating)] sm:p-8">
+          <div className="rounded-2xl bg-white p-6 shadow-md sm:p-8">
             <div className="flex items-center justify-between gap-4">
               <p className="text-xs font-semibold tracking-[0.12em] text-teal-700 uppercase">
                 Content Momentum
@@ -101,7 +101,7 @@ export default async function Home() {
                 LIVE
               </span>
             </div>
-            <div className="mt-5 rounded-3xl bg-teal-500 p-6 text-white">
+            <div className="mt-5 rounded-2xl shadow-sm bg-teal-500 p-6 text-white">
               <p className="text-sm">更新できるコンテンツ</p>
               <p className="mt-2 text-2xl font-bold tracking-tight sm:text-4xl">
                 This is a CMS site.
@@ -111,7 +111,7 @@ export default async function Home() {
               {metrics.map((metric) => (
                 <div
                   key={metric.label}
-                  className={`rounded-2xl p-4 sm:p-5 ${metric.className}`}
+                  className={`rounded-2xl shadow-sm p-4 sm:p-5 ${metric.className}`}
                 >
                   <p className="text-3xl font-bold tracking-tight text-slate-500 sm:text-4xl">
                     {String(metric.value).padStart(2, "0")}
@@ -129,38 +129,12 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="bg-white/50">
-        <div className="mx-auto grid w-full max-w-7xl gap-12 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 lg:px-10 lg:py-24">
-          <div>
-            <p className="text-xs font-semibold tracking-[0.12em] text-teal-700 uppercase">
-              Profile
-            </p>
-            <h2 className="mt-4 text-4xl font-bold leading-tight tracking-tight text-main-text sm:text-5xl lg:text-6xl">
-              更新のたびに、
-              <br />
-              サイトが強くなる。
-            </h2>
-            <p className="mt-6 max-w-xl text-lg leading-8 text-slate-700">
-              {profile.introduction}
-            </p>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {capabilities.map(([title, text, className]) => (
-              <article key={title} className={`rounded-3xl p-6 ${className}`}>
-                <h3 className="text-2xl font-bold text-slate-950">{title}</h3>
-                <p className="mt-2 text-sm leading-6 text-slate-700">{text}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section className="bg-teal-50/50">
         <div className="mx-auto w-full max-w-7xl px-5 py-16 sm:px-8 sm:py-20 lg:px-10 lg:py-24">
           <SectionHeading
-            eyebrow="Featured Works"
-            title="主要実績"
-            description="仕組みと体験を一緒に整え、運用しやすい形へ。"
+            eyebrow="Working history"
+            title="職務経歴"
+            description="これまでに携わった主要な業務を紹介します"
           />
           <div className="mt-10 grid gap-6 md:grid-cols-2">
             {featuredWorks.map((work) => (
