@@ -143,7 +143,7 @@ export const profile: Profile = {
   introduction:
     "Next.js、TypeScript、CMSを中心に、事業や個人の情報発信を長く運用できる形へ整える開発者です。要件整理、情報設計、UI実装、運用導線の設計を一貫して扱います。",
   location: "Tokyo / Remote",
-  email: "hello@example.com",
+  email: "tki6ra.works@gmail.com",
   socials: [
     { label: "GitHub", href: "https://github.com/" },
     { label: "LinkedIn", href: "https://www.linkedin.com/" },
