@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PostCard, WorkCard } from "@/components/content-cards";
+import { ScrollingBackgroundOrbs } from "@/components/scrolling-background-orbs";
 import { faqs } from "@/lib/content";
 import { getPosts } from "@/lib/payload/getPosts";
 import { getProfile } from "@/lib/payload/getProfile";
@@ -56,10 +57,7 @@ export default async function Home() {
   return (
     <>
       <section className="relative">
-
-        <div className="fixed -z-10 w-172 h-100 bg-white/95 rounded-full blur-3xl -top-10 -left-10"></div>
-        <div className="absolute -z-11 w-120 h-120 bg-sky-500/80 rounded-full blur-3xl bottom-0 right-0"></div>
-        <div className="absolute -z-12 w-190 h-160 bg-indigo-200/70 rounded-full blur-3xl top-10 right-230"></div>
+        <ScrollingBackgroundOrbs />
 
         <div className="mx-auto grid min-h-[calc(100svh-5.25rem)] w-full max-w-7xl items-top gap-12 px-5 py-14 sm:px-8 lg:grid-cols-[1.08fr_0.92fr] lg:px-10 lg:pt-36 lg:pb-76">
           <div>
@@ -131,7 +129,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="bg-white">
+      <section className="bg-white/50">
         <div className="mx-auto grid w-full max-w-7xl gap-12 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 lg:px-10 lg:py-24">
           <div>
             <p className="text-xs font-semibold tracking-[0.12em] text-teal-700 uppercase">
@@ -157,7 +155,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="bg-teal-50">
+      <section className="bg-teal-50/50">
         <div className="mx-auto w-full max-w-7xl px-5 py-16 sm:px-8 sm:py-20 lg:px-10 lg:py-24">
           <SectionHeading
             eyebrow="Featured Works"
@@ -172,7 +170,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="bg-white">
+      <section className="bg-white/50">
         <div className="mx-auto w-full max-w-7xl px-5 py-16 sm:px-8 sm:py-20 lg:px-10 lg:py-24">
           <SectionHeading
             eyebrow="Latest Posts"
@@ -187,7 +185,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="bg-teal-50">
+      <section className="bg-teal-50/50">
         <div className="mx-auto w-full max-w-7xl px-5 py-16 sm:px-8 sm:py-20 lg:px-10 lg:py-24">
           <SectionHeading
             eyebrow="FAQ"
@@ -218,7 +216,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="overflow-hidden bg-teal-500 text-white">
+      <section className="overflow-hidden bg-teal-500/50 text-white">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-5 py-14 sm:px-8 sm:py-18 md:flex-row md:items-center md:justify-between lg:px-10 lg:py-20">
           <div>
             <p className="text-xs font-semibold tracking-[0.12em] uppercase">
