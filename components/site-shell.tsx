@@ -125,7 +125,7 @@ export function PageIntro({
         <p className="text-xs font-semibold uppercase tracking-[0.12em] text-teal-700">
           {eyebrow}
         </p>
-        <h1 className="mt-4 max-w-4xl text-4xl font-bold leading-tight tracking-tight text-slate-950 sm:text-6xl">
+        <h1 className="mt-4 max-w-4xl text-4xl font-bold leading-tight tracking-tight text-slate-700 sm:text-6xl">
           {title}
         </h1>
         <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-700">
@@ -152,7 +152,7 @@ export function Section({
           {eyebrow}
         </p>
       ) : null}
-      <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-slate-950 sm:text-4xl">
+      <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight text-slate-700 sm:text-3xl">
         {title}
       </h2>
       <div className="mt-8">{children}</div>

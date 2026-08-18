@@ -105,13 +105,15 @@ export function ContactForm({ action }: ContactFormProps) {
         </p>
       ) : null}
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="inline-flex min-h-12 w-fit items-center justify-center rounded-md bg-[#15231f] px-5 text-sm font-semibold text-white transition hover:bg-[#284139] disabled:cursor-not-allowed disabled:opacity-60"
-      >
-        {pending ? "送信中..." : "送信する"}
-      </button>
+      <div className="text-right">
+        <button
+          type="submit"
+          disabled={pending}
+          className="inline-flex min-h-10 w-fit items-center justify-center rounded-lg bg-emerald-500 px-5 text-sm font-semibold text-white transition hover:bg-emerald-600 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {pending ? "送信中..." : "送信する"}
+        </button>
+      </div>
     </form>
   );
 }
