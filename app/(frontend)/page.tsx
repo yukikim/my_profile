@@ -27,7 +27,7 @@ function SectionHeading({
       <p className="text-xs font-semibold tracking-[0.12em] text-teal-700 uppercase">
         {eyebrow}
       </p>
-      <h2 className="mt-3 text-4xl font-bold leading-tight tracking-tight text-main-text sm:text-5xl lg:text-6xl">
+      <h2 className="mt-3 text-4xl font-bold leading-tight tracking-tight text-main-text sm:text-4xl lg:text-5xl">
         {title}
       </h2>
       <p className="mt-4 max-w-2xl text-lg leading-8 text-slate-700">
@@ -64,7 +64,7 @@ export default async function Home() {
             <p className="hidden sm:inline-flex rounded-full bg-teal-100 px-4 py-2 text-xs font-semibold tracking-[0.12em] text-teal-700 uppercase">
               ●&nbsp; Profile and Professional Experience
             </p>
-            <h1 className="mt-6 text-[2.0rem] font-bold leading-[1.18] tracking-[-0.04em] text-main-text sm:text-4xl lg:text-5xl">
+            <h1 className="mt-6 text-3xl font-bold leading-[1.18] tracking-[-0.04em] text-main-text sm:text-4xl lg:text-5xl">
               わたしのプロフィール
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-8 text-slate-700">
@@ -154,37 +154,6 @@ export default async function Home() {
           <div className="mt-10 grid gap-6 md:grid-cols-2">
             {latestPosts.map((post) => (
               <PostCard key={post.slug} post={post} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-teal-50/50">
-        <div className="mx-auto w-full max-w-7xl px-5 py-16 sm:px-8 sm:py-20 lg:px-10 lg:py-24">
-          <SectionHeading
-            eyebrow="FAQ"
-            title="よくある質問"
-            description="最初の相談でよくいただく質問をまとめました。"
-          />
-          <div className="mt-10 grid gap-3">
-            {faqs.map((faq) => (
-              <details
-                key={faq.question}
-                className="group rounded-2xl border border-teal-200 bg-white px-5 py-5 sm:px-6"
-              >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-5 text-lg font-bold text-slate-950 marker:hidden">
-                  {faq.question}
-                  <span
-                    className="text-2xl font-medium text-teal-600 transition group-open:rotate-45"
-                    aria-hidden="true"
-                  >
-                    ＋
-                  </span>
-                </summary>
-                <p className="mt-4 max-w-4xl leading-7 text-slate-700">
-                  {faq.answer}
-                </p>
-              </details>
             ))}
           </div>
         </div>
