@@ -28,7 +28,7 @@ export default async function WorksPage({ searchParams }: Props) {
       <PageIntro
         eyebrow="Works"
         title="Work History"
-        description="CMS設計、フロントエンド実装、コンテンツ運用の観点から、公開後も育てやすいWebサイトを作ります。"
+        description="経験してきた職務の中から、現在のスキルを育んだものを紹介します。"
       />
       <Section title="職務経歴一覧">
         <div className="mb-8 flex flex-wrap gap-2">
