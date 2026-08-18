@@ -91,7 +91,7 @@ export function DetailHeader({
   summary: string;
 }) {
   return (
-    <section className="border-b border-stone-200 bg-white">
+    <section className="border-b border-stone-200 bg-teal-50/30">
       <div className="mx-auto w-full max-w-4xl px-5 py-14 sm:px-8 sm:py-20">
         <p className="text-sm font-semibold uppercase text-[#a9422f]">
           {eyebrow}

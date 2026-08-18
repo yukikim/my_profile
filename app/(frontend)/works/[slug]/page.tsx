@@ -5,6 +5,7 @@ import { Badge, Section } from "@/components/site-shell";
 import { getWork } from "@/lib/payload/getWork";
 import { getWorks } from "@/lib/payload/getWorks";
 import { formatSlashDate } from "@/lib/formatDate";
+import { ScrollingBackgroundOrbsSub } from "@/components/scrolling-background-orbs-sub";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -42,6 +43,7 @@ export default async function WorkDetailPage({ params }: Props) {
 
   return (
     <>
+        <ScrollingBackgroundOrbsSub />
       <DetailHeader
         eyebrow={work.category}
         title={work.title}

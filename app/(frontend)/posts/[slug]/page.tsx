@@ -4,6 +4,7 @@ import { DetailHeader } from "@/components/content-cards";
 import { Section } from "@/components/site-shell";
 import { getPost } from "@/lib/payload/getPost";
 import { getPosts } from "@/lib/payload/getPosts";
+import { ScrollingBackgroundOrbsSub } from "@/components/scrolling-background-orbs-sub";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -41,6 +42,7 @@ export default async function PostDetailPage({ params }: Props) {
 
   return (
     <>
+        <ScrollingBackgroundOrbsSub />
       <DetailHeader
         eyebrow={`${post.category} / ${new Intl.DateTimeFormat("ja-JP", {
           year: "numeric",
