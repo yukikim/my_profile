@@ -58,15 +58,15 @@ export function ScrollingBackgroundOrbsSub() {
     <div aria-hidden="true" className="pointer-events-none">
       <div
         ref={amberOrbRef}
-        className="fixed top-[-20%] lg:top-[-10%] left-[-30%] lg:left-[-4%] -z-10 h-100 w-100 rounded-full bg-amber-300/35 blur-none will-change-transform"
+        className="fixed top-[-20%] lg:top-[-10%] left-[-30%] lg:left-[-4%] -z-10 h-100 w-100 rounded-full bg-amber-400/20 blur-none will-change-transform"
       />
       <div
         ref={emeraldOrbRef}
-        className="fixed top-[10%] left-[10%] -z-11 h-160 w-160 rounded-full bg-emerald-400/20 blur-none will-change-transform"
+        className="fixed top-[10%] left-[10%] -z-11 h-160 w-160 rounded-full bg-emerald-500/16 blur-none will-change-transform"
       />
       <div
         ref={tealOrbRef}
-        className="fixed top-[10%] left-[-30%] lg:left-[0%] -z-12 h-600 w-600 rounded-full bg-teal-400/20 blur-none will-change-transform"
+        className="fixed top-[10%] left-[-30%] lg:left-[0%] -z-12 h-600 w-600 rounded-full bg-teal-500/10 blur-none will-change-transform"
       />
     </div>
   );
