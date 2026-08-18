@@ -27,8 +27,8 @@ export default async function PostsPage({ searchParams }: Props) {
     <>
       <PageIntro
         eyebrow="Posts"
-        title="ブログと活動報告"
-        description="CMS、フロントエンド、コンテンツ運用に関する考え方や実装メモを公開します。"
+        title="忘却の記録"
+        description="ポンコツウエットウエアの備忘録としてのポストをしています"
       />
       <Section title="記事一覧">
         <div className="mb-8 flex flex-wrap gap-2">
