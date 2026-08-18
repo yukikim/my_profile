@@ -120,14 +120,14 @@ export default async function ContactPage() {
     <>
       <PageIntro
         eyebrow="Contact"
-        title="CMS構築、プロフィールサイト制作の相談"
-        description="実績紹介、記事運用、問い合わせ導線まで含めたプロフィールサイトの初期構築を相談できます。"
+        title="お問い合わせフォーム"
+        description="ご意見・ご相談など、お気軽にお問い合わせください。"
       />
 
-      <Section title="お問い合わせフォーム">
+      <Section title="">
         <div className="grid gap-8 lg:grid-cols-[1fr_20rem]">
           <ContactForm action={submitContact} />
-          <aside className="h-fit rounded-lg border border-stone-200 bg-white p-6">
+          {/* <aside className="h-fit rounded-lg border border-stone-200 bg-white p-6">
             <h2 className="text-xl font-semibold text-[#15231f]">連絡先</h2>
             <a
               href={`mailto:${profile.email}`}
@@ -148,7 +148,7 @@ export default async function ContactPage() {
                 </a>
               ))}
             </div>
-          </aside>
+          </aside> */}
         </div>
       </Section>
     </>
