@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Badge, PageIntro, Section } from "@/components/site-shell";
 import { getProfile } from "@/lib/payload/getProfile";
+import { ScrollingBackgroundOrbsSub } from "@/components/scrolling-background-orbs-sub";
 
 export const metadata: Metadata = {
   title: "About",
@@ -12,6 +13,7 @@ export default async function AboutPage() {
 
   return (
     <>
+        <ScrollingBackgroundOrbsSub />
       <PageIntro
         eyebrow="About"
         title="自己紹介、経歴、スキルをひとつの場所に"

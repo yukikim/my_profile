@@ -10,6 +10,7 @@ import { getPayloadClient } from "@/lib/payload/client";
 import { getProfile } from "@/lib/payload/getProfile";
 import { sendContactEmail } from "@/lib/email/sendContactEmail";
 import { ContactForm, type ContactFormState } from "./ContactForm";
+import { ScrollingBackgroundOrbsSub } from "@/components/scrolling-background-orbs-sub";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -118,6 +119,7 @@ export default async function ContactPage() {
 
   return (
     <>
+        <ScrollingBackgroundOrbsSub />
       <PageIntro
         eyebrow="Contact"
         title="お問い合わせフォーム"

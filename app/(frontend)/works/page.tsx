@@ -3,6 +3,7 @@ import Link from "next/link";
 import { WorkCard } from "@/components/content-cards";
 import { PageIntro, Section } from "@/components/site-shell";
 import { getWorks } from "@/lib/payload/getWorks";
+import { ScrollingBackgroundOrbsSub } from "@/components/scrolling-background-orbs-sub";
 
 export const metadata: Metadata = {
   title: "Works",
@@ -25,6 +26,7 @@ export default async function WorksPage({ searchParams }: Props) {
 
   return (
     <>
+        <ScrollingBackgroundOrbsSub />
       <PageIntro
         eyebrow="Works"
         title="Work History"
