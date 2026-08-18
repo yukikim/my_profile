@@ -4,6 +4,7 @@ import { ScrollingBackgroundOrbs } from "@/components/scrolling-background-orbs"
 import { getPosts } from "@/lib/payload/getPosts";
 import { getProfile } from "@/lib/payload/getProfile";
 import { getFeaturedWorks } from "@/lib/payload/getWorks";
+import { LinkButton } from "@/components/link-button";
 
 function SectionHeading({
   eyebrow,
@@ -133,6 +134,9 @@ export default async function Home() {
               <WorkCard key={work.slug} work={work} />
             ))}
           </div>
+          <div className="mt-4 text-right">
+            <LinkButton href="/works">職務経歴を見る&nbsp; →</LinkButton>
+          </div>
         </div>
       </section>
 
@@ -147,6 +151,9 @@ export default async function Home() {
             {latestPosts.map((post) => (
               <PostCard key={post.slug} post={post} />
             ))}
+          </div>
+          <div className="mt-4 text-right">
+            <LinkButton href="/posts">記事一覧を見る&nbsp; →</LinkButton>
           </div>
         </div>
       </section>
