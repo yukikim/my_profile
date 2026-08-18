@@ -1,17 +1,9 @@
 import Link from "next/link";
 import { PostCard, WorkCard } from "@/components/content-cards";
 import { ScrollingBackgroundOrbs } from "@/components/scrolling-background-orbs";
-import { faqs } from "@/lib/content";
 import { getPosts } from "@/lib/payload/getPosts";
 import { getProfile } from "@/lib/payload/getProfile";
 import { getFeaturedWorks } from "@/lib/payload/getWorks";
-
-const capabilities = [
-  ["CMS", "プロフィール、実績、記事を一元管理", "bg-teal-100"],
-  ["Blocks", "ページを柔軟に編集", "bg-yellow-300"],
-  ["Deploy", "Vercel運用を想定", "bg-teal-100"],
-  ["SEO", "公開状態まで管理", "bg-teal-50"],
-] as const;
 
 function SectionHeading({
   eyebrow,

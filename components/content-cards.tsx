@@ -49,7 +49,7 @@ export function WorkCard({ work }: { work: Work }) {
 
 export function PostCard({ post }: { post: Post }) {
   return (
-    <article className="rounded-3xl bg-teal-100 p-6 shadow-[var(--bright-shadow-card)] transition duration-300 hover:-translate-y-1 hover:shadow-[var(--bright-shadow-floating)] sm:p-8">
+    <article className="rounded-3xl bg-teal-100 p-6 shadow-xs transition duration-300 hover:-translate-y-1 hover:shadow-md sm:p-8">
       <div className="flex flex-wrap items-center gap-3 text-sm text-slate-600">
         <Badge>{post.category}</Badge>
         <time dateTime={post.publishedAt}>
