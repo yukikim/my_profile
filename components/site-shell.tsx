@@ -120,7 +120,7 @@ export function PageIntro({
   description: string;
 }) {
   return (
-    <section className="border-b border-teal-100 bg-teal-50">
+    <section className="border-b border-teal-100 bg-teal-50/30">
       <div className="mx-auto w-full max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:px-10">
         <p className="text-xs font-semibold uppercase tracking-[0.12em] text-teal-700">
           {eyebrow}
