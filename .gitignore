@@ -39,6 +39,9 @@ yarn-error.log*
 # payload uploads
 /public/media/
 
+# local database backups
+/backups/
+
 # vercel
 .vercel
 

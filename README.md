@@ -930,6 +930,42 @@ npm run migrate:status
 
 Collection、Global、Field、Blockを変更したらmigrationを作成し、本番反映前に生成内容を確認する。
 
+### 13.5 データベースのダンプとリストア
+
+PostgreSQLクライアントツールの `pg_dump` と `pg_restore` を使用する。両コマンドが `PATH` から実行できることを事前に確認する。
+
+`.env` の `DATABASE_URI` に現在の接続先を設定し、次のコマンドでカスタム形式のダンプを作成する。
+
+```bash
+# backups/database-<日時>.dump へ出力
+npm run db:dump
+
+# 出力先を指定する場合
+npm run db:dump -- /absolute/path/to/database.dump
+```
+
+`backups/` はGitの管理対象外である。ダンプにはユーザー情報や問い合わせ内容などが含まれる可能性があるため、公開場所へ置かず安全に保管する。
+既存のファイルを出力先に指定した場合は、誤上書きを防ぐためエラーになる。
+
+別のデータベースへリストアする場合は、復元先をGit管理外の `.env` に設定して実行する。
+
+```dotenv
+TARGET_DATABASE_URI=postgres://user:password@host:5432/target_database
+```
+
+```bash
+npm run db:restore -- backups/database-2026-08-19T00-00-00-000Z.dump --confirm
+```
+
+リストア先のデータは削除・置換されるため、次の点を確認してから実行する。
+
+- `TARGET_DATABASE_URI` は `DATABASE_URI` と異なる、作成済みのPostgreSQLデータベースを指定する
+- 接続ユーザーにスキーマとテーブルを削除・作成する権限があることを確認する
+- スクリプトはダンプファイルを検査してから、単一トランザクションで `pg_restore --clean --if-exists` を実行する
+- リストア後に `npm run migrate:status` と管理画面のデータを確認する
+
+この処理の対象はデータベースだけである。`public/media/` のローカルファイルや外部ストレージ上のファイル本体はダンプに含まれないため、必要な場合は別途コピーする。
+
 ## 14. 初期実装順序
 
 1. Payload CMS + Next.jsプロジェクトを作成する

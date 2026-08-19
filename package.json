@@ -20,6 +20,8 @@
     "mcp": "node --import tsx mcp/server.ts",
     "payload": "payload --use-swc",
     "seed": "node --import tsx scripts/seed.mts",
+    "db:dump": "node --import tsx scripts/databaseBackup.mts dump",
+    "db:restore": "node --import tsx scripts/databaseBackup.mts restore",
     "migrate": "payload --use-swc migrate",
     "migrate:create": "payload --use-swc migrate:create",
     "migrate:status": "payload --use-swc migrate:status",
