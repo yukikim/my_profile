@@ -22,7 +22,7 @@ export function ScrollingBackgroundOrbs() {
       const scrollY = window.scrollY;
 
       if (amberOrbRef.current) {
-        amberOrbRef.current.style.transform = `translate3d(${scrollY * 0.03}px, ${scrollY * 0.05}px, ${scrollY * 0.3}px)`;
+        amberOrbRef.current.style.transform = `translate3d(${scrollY * 0.03}px, ${scrollY * 0.02}px, ${scrollY * 0.3}px)`;
         amberOrbRef.current.style.filter = `blur(${scrollY * 0.003}px)`;
       }
 
