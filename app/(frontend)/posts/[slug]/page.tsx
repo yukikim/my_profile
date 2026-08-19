@@ -5,6 +5,7 @@ import { Section } from "@/components/site-shell";
 import { getPost } from "@/lib/payload/getPost";
 import { getPosts } from "@/lib/payload/getPosts";
 import { ScrollingBackgroundOrbsSub } from "@/components/scrolling-background-orbs-sub";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -42,7 +43,8 @@ export default async function PostDetailPage({ params }: Props) {
 
   return (
     <>
-        <ScrollingBackgroundOrbsSub />
+      <ScrollingBackgroundOrbsSub />
+      <Breadcrumbs items={[{ label: "Posts", href: "/posts" }, { label: post.title }]} />
       <DetailHeader
         eyebrow={`${post.category} / ${new Intl.DateTimeFormat("ja-JP", {
           year: "numeric",

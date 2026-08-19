@@ -6,6 +6,7 @@ import {
 import { PageIntro, Section } from "@/components/site-shell";
 import { getPublicEngineeringNotes } from "@/lib/engineering-notes/public";
 import { ScrollingBackgroundOrbsSub } from "@/components/scrolling-background-orbs-sub";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Engineering Notes",
@@ -52,7 +53,8 @@ export default async function EngineeringNotesPage() {
 
   return (
     <>
-        <ScrollingBackgroundOrbsSub />
+      <ScrollingBackgroundOrbsSub />
+      <Breadcrumbs items={[{ label: "Engineering Notes" }]} />
       <PageIntro
         eyebrow="Catch Up Dev Notes"
         title="どのように? & なぜ? の記録"

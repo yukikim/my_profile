@@ -4,6 +4,7 @@ import { PostCard } from "@/components/content-cards";
 import { PageIntro, Section } from "@/components/site-shell";
 import { getPosts } from "@/lib/payload/getPosts";
 import { ScrollingBackgroundOrbsSub } from "@/components/scrolling-background-orbs-sub";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Posts",
@@ -26,7 +27,8 @@ export default async function PostsPage({ searchParams }: Props) {
 
   return (
     <>
-        <ScrollingBackgroundOrbsSub />
+      <ScrollingBackgroundOrbsSub />
+      <Breadcrumbs items={[{ label: "Posts" }]} />
       <PageIntro
         eyebrow="Posts"
         title="忘却の記録"

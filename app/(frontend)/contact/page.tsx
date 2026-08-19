@@ -11,6 +11,7 @@ import { getProfile } from "@/lib/payload/getProfile";
 import { sendContactEmail } from "@/lib/email/sendContactEmail";
 import { ContactForm, type ContactFormState } from "./ContactForm";
 import { ScrollingBackgroundOrbsSub } from "@/components/scrolling-background-orbs-sub";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -119,7 +120,8 @@ export default async function ContactPage() {
 
   return (
     <>
-        <ScrollingBackgroundOrbsSub />
+      <ScrollingBackgroundOrbsSub />
+      <Breadcrumbs items={[{ label: "Contact" }]} />
       <PageIntro
         eyebrow="Contact"
         title="お問い合わせフォーム"

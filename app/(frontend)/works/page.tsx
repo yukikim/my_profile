@@ -4,6 +4,7 @@ import { WorkCard } from "@/components/content-cards";
 import { PageIntro, Section } from "@/components/site-shell";
 import { getWorks } from "@/lib/payload/getWorks";
 import { ScrollingBackgroundOrbsSub } from "@/components/scrolling-background-orbs-sub";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Works",
@@ -26,7 +27,8 @@ export default async function WorksPage({ searchParams }: Props) {
 
   return (
     <>
-        <ScrollingBackgroundOrbsSub />
+      <ScrollingBackgroundOrbsSub />
+      <Breadcrumbs items={[{ label: "Works" }]} />
       <PageIntro
         eyebrow="Works"
         title="Work History"

@@ -6,6 +6,7 @@ import { getWork } from "@/lib/payload/getWork";
 import { getWorks } from "@/lib/payload/getWorks";
 import { formatSlashDate } from "@/lib/formatDate";
 import { ScrollingBackgroundOrbsSub } from "@/components/scrolling-background-orbs-sub";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -43,7 +44,8 @@ export default async function WorkDetailPage({ params }: Props) {
 
   return (
     <>
-        <ScrollingBackgroundOrbsSub />
+      <ScrollingBackgroundOrbsSub />
+      <Breadcrumbs items={[{ label: "Works", href: "/works" }, { label: work.title }]} />
       <DetailHeader
         eyebrow={work.category}
         title={work.title}
