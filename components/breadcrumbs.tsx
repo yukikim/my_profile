@@ -14,7 +14,7 @@ export function Breadcrumbs({ items }: { items: readonly BreadcrumbItem[] }) {
   return (
     <nav
       aria-label="パンくずリスト"
-      className="bg-white/70 fixed backdrop-blur mt-1 rounded-r-lg"
+      className="bg-amber-300/70 fixed backdrop-blur mt-1 rounded-r-xl"
     >
       <ol className="mx-auto flex w-full max-w-7xl flex-wrap items-center gap-2 px-5 py-1 text-xs text-slate-600 sm:px-8 lg:px-10">
         {breadcrumbs.map((item, index) => {
