@@ -5,6 +5,7 @@ export type Profile = {
   title: string;
   tagline: string;
   introduction: string;
+  introductionHtml?: string;
   location: string;
   email: string;
   socials: { label: string; href: string }[];

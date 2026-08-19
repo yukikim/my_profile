@@ -16,13 +16,20 @@ export default async function AboutPage() {
     <>
       <ScrollingBackgroundOrbsSub />
       <Breadcrumbs items={[{ label: "About" }]} />
-      <PageIntro
-        eyebrow="About"
-        title="自己紹介、経歴、スキルをひとつの場所に"
-        description={profile.introduction}
-      />
+      <PageIntro eyebrow="About" title="自己紹介" description="" />
 
-      <Section eyebrow="Skills" title="扱える領域">
+      <Section eyebrow="Introduction" title="自己紹介">
+        {profile.introductionHtml ? (
+          <div
+            className="rich-text"
+            dangerouslySetInnerHTML={{ __html: profile.introductionHtml }}
+          />
+        ) : (
+          <p className="prose-block">{profile.introduction}</p>
+        )}
+      </Section>
+
+      <Section eyebrow="Skills" title="経験と知識">
         <div className="flex flex-wrap gap-3">
           {profile.skills.map((skill) => (
             <Badge key={skill}>{skill}</Badge>

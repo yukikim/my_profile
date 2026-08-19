@@ -14,7 +14,7 @@ export async function getProfile() {
     depth: 1,
   });
 
-  return mapProfile(doc, profile);
+  return await mapProfile(doc, profile);
 }
 
 export async function getFallbackProfile() {

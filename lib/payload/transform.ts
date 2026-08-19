@@ -27,7 +27,10 @@ export function richTextToPlainText(value: unknown): string {
   return text;
 }
 
-export function mapProfile(doc: unknown, fallback: Profile): Profile {
+export async function mapProfile(
+  doc: unknown,
+  fallback: Profile,
+): Promise<Profile> {
   const profile = asRecord(doc);
   const skills = asArray(profile.skills)
     .map((item) => asRecord(item).skill)
@@ -57,6 +60,7 @@ export function mapProfile(doc: unknown, fallback: Profile): Profile {
   return {
     ...fallback,
     introduction: richTextToPlainText(profile.bio) || fallback.introduction,
+    introductionHtml: await richTextToHtml(profile.bio),
     name: stringOr(profile.name, fallback.name),
     skills: skills.length ? skills : fallback.skills,
     socials: socials.length ? socials : fallback.socials,
