@@ -58,7 +58,9 @@ export default async function Home() {
               ●&nbsp; Profile and Professional Experience
             </p>
             <h1 className="mt-6 text-3xl font-bold leading-[1.18] tracking-[-0.04em] text-main-text sm:text-4xl lg:text-5xl">
-              わたしのプロフィール
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-16 inline-block mr-2 align-[-14px]">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+</svg>わたしのプロフィール
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-8 text-slate-700">
               {profile.tagline}
@@ -68,19 +70,28 @@ export default async function Home() {
                 href="/about"
                 className="inline-flex min-h-12 items-center justify-center rounded-full border border-teal-200 bg-white px-6 text-sm font-semibold text-teal-700 transition hover:border-teal-500 hover:bg-teal-100 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
               >
-                わたしについて&nbsp; →
+                わたしについて&nbsp; <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+</svg>
+
               </Link>
               <Link
                 href="/works"
                 className="inline-flex min-h-12 items-center justify-center rounded-full border border-teal-200 bg-white px-6 text-sm font-semibold text-teal-700 transition hover:border-teal-500 hover:bg-teal-100 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
               >
-                職務経歴&nbsp; →
+                職務経歴&nbsp; <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+</svg>
+
               </Link>
               <Link
                 href="/engineering-notes"
                 className="inline-flex min-h-12 items-center justify-center rounded-full border border-teal-200 bg-white px-6 text-sm font-semibold text-teal-700 transition hover:border-teal-500 hover:bg-teal-100 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
               >
-                開発ノート&nbsp; →
+                開発ノート&nbsp; <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+</svg>
+
               </Link>
             </div>
           </div>
@@ -135,7 +146,10 @@ export default async function Home() {
             ))}
           </div>
           <div className="mt-4 text-right">
-            <LinkButton href="/works">職務経歴を見る&nbsp; →</LinkButton>
+            <LinkButton href="/works">職務経歴を見る&nbsp; <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+</svg>
+</LinkButton>
           </div>
         </div>
       </section>
@@ -153,7 +167,10 @@ export default async function Home() {
             ))}
           </div>
           <div className="mt-4 text-right">
-            <LinkButton href="/posts">記事一覧を見る&nbsp; →</LinkButton>
+            <LinkButton href="/posts">記事一覧を見る&nbsp; <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+</svg>
+</LinkButton>
           </div>
         </div>
       </section>
@@ -176,12 +193,15 @@ export default async function Home() {
               href="/contact"
               className="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-6 text-sm font-semibold text-teal-700 transition hover:bg-teal-50 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-teal-500"
             >
-              お問い合わせへ&nbsp; →
+              お問い合わせへ&nbsp; <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+</svg>
+
             </Link>
-            <span
+            {/* <span
               className="hidden size-16 shrink-0 rounded-full bg-yellow-300 lg:block"
               aria-hidden="true"
-            />
+            /> */}
           </div>
         </div>
       </section>

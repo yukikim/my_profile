@@ -44,7 +44,10 @@ export function WorkCard({ work }: { work: Work }) {
             href={`/works/${work.slug}`}
             className="mt-6 inline-flex w-fit items-center text-sm font-semibold text-teal-700 transition hover:text-teal-500"
           >
-            詳細を見る&nbsp; →
+            詳細を見る&nbsp; <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+</svg>
+
           </Link>
         </div>
       </div>
@@ -74,7 +77,10 @@ export function PostCard({ post }: { post: Post }) {
           href={`/posts/${post.slug}`}
           className="mt-6 inline-flex w-fit items-center text-sm font-semibold text-teal-700 transition hover:text-teal-500"
         >
-          記事を読む&nbsp; →
+          記事を読む&nbsp; <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+</svg>
+
         </Link>
       </div>
     </article>
