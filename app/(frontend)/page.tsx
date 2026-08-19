@@ -151,7 +151,7 @@ export default async function Home() {
               </span>
             </div>
             <div className="mt-5 rounded-2xl shadow-sm bg-teal-500 p-6 text-white">
-              <p className="text-sm">更新できるコンテンツ</p>
+              <p className="text-sm">Payload CMS で管理されるコンテンツ</p>
               <p className="mt-2 text-2xl font-bold tracking-tight sm:text-4xl">
                 This is a CMS site.
               </p>
@@ -216,8 +216,8 @@ export default async function Home() {
         <div className="mx-auto w-full max-w-7xl px-5 py-16 sm:px-8 sm:py-20 lg:px-10 lg:py-24">
           <SectionHeading
             eyebrow="Latest Posts"
-            title="最新記事"
-            description="設計と実装の気づきを、次の改善につなげます。"
+            title="最新Post"
+            description="思いつくままに、いろんなことを書き留めています。"
           />
           <div className="mt-10 grid gap-6 md:grid-cols-2">
             {latestPosts.map((post) => (
@@ -227,6 +227,35 @@ export default async function Home() {
           <div className="mt-4 text-right">
             <LinkButton href="/posts">
               記事一覧を見る&nbsp;{" "}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                />
+              </svg>
+            </LinkButton>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white/50">
+        <div className="mx-auto w-full max-w-7xl px-5 py-16 sm:px-8 sm:py-20 lg:px-10 lg:py-24">
+          <SectionHeading
+            eyebrow="Dev Notes"
+            title="開発日誌"
+            description="設計と実装の気づきを、次の改善につなげます。"
+          />
+          <div className="mt-4">
+            <LinkButton href="/engineering-notes">
+              開発日誌&nbsp;
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -256,7 +285,7 @@ export default async function Home() {
               アイデアを、次の一歩へ。
             </h2>
             <p className="mt-4 text-lg leading-8 text-teal-50">
-              プロフィールサイトやCMS構築を、気軽に相談してください。
+              ウェブ開発に関するご相談など、お気軽にお問い合わせください。
             </p>
           </div>
           <div className="flex items-center gap-6">
