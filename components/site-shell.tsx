@@ -7,16 +7,6 @@ import { getProfile } from "@/lib/payload/getProfile";
 export async function SiteHeader() {
   const [header, profile] = await Promise.all([getHeader(), getProfile()]);
 
-  // CMS設定にまだ導線がない環境でも、Phase 6の公開ページへ到達できるよう補完します。
-  // const navigation = header.navigation.some(
-  //   (item) => item.href === "/engineering-notes",
-  // )
-  //   ? header.navigation
-  //   : [
-  //       ...header.navigation,
-  //       { href: "/engineering-notes", label: "Dev Notes" },
-  //     ];
-
   console.log("header.ctaButton", header.ctaButton);
 
   const navigation = header.navigation
