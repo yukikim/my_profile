@@ -275,7 +275,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="overflow-hidden bg-teal-500/50 text-white">
+      <section className="overflow-hidden bg-teal-700/60 text-white">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-5 py-14 sm:px-8 sm:py-18 md:flex-row md:items-center md:justify-between lg:px-10 lg:py-20">
           <div>
             <p className="text-xs font-semibold tracking-[0.12em] uppercase">
