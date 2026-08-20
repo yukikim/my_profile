@@ -66,7 +66,7 @@ export default async function AboutPage() {
             <p className="text-sm text-stone-500">Email</p>
             <a
               href={`mailto:${profile.email}`}
-              className="mt-2 block break-words font-semibold text-[#15231f]"
+              className="mt-2 block wrap-break-words font-semibold text-[#15231f]"
             >
               {profile.email}
             </a>
