@@ -22,7 +22,7 @@ export default async function AboutPage() {
       <Section eyebrow="self-introduction" title="">
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:gap-12">
           {profile.avatar?.src ? (
-            <div className="relative size-36 shrink-0 overflow-hidden rounded-full border border-teal-200 bg-teal-50/50 shadow-xs sm:size-48">
+            <div className="relative size-72 shrink-0 overflow-hidden rounded-full bg-teal-50/50 shadow-xs mx-auto">
               <Image
                 src={profile.avatar.src}
                 alt={profile.avatar.alt || profile.name}
