@@ -32,6 +32,7 @@ export async function mapProfile(
   fallback: Profile,
 ): Promise<Profile> {
   const profile = asRecord(doc);
+  const avatar = profile.avatar ? mapMedia(profile.avatar) : fallback.avatar;
   const skills = asArray(profile.skills)
     .map((item) => asRecord(item).skill)
     .filter(isString);
@@ -59,6 +60,7 @@ export async function mapProfile(
 
   return {
     ...fallback,
+    avatar: avatar?.src ? avatar : fallback.avatar,
     introduction: richTextToPlainText(profile.bio) || fallback.introduction,
     introductionHtml: await richTextToHtml(profile.bio),
     name: stringOr(profile.name, fallback.name),

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Badge, PageIntro, Section } from "@/components/site-shell";
+import Image from "next/image";
+import { PageIntro, Section } from "@/components/site-shell";
 import { getProfile } from "@/lib/payload/getProfile";
 import { ScrollingBackgroundOrbsSub } from "@/components/scrolling-background-orbs-sub";
 import { Breadcrumbs } from "@/components/breadcrumbs";
@@ -18,24 +19,40 @@ export default async function AboutPage() {
       <Breadcrumbs items={[{ label: "About" }]} />
       <PageIntro eyebrow="About" title="自己紹介" description="" />
 
-      <Section eyebrow="Introduction" title="自己紹介">
-        {profile.introductionHtml ? (
-          <div
-            className="rich-text"
-            dangerouslySetInnerHTML={{ __html: profile.introductionHtml }}
-          />
-        ) : (
-          <p className="prose-block">{profile.introduction}</p>
-        )}
-      </Section>
-
-      <Section eyebrow="Skills" title="経験と知識">
-        <div className="flex flex-wrap gap-3">
-          {profile.skills.map((skill) => (
-            <Badge key={skill}>{skill}</Badge>
-          ))}
+      <Section eyebrow="self-introduction" title="">
+        <div className="flex flex-col gap-8 md:flex-row md:items-start md:gap-12">
+          {profile.avatar?.src ? (
+            <div className="relative size-36 shrink-0 overflow-hidden rounded-full border border-teal-200 bg-teal-50/50 shadow-xs sm:size-48">
+              <Image
+                src={profile.avatar.src}
+                alt={profile.avatar.alt || profile.name}
+                fill
+                sizes="(max-width: 640px) 144px, 192px"
+                className="object-cover"
+                priority
+              />
+            </div>
+          ) : null}
+          <div className="flex-1">
+            {profile.introductionHtml ? (
+              <div
+                className="rich-text"
+                dangerouslySetInnerHTML={{ __html: profile.introductionHtml }}
+              />
+            ) : (
+              <p className="prose-block">{profile.introduction}</p>
+            )}
+          </div>
         </div>
       </Section>
+
+      {/*<Section eyebrow="Skills" title="経験と知識">*/}
+      {/*  <div className="flex flex-wrap gap-3">*/}
+      {/*    {profile.skills.map((skill) => (*/}
+      {/*      <Badge key={skill}>{skill}</Badge>*/}
+      {/*    ))}*/}
+      {/*  </div>*/}
+      {/*</Section>*/}
 
       {/*<Section eyebrow="Timeline" title="経歴">*/}
       {/*  <div className="grid gap-4">*/}
