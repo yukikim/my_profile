@@ -93,6 +93,7 @@ export function mapWork(doc: unknown): Work | null {
     technologies: asArray(work.techStack)
       .map((item) => asRecord(item).technology)
       .filter(isString),
+    thumbnail: work.thumbnail ? mapMedia(work.thumbnail) : undefined,
     title,
     url: stringOr(work.projectUrl, undefined),
   };

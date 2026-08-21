@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { DetailHeader } from "@/components/content-cards";
 import { Badge, Section } from "@/components/site-shell";
@@ -51,6 +52,20 @@ export default async function WorkDetailPage({ params }: Props) {
         title={work.title}
         summary={work.summary}
       />
+      {work.thumbnail?.src ? (
+          <div className="mx-auto mt-8 max-w-5xl px-5 sm:px-8">
+            <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-stone-200 bg-stone-100 shodow-sm">
+              <Image
+                src={work.thumbnail.src}
+                alt={work.thumbnail.alt || work.title}
+                fill
+                sizes="(max-width: 1024px) 100vw, 1024px"
+                className="object-cover"
+                priority
+                />
+            </div>
+          </div>
+      ): null}
       <Section title="プロジェクト概要">
         <div className="grid gap-8 lg:grid-cols-[1fr_18rem]">
           <article className="prose-block">{work.body}</article>

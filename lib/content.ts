@@ -28,6 +28,7 @@ export type Work = {
   featured: boolean;
   startDate: string;
   endDate: string;
+  thumbnail?: MediaImage;
 };
 
 export type Post = {
