@@ -19,12 +19,10 @@ import type {
 type JsonRecord = Record<string, unknown>;
 
 export function richTextToPlainText(value: unknown): string {
-  const text = collectText(value, new WeakSet())
+  return collectText(value, new WeakSet())
     .join(" ")
     .replace(/\s+/g, " ")
     .trim();
-
-  return text;
 }
 
 export async function mapProfile(
