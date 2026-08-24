@@ -3,6 +3,7 @@ import { MobileMenu } from "@/components/mobile-menu";
 import { getFooter } from "@/lib/payload/getFooter";
 import { getHeader } from "@/lib/payload/getHeader";
 import { getProfile } from "@/lib/payload/getProfile";
+import Image from "next/image";
 
 export async function SiteHeader() {
   const [header, profile] = await Promise.all([getHeader(), getProfile()]);
@@ -101,6 +102,20 @@ export async function SiteFooter() {
               {social.label}
             </a>
           ))}
+        </div>
+        <div className="flex flex-row gap-8 itmes-end justify-end">
+            <Link href="https://nextjs.org/" target="_blank" rel="noopener noreferrer" className="block">
+              <Image src={'/images/nextjs-logotype-dark-background.png'} alt="Next.js Icon" width={60} height={60} className="inline" />
+            </Link>
+            <Link href="https://vercel.com/" target="_blank" rel="noopener noreferrer" className="block">
+              <Image src={'/images/vercel-logotype-dark.png'} alt="Vercel Icon" width={60} height={60} className="inline" />
+            </Link>
+            <Link href="https://tailwindcss.com/" target="_blank" rel="noopener noreferrer" className="block">
+              <Image src={'/images/tailwindcss-logo-white.png'} alt="Tailwind CSS Icon" width={80} height={80} className="inline" />
+            </Link>
+            <Link href="https://github.com/yukikim/yukikim" target="_blank" rel="noopener noreferrer" className="block">
+              <Image src={'/images/GitHub_Invertocat_White.png'} alt="GitHub Icon" width={24} height={24} className="inline" />
+            </Link>
         </div>
         <p className="text-xs text-slate-400 md:col-span-2">
           {footer.copyright}
