@@ -74,52 +74,57 @@ export async function SiteFooter() {
 
   return (
     <footer className="bg-slate-700 text-white">
-      <div className="mx-auto grid w-full max-w-7xl gap-8 px-5 py-12 sm:px-8 md:grid-cols-[1.4fr_1fr] lg:px-10 lg:py-16">
-        <div>
-          <p className="text-xl font-bold tracking-tight">{profile.name}</p>
-          <p className="mt-3 max-w-xl text-sm leading-6 text-slate-300">
-            {profile.tagline}
-          </p>
-        </div>
-        <div className="flex flex-wrap items-start gap-6 md:justify-end">
-          {footer.navigation.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-sm text-slate-300 transition hover:text-teal-300"
-            >
-              {item.label}
-            </Link>
-          ))}
-          {footer.snsLinks.map((social) => (
-            <a
-              key={social.label}
-              href={social.href}
-              target="_blank"
-              rel="noreferrer"
-              className="text-sm text-slate-300 transition hover:text-teal-300"
-            >
-              {social.label}
-            </a>
-          ))}
-        </div>
-        <div className="flex flex-row gap-8 itmes-end justify-end">
-            <Link href="https://nextjs.org/" target="_blank" rel="noopener noreferrer" className="block">
-              <Image src={'/images/nextjs-logotype-dark-background.png'} alt="Next.js Icon" width={60} height={60} className="inline" />
-            </Link>
-            <Link href="https://vercel.com/" target="_blank" rel="noopener noreferrer" className="block">
-              <Image src={'/images/vercel-logotype-dark.png'} alt="Vercel Icon" width={60} height={60} className="inline" />
-            </Link>
-            <Link href="https://tailwindcss.com/" target="_blank" rel="noopener noreferrer" className="block">
-              <Image src={'/images/tailwindcss-logo-white.png'} alt="Tailwind CSS Icon" width={80} height={80} className="inline" />
-            </Link>
-            <Link href="https://github.com/yukikim/yukikim" target="_blank" rel="noopener noreferrer" className="block">
-              <Image src={'/images/GitHub_Invertocat_White.png'} alt="GitHub Icon" width={24} height={24} className="inline" />
-            </Link>
-        </div>
-        <p className="text-xs text-slate-400 md:col-span-2">
-          {footer.copyright}
-        </p>
+      <div className="mx-auto my-20 px-4 flex flex-col lg:flex-row gap-4 justify-between w-full max-w-7xl">
+          <div id="footer-left">
+              <div>
+                  <p className="text-xl font-bold tracking-tight">{profile.name}</p>
+                  <p className="mt-3 max-w-xl text-sm leading-6 text-slate-300">
+                      {profile.tagline}
+                  </p>
+              </div>
+          </div>
+          <div id="footer-right" className="flex flex-col gap-2 lg:gap-6 items-end">
+              <div className="flex flex-wrap items-start gap-6 md:justify-end">
+                  {footer.navigation.map((item) => (
+                      <Link
+                          key={item.href}
+                          href={item.href}
+                          className="text-sm text-slate-300 transition hover:text-teal-300"
+                      >
+                          {item.label}
+                      </Link>
+                  ))}
+                  {footer.snsLinks.map((social) => (
+                      <a
+                          key={social.label}
+                          href={social.href}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-sm text-slate-300 transition hover:text-teal-300"
+                      >
+                          {social.label}
+                      </a>
+                  ))}
+              </div>
+
+              <div className="flex flex-row gap-8 itmes-end justify-end">
+                  <Link href="https://nextjs.org/" target="_blank" rel="noopener noreferrer" className="block">
+                      <Image src={'/images/nextjs-logotype-dark-background.png'} alt="Next.js Icon" width={60} height={60} className="inline w-15 h-auto" />
+                  </Link>
+                  <Link href="https://vercel.com/" target="_blank" rel="noopener noreferrer" className="block">
+                      <Image src={'/images/vercel-logotype-dark.png'} alt="Vercel Icon" width={60} height={60} className="inline w-15 h-auto" />
+                  </Link>
+                  <Link href="https://tailwindcss.com/" target="_blank" rel="noopener noreferrer" className="block">
+                      <Image src={'/images/tailwindcss-logo-white.png'} alt="Tailwind CSS Icon" width={80} height={80} className="inline w-20 h-auto" />
+                  </Link>
+                  <Link href="https://github.com/yukikim/my_profile" target="_blank" rel="noopener noreferrer" className="block">
+                      <Image src={'/images/GitHub_Invertocat_White.png'} alt="GitHub Icon" width={24} height={24} className="inline w-6 h-auto" />
+                  </Link>
+              </div>
+              <p className="text-xs text-slate-400 md:col-span-2">
+                  {footer.copyright}
+              </p>
+          </div>
       </div>
     </footer>
   );

@@ -148,9 +148,9 @@ export const profile: Profile = {
   location: "Tokyo / Remote",
   email: "tki6ra.works@gmail.com",
   socials: [
-    { label: "GitHub", href: "https://github.com/" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/" },
-    { label: "X", href: "https://x.com/" },
+    // { label: "GitHub", href: "https://github.com/" },
+    // { label: "LinkedIn", href: "https://www.linkedin.com/" },
+    // { label: "X", href: "https://x.com/" },
   ],
   skills: [
     "Next.js",

@@ -5,11 +5,11 @@ import { mapProfile } from "@/lib/payload/transform";
 export async function getProfile() {
   const payload = await getPayloadClient();
 
-  if (!payload) {
-    return profile;
-  }
+  // if (!payload) {
+  //   return profile;
+  // }
 
-  const doc = await payload.findGlobal({
+  const doc = await payload?.findGlobal({
     slug: "profile",
     depth: 1,
   });
