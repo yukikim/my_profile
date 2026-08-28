@@ -36,7 +36,7 @@ export default async function AboutPage() {
           <div className="flex-1">
             {profile.introductionHtml ? (
               <div
-                className="rich-text"
+                className="rich-text text-base leading-relaxed"
                 dangerouslySetInnerHTML={{ __html: profile.introductionHtml }}
               />
             ) : (
