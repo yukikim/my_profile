@@ -26,6 +26,7 @@ export async function getFooter() {
         ? footer.copyright
         : `© ${new Date().getFullYear()} ${profile.name}`,
     navigation: navigation.length ? navigation : siteNavigation,
-    snsLinks: snsLinks.length ? snsLinks : profile.socials,
+    // snsLinks: snsLinks.length ? snsLinks : profile.socials,
+    snsLinks: snsLinks.length ? snsLinks : [],
   };
 }
