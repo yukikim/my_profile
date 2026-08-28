@@ -107,7 +107,7 @@ export async function SiteFooter() {
                   ))}
               </div>
 
-              <div className="flex flex-row gap-8 itmes-end justify-end">
+              <div className="flex flex-row gap-8 items-end justify-end mt-8">
                   <Link href="https://nextjs.org/" target="_blank" rel="noopener noreferrer" className="block">
                       <Image src={'/images/nextjs-logotype-dark-background.png'} alt="Next.js Icon" width={60} height={60} className="inline w-15 h-auto" />
                   </Link>
