@@ -70,7 +70,7 @@ export async function mapProfile(
   };
 }
 
-export function mapWork(doc: unknown): Work | null {
+export async function mapWork(doc: unknown): Promise<Work | null> {
   const work = asRecord(doc);
   const slug = stringOr(work.slug, "");
   const title = stringOr(work.title, "");
@@ -81,6 +81,7 @@ export function mapWork(doc: unknown): Work | null {
 
   return {
     body: richTextToPlainText(work.content),
+    bodyHtml: await richTextToHtml(work.content),
     category: firstRelationshipLabel(work.categories, "Work"),
     featured: Boolean(work.featured),
     githubUrl: stringOr(work.repositoryUrl, undefined),
