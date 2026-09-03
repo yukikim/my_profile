@@ -29,7 +29,7 @@ export function WorkCard({ work }: { work: Work }) {
         <div className=" bg-amber-100 p-2 mt-4 rounded-xl">
           <p className="text-xs font-semibold text-slate-700">経験した技術</p>
           <div className="mt-2 flex flex-wrap gap-2">
-            {work.technologies.slice(0, 4).map((technology) => (
+            {work.technologies.map((technology) => (
               <span
                 key={technology}
                 className="rounded-full bg-teal-50 px-2.5 py-1 text-xs font-medium text-teal-800"
