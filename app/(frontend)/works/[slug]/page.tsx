@@ -5,7 +5,10 @@ import { DetailHeader } from "@/components/content-cards";
 import { Badge, Section } from "@/components/site-shell";
 import { getWork } from "@/lib/payload/getWork";
 import { getWorks } from "@/lib/payload/getWorks";
-import { formatSlashDate } from "@/lib/formatDate";
+import {
+  formatApproximateMonthDuration,
+  formatSlashDate,
+} from "@/lib/formatDate";
 import { ScrollingBackgroundOrbsSub } from "@/components/scrolling-background-orbs-sub";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 
@@ -46,34 +49,46 @@ export default async function WorkDetailPage({ params }: Props) {
   return (
     <>
       <ScrollingBackgroundOrbsSub />
-      <Breadcrumbs items={[{ label: "Works", href: "/works" }, { label: work.title }]} />
+      <Breadcrumbs
+        items={[{ label: "Works", href: "/works" }, { label: work.title }]}
+      />
       <DetailHeader
         eyebrow={work.category}
         title={work.title}
         summary={work.summary}
       />
       {work.thumbnail?.src ? (
-          <div className="mx-auto mt-8 max-w-5xl px-5 sm:px-8">
-            <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-stone-200 bg-stone-100 shodow-sm">
-              <Image
-                src={work.thumbnail.src}
-                alt={work.thumbnail.alt || work.title}
-                fill
-                sizes="(max-width: 1024px) 100vw, 1024px"
-                className="object-cover"
-                priority
-                />
-            </div>
+        <div className="mx-auto mt-8 max-w-5xl px-5 sm:px-8">
+          <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-stone-200 bg-stone-100 shodow-sm">
+            <Image
+              src={work.thumbnail.src}
+              alt={work.thumbnail.alt || work.title}
+              fill
+              sizes="(max-width: 1024px) 100vw, 1024px"
+              className="object-cover"
+              priority
+            />
           </div>
-      ): null}
-      <Section title="プロジェクト概要">
+        </div>
+      ) : null}
+      <Section title="業務概要">
         <div className="grid gap-8 lg:grid-cols-[1fr_18rem]">
-          <article className="prose-block">{work.body}</article>
+          {work.bodyHtml ? (
+            <article
+              className="rich-text"
+              dangerouslySetInnerHTML={{ __html: work.bodyHtml }}
+            />
+          ) : (
+            <article className="prose-block">{work.body}</article>
+          )}
           <aside className="h-fit rounded-lg border border-stone-200 bg-white p-6">
-            <div>
-              <p>
+            <div className="mb-4">
+              <p className="text-sm font-semibold text-stone-500">
                 期間: {formatSlashDate(work.startDate)} -{" "}
                 {formatSlashDate(work.endDate)}
+              </p>
+              <p className="text-right text-xs">
+                ({formatApproximateMonthDuration(work.startDate, work.endDate)})
               </p>
             </div>
             <dl className="grid gap-5">
@@ -85,7 +100,7 @@ export default async function WorkDetailPage({ params }: Props) {
               </div>
               <div>
                 <dt className="text-sm font-semibold text-stone-500">
-                  使用技術
+                  経験技術
                 </dt>
                 <dd className="mt-2 flex flex-wrap gap-2">
                   {work.technologies.map((technology) => (
