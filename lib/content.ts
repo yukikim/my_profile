@@ -19,6 +19,7 @@ export type Work = {
   title: string;
   summary: string;
   body: string;
+  bodyHtml?: string;
   category: string;
   role: string;
   technologies: string[];
