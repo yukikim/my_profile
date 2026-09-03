@@ -41,9 +41,9 @@ export async function getWorks() {
     },
   });
 
-  const works = result.docs
-    .map(mapWork)
-    .filter((work): work is Work => work !== null);
+  const works = (await Promise.all(result.docs.map(mapWork))).filter(
+    (work): work is Work => work !== null,
+  );
 
   return works.length ? works : getPublishedWorks();
 }

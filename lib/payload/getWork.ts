@@ -44,7 +44,7 @@ export async function getWork(slug: string) {
     },
   });
 
-  const work = mapWork(result.docs[0]);
+  const work = await mapWork(result.docs[0]);
 
   return work || getWorkBySlug(slug);
 }
