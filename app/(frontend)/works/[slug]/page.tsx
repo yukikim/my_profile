@@ -82,8 +82,8 @@ export default async function WorkDetailPage({ params }: Props) {
             <article className="prose-block">{work.body}</article>
           )}
           <aside className="h-fit rounded-lg border border-stone-200 bg-white p-6">
-            <div className="mb-4">
-              <p className="text-sm font-semibold text-stone-500">
+            <div className="mb-4 border-b border-stone-300">
+              <p className="text-base font-semibold text-stone-500">
                 期間: {formatSlashDate(work.startDate)} -{" "}
                 {formatSlashDate(work.endDate)}
               </p>
@@ -92,15 +92,15 @@ export default async function WorkDetailPage({ params }: Props) {
               </p>
             </div>
             <dl className="grid gap-5">
-              <div>
+              <div className="border-b border-stone-300">
                 <dt className="text-sm font-semibold text-stone-500">
-                  担当範囲
+                  【就業形態】
                 </dt>
-                <dd className="mt-1 text-[#15231f]">{work.role}</dd>
+                <dd className="mt-1 text-[#15231f] text-right">{work.role}</dd>
               </div>
               <div>
                 <dt className="text-sm font-semibold text-stone-500">
-                  経験技術
+                  【経験技術】
                 </dt>
                 <dd className="mt-2 flex flex-wrap gap-2">
                   {work.technologies.map((technology) => (

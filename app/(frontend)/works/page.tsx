@@ -32,7 +32,7 @@ export default async function WorksPage({ searchParams }: Props) {
       <PageIntro
         eyebrow="Works"
         title="Work History"
-        description="経験してきた職務の中から、現在のスキルを育んだものを紹介します。"
+        description="経験してきた仕事の中から、現在のスキルを育んだ主なものを紹介します。"
       />
       <Section title="職務経歴一覧">
         <div className="mb-8 flex flex-wrap gap-2">
