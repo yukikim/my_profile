@@ -395,7 +395,7 @@ export interface Work {
   title: string;
   slug: string;
   startDate: string;
-  endDate: string;
+  endDate?: string | null;
   excerpt?: string | null;
   content?: {
     root: {

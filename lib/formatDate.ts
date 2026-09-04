@@ -15,6 +15,7 @@ const longDateFormatter = new Intl.DateTimeFormat("ja-JP", {
 });
 
 export const formatSlashDate = (date: string) => {
+  if (!date) return "現在";
   return slashDateFormatter.format(new Date(date));
 };
 
@@ -23,6 +24,7 @@ export const formatApproximateMonthDuration = (
   startDate: string,
   endDate: string,
 ) => {
+  if (!endDate) return "就業中";
   const start = new Date(startDate);
   const end = new Date(endDate);
   const months =
