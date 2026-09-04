@@ -10,6 +10,8 @@ export const getPayloadClient = cache(async (): Promise<Payload | null> => {
   try {
     return await getPayload({ config });
   } catch (error) {
+    // 本番でDB接続失敗をサンプルコンテンツとして公開しないようにします。
+    if (process.env.VERCEL === "1") throw error;
     console.warn(
       "Payload is unavailable. Falling back to local content.",
       error,

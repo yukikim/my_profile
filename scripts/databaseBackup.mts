@@ -119,7 +119,11 @@ function runPostgresCommand(
   const connectionEnv = databaseUri
     ? getPostgresConnection(databaseUri).env
     : {};
-  const result = spawnSync(executable, commandArgs, {
+  const binDirectory = process.env.POSTGRES_BIN_DIR?.trim();
+  const executablePath = binDirectory
+    ? path.join(binDirectory, executable)
+    : executable;
+  const result = spawnSync(executablePath, commandArgs, {
     env: { ...process.env, ...connectionEnv },
     stdio: discardOutput ? ["ignore", "ignore", "inherit"] : "inherit",
   });
@@ -127,7 +131,7 @@ function runPostgresCommand(
   if (result.error) {
     if ((result.error as NodeJS.ErrnoException).code === "ENOENT") {
       fail(
-        `${executable} was not found. Install PostgreSQL client tools and make sure ${executable} is on PATH.`,
+        `${executablePath} was not found. Install PostgreSQL client tools and set POSTGRES_BIN_DIR or PATH.`,
       );
     }
     throw result.error;
@@ -223,7 +227,8 @@ function printUsage() {
 
 Environment:
   DATABASE_URI         Source database used by dump
-  TARGET_DATABASE_URI  Destination database used by restore`);
+  TARGET_DATABASE_URI  Destination database used by restore
+  POSTGRES_BIN_DIR     Optional directory containing pg_dump and pg_restore`);
 }
 
 function fail(message: string): never {

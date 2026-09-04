@@ -26,13 +26,18 @@
     "migrate:create": "payload --use-swc migrate:create",
     "migrate:status": "payload --use-swc migrate:status",
     "generate:types": "payload --use-swc generate:types",
-    "generate:importmap": "payload --use-swc generate:importmap"
+    "generate:importmap": "payload --use-swc generate:importmap",
+    "test": "npm run test:contact && npm run test:engineering-notes && npm run test:mcp && npm run test:deployment",
+    "test:deployment": "node --test tests/deployment/*.test.mjs",
+    "check": "npm run lint && npm run typecheck && npm test",
+    "build:vercel": "node scripts/vercelBuild.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.29.0",
     "@payloadcms/db-postgres": "^3.85.1",
     "@payloadcms/next": "^3.85.1",
     "@payloadcms/richtext-lexical": "^3.85.1",
+    "@payloadcms/storage-vercel-blob": "3.85.1",
     "next": "16.2.9",
     "nodemailer": "^9.0.3",
     "payload": "^3.85.1",
@@ -54,5 +59,8 @@
     "prettier": "3.8.4",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "engines": {
+    "node": "22.x"
   }
 }

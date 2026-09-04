@@ -1,5 +1,8 @@
 # プロフィールサイト 要件定義書
 
+GitHub Actions・Vercel・Neon の初期設定、環境変数、既存データの移行と運用は
+[デプロイ手順](docs/deployment-vercel-neon.md)を参照してください。
+
 ## 1. 文書概要
 
 本書は、自分自身のプロフィールサイトを構築するための要件を定義する。
@@ -933,6 +936,22 @@ Collection、Global、Field、Blockを変更したらmigrationを作成し、本
 ### 13.5 データベースのダンプとリストア
 
 PostgreSQLクライアントツールの `pg_dump` と `pg_restore` を使用する。両コマンドが `PATH` から実行できることを事前に確認する。
+
+複数バージョンがある場合は、`.env` の `POSTGRES_BIN_DIR` で両ツールのディレクトリを指定できる（指定時は `PATH` より優先）。元DB・復元先がPostgreSQL 16の場合、16系のツールでダンプ作成と復元を行う。17以降のツールでは、16に存在しない `transaction_timeout` の設定で復元が失敗する場合がある。
+
+```bash
+brew install libpq@16
+"$(brew --prefix libpq@16)/bin/pg_dump" --version
+"$(brew --prefix libpq@16)/bin/pg_restore" --version
+```
+
+`brew --prefix libpq@16` の結果に `/bin` を付けた値を `.env` に設定する。
+
+```dotenv
+POSTGRES_BIN_DIR=/usr/local/opt/libpq@16/bin
+```
+
+18系などで作成済みのダンプは残し、16系で別名のダンプを作り直して、そのファイルを復元に使用する。
 
 `.env` の `DATABASE_URI` に現在の接続先を設定し、次のコマンドでカスタム形式のダンプを作成する。
 
