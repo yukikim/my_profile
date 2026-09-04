@@ -116,7 +116,7 @@ export function DetailHeader({
         <p className="text-sm font-semibold uppercase text-[#a9422f]">
           {eyebrow}
         </p>
-        <h1 className="mt-4 text-2xl font-semibold leading-tight text-[#15231f] sm:text-6xl">
+        <h1 className="mt-4 text-2xl font-semibold leading-tight text-[#15231f] sm:text-4xl">
           {title}
         </h1>
         <p className="mt-6 text-lg leading-8 text-stone-700">{summary}</p>
