@@ -1,6 +1,6 @@
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
-import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
+import { vercelBlobStorage } from "./lib/storage/vercelBlob";
 import path from "path";
 import { buildConfig } from "payload";
 import sharp from "sharp";
@@ -27,11 +27,7 @@ const dirname = path.dirname(filename);
 
 // Vercelではローカルファイルへの保存や開発用secretでの起動を許可しません。
 if (process.env.VERCEL === "1") {
-  for (const name of [
-    "DATABASE_URI",
-    "PAYLOAD_SECRET",
-    "BLOB_READ_WRITE_TOKEN",
-  ]) {
+  for (const name of ["DATABASE_URI", "PAYLOAD_SECRET", "BLOB_STORE_ID"]) {
     if (!process.env[name]?.trim()) {
       throw new Error(`${name} is required on Vercel.`);
     }
@@ -86,33 +82,7 @@ export default buildConfig({
   editor: lexicalEditor({}),
   globals: [Profile, SiteSettings, Header, Footer],
   logger: payloadLogger,
-  plugins: [
-    async (config) => {
-      const blobConfig = await vercelBlobStorage({
-        collections: { media: true },
-        token: process.env.BLOB_READ_WRITE_TOKEN,
-        // prefixを追加せず既存schemaを維持し、サーバーで画像サイズを生成します。
-        clientUploads: false,
-      })(config);
-
-      // 3.85.1はclientUploads:falseでもproviderを登録し、そのutilities importが
-      // Node専用コードをclient bundleへ取り込みます。未使用providerだけ除外します。
-      const clientHandler =
-        "@payloadcms/storage-vercel-blob/client#VercelBlobClientUploadHandler";
-      if (blobConfig.admin?.dependencies) {
-        delete blobConfig.admin.dependencies[clientHandler];
-      }
-      if (blobConfig.admin?.components?.providers) {
-        blobConfig.admin.components.providers =
-          blobConfig.admin.components.providers.filter((provider) =>
-            typeof provider === "string"
-              ? provider !== clientHandler
-              : !provider || provider.path !== clientHandler,
-          );
-      }
-      return blobConfig;
-    },
-  ],
+  plugins: [vercelBlobStorage],
   secret: process.env.PAYLOAD_SECRET || "development-secret-change-me",
   sharp,
   typescript: {

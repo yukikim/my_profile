@@ -8,12 +8,13 @@ const env = {
   DATABASE_URI: "postgresql://ci:private-value@ep-ci-pooler.example/db",
   DATABASE_URI_DIRECT: "postgresql://ci:private-value@ep-ci.example/db",
   PAYLOAD_SECRET: "test-only",
-  BLOB_READ_WRITE_TOKEN: "test-only",
+  BLOB_STORE_ID: "store_teststore",
   NEXT_PUBLIC_SITE_URL: "https://example.com",
 };
 
 // すべてnpm/migrationの起動前に拒否される入力。実DBへは接続しません。
 for (const [name, overrides, message] of [
+  ["missing Blob store", { BLOB_STORE_ID: "" }, "BLOB_STORE_ID is required"],
   [
     "missing direct URL",
     { DATABASE_URI_DIRECT: "" },

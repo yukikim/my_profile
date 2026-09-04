@@ -34,7 +34,7 @@ GitHub Actions と Vercel のビルドは並行して動きます。GitHub CI �
 1. Vercel の Add New Project から GitHub の `yukikim/my_profile` を Import します。
 2. Framework Preset は Next.js、Root Directory はリポジトリのルート、Node.js は 22.x、Production Branch は `main` にします。
 3. Install/Build Command は `vercel.json` の設定を使用し、Output Directory は Next.js の既定値のままにします。
-4. Vercel Blob の **Public store** を作成してプロジェクトの Production に接続します。Preview には別の store を作成・接続します。
+4. Vercel Blob の **Public store** を作成してプロジェクトの Production に OIDC 方式で接続します。Preview には別の store を作成・接続します。
 5. 下記の環境変数を登録してからデプロイします。先に空の設定で Import した場合は、設定完了後に Redeploy してください。
 
 Public Blob の URL はアクセス可能です。現在の Media も公開読み取りなので、この構成には公開用の画像・資料を保存します。Vercel 上のローカルファイルシステムにはアップロードを保存しません。
@@ -44,9 +44,13 @@ Public Blob の URL はアクセス可能です。現在の Media も公開読�
 | `DATABASE_URI`                      | 本番 Neon の pooled URL      | Preview branch の pooled URL      |
 | `DATABASE_URI_DIRECT`               | 同じ本番 DB の direct URL    | 同じ Preview DB の direct URL     |
 | `PAYLOAD_SECRET`                    | 固有の十分に長いランダム値   | Preview 専用のランダム値          |
-| `BLOB_READ_WRITE_TOKEN`             | 本番 Public Blob の token    | Preview Public Blob の token      |
+| `BLOB_STORE_ID`                     | 本番 Public Blob の store ID | Preview Public Blob の store ID   |
 | `NEXT_PUBLIC_SITE_URL`              | `https://本番ドメイン`       | `https://Preview用の固定ドメイン` |
 | `GMAIL_USER` / `GMAIL_APP_PASSWORD` | 問い合わせ通知を使う場合のみ | 通常は未設定                      |
+
+`BLOB_STORE_ID` は Blob の OIDC 接続で自動追加されます。`BLOB_READ_WRITE_TOKEN` は不要です。SDK は各操作時に Vercel が提供する短命な OIDC トークンを取得します。`VERCEL_OIDC_TOKEN` を手動で固定登録しないでください。`BLOB_WEBHOOK_PUBLIC_KEY` は現在のサーバーアップロード方式では使用しません。
+
+ローカルで `BLOB_STORE_ID` を未設定にすると `public/media` を使用します。ローカルから Blob を使う場合は、対象プロジェクトを `vercel link` で選び、`vercel env pull` で OIDC の環境を取得してください。トークン期限切れの場合は再取得します。
 
 `PAYLOAD_SECRET` は例えば `openssl rand -hex 32` で生成し、運用中は同じ値を維持します。既存 DB を移す場合は現在の secret を引き継ぎます。ただし開発用の既定値を使っていた場合は本番用へ変更し、再ログイン等を確認してください。Secret の値を GitHub にコミットしないでください。
 
@@ -97,7 +101,7 @@ DB dump に `public/media/` の画像本体は含まれません。このフォ�
 
 サーバーアップロード方式を維持しているため、Vercel のリクエスト上限 4.5 MB より十分小さい画像を使います。大きい画像は事前に圧縮してください。大容量対応は client upload と画像サイズ生成の動作を検証してから別途導入します。
 
-Payload 3.85.1 の Blob アダプターは無効な client upload provider も登録し、Webpack が Node 専用モジュールをブラウザーへ取り込もうとするため、設定でその未使用 provider を除外しています。サーバー側の Blob 保存は有効です。Payload 更新時や client upload 導入時はこの処理も見直してください。
+Payload 3.85.1 の標準 Blob アダプターは固定トークンを必須とするため、`lib/storage/vercelBlob.ts` で `@payloadcms/plugin-cloud-storage` と OIDC 対応の `@vercel/blob` を接続しています。保存・削除は OIDC 認証、公開画像の配信は Blob CDN を使用します。client upload provider は登録しません。
 
 ## 4. GitHub の CI と通常のデプロイ
 
@@ -129,11 +133,17 @@ Vercel のデプロイをロールバックしても DB は戻りません。DB 
 - 問い合わせの DB 保存、必要な場合は通知メール
 - Preview が本番 DB / Blob を変更しないこと
 
-## 今回の検証範囲（2026-09-04）
+## OIDC 移行前の検証記録（2026-09-04）
 
 ローカル Node.js 22 と使い捨て PostgreSQL 16 で、既存 migration の初回適用・再実行、本番ビルド、型チェック、テスト 63 件を確認しました。lint はエラー 0、既存の未使用変数の警告 5 件です。Blob はダミー token で有効化したビルドまでの検証です。
 
 GitHub Actions の実行、Vercel 上のデプロイ、実 Neon への接続・復元、実 Blob のアップロードは未実施です。管理画面でのサービス作成・環境変数登録と公開前の動作確認を実施してください。
+
+## OIDC 移行の検証（2026-09-04）
+
+`npm run check` が成功しました（lint は既存の警告5件）。ストレージ有効化、ローカル保存、保存・削除、画像の Range/キャッシュ応答と、実 SDK が OIDC トークン更新を次のリクエストに反映することを通信モックで確認しました。
+
+固定トークンなし・ダミーの `BLOB_STORE_ID` で `npm run build` が成功しました。DB は接続できないテスト用 URL を指定し、既存のローカルコンテンツへのフォールバックでビルドしています。実 DB の migration、Vercel の OIDC 認証、実 Blob のアップロード・削除は未検証です。再デプロイ後に管理画面で確認してください。
 
 ## 公式資料
 
@@ -143,3 +153,5 @@ GitHub Actions の実行、Vercel 上のデプロイ、実 Neon への接続・�
 - [Payload migrations](https://payloadcms.com/docs/database/migrations)
 - [Payload storage adapters](https://payloadcms.com/docs/upload/storage-adapters)
 - [Neon connection pooling](https://neon.com/docs/connect/connection-pooling)
+
+- [Vercel Blob OIDC authentication](https://vercel.com/changelog/vercel-blob-now-supports-oidc-authentication)

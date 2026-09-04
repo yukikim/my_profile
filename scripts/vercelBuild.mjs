@@ -5,7 +5,7 @@ const required = [
   "DATABASE_URI",
   "DATABASE_URI_DIRECT",
   "PAYLOAD_SECRET",
-  "BLOB_READ_WRITE_TOKEN",
+  "BLOB_STORE_ID",
   "NEXT_PUBLIC_SITE_URL",
 ];
 for (const name of required) {
