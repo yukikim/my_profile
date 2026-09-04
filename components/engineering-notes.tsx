@@ -27,7 +27,7 @@ export function DevelopmentLogCard({ log }: { log: DevelopmentLogResult }) {
       <p className="mt-4 text-sm text-stone-500">
         {formatLongDate(log.logDate)} · {log.project}
       </p>
-      <h2 className="mt-2 text-2xl font-semibold text-teal-700">
+      <h2 className="mt-2 text-xl font-semibold text-teal-700">
         <Link
           href={`/engineering-notes/logs/${log.slug}`}
           className="transition hover:text-[#2f6f73]"
@@ -73,7 +73,7 @@ export function ArchitectureDecisionCard({
         {decision.decidedAt ? formatLongDate(decision.decidedAt) : "検討中"} ·{" "}
         {decision.project} · {decision.decisionId}
       </p>
-      <h2 className="mt-2 text-2xl font-semibold text-teal-700">
+      <h2 className="mt-2 text-xl font-semibold text-teal-700">
         <Link
           href={`/engineering-notes/decisions/${decision.slug}`}
           className="transition hover:text-[#2f6f73]"

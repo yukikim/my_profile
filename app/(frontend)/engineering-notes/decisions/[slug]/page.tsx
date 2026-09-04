@@ -87,7 +87,7 @@ export default async function ArchitectureDecisionDetailPage({
               : "判断日未設定"}{" "}
             · {decision.project} · {decision.decisionId}
           </p>
-          <h1 className="mt-3 max-w-4xl text-4xl font-semibold leading-tight text-[#15231f] sm:text-6xl">
+          <h1 className="mt-3 max-w-4xl text-2xl font-semibold leading-tight text-[#15231f] sm:text-4xl">
             {decision.title}
           </h1>
           <p className="mt-6 max-w-3xl text-lg leading-8 text-stone-700">

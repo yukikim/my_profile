@@ -59,7 +59,7 @@ export default async function WorkDetailPage({ params }: Props) {
       />
       {work.thumbnail?.src ? (
         <div className="mx-auto mt-8 max-w-5xl px-5 sm:px-8">
-          <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-stone-200 bg-stone-100 shodow-sm">
+          <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-stone-200 bg-stone-100 shadow-sm">
             <Image
               src={work.thumbnail.src}
               alt={work.thumbnail.alt || work.title}

@@ -172,7 +172,7 @@ export async function SiteFooter() {
         <p className="text-xs font-semibold uppercase tracking-[0.12em] text-teal-700">
           {eyebrow}
         </p>
-        <h1 className="mt-4 max-w-4xl text-4xl font-bold leading-tight tracking-tight text-slate-700 sm:text-6xl">
+        <h1 className="mt-4 max-w-4xl text-2xl font-bold leading-tight tracking-tight text-slate-700 sm:text-6xl">
           {title}
         </h1>
         <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-700">

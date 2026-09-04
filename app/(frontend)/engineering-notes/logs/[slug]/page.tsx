@@ -41,6 +41,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 /** 開発日誌の問題・原因・解決・学びを項目別に表示します。 */
 export default async function DevelopmentLogDetailPage({ params }: Props) {
+
+  // ローディング表示の確認用。確認後に削除してください。
+  // await new Promise((resolve) => setTimeout(resolve, 3000));
+
   const { slug } = await params;
   const [log, notes] = await Promise.all([
     getPublicDevelopmentLogBySlug(slug),
@@ -72,7 +76,7 @@ export default async function DevelopmentLogDetailPage({ params }: Props) {
           <p className="mt-4 text-sm text-stone-500">
             {formatLongDate(log.logDate)} · {log.project}
           </p>
-          <h1 className="mt-3 max-w-4xl text-4xl font-semibold leading-tight text-[#15231f] sm:text-6xl">
+          <h1 className="mt-3 max-w-4xl text-2xl font-semibold leading-tight text-[#15231f] sm:text-4xl">
             {log.title}
           </h1>
           <p className="mt-6 max-w-3xl text-lg leading-8 text-stone-700">

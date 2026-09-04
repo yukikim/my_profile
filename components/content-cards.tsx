@@ -20,7 +20,7 @@ export function WorkCard({ work }: { work: Work }) {
           {formatSlashDate(work.endDate)}（
           {formatApproximateMonthDuration(work.startDate, work.endDate)}）
         </p>
-        <h3 className="mt-5 text-2xl font-bold leading-snug text-slate-950">
+        <h3 className="mt-5 text-xl lg:text-2xl font-bold leading-snug text-slate-950">
           {work.title}
         </h3>
         <p className="mt-3 flex-1 text-base leading-7 text-slate-700">
@@ -79,7 +79,7 @@ export function PostCard({ post }: { post: Post }) {
           }).format(new Date(post.publishedAt))}
         </time>
       </div>
-      <h3 className="mt-5 text-2xl font-bold leading-snug text-slate-950">
+      <h3 className="mt-5 text-xl lg:text-2xl font-bold leading-snug text-slate-950">
         {post.title}
       </h3>
       <p className="mt-3 text-base leading-7 text-slate-700">{post.excerpt}</p>
@@ -116,7 +116,7 @@ export function DetailHeader({
         <p className="text-sm font-semibold uppercase text-[#a9422f]">
           {eyebrow}
         </p>
-        <h1 className="mt-4 text-4xl font-semibold leading-tight text-[#15231f] sm:text-6xl">
+        <h1 className="mt-4 text-2xl font-semibold leading-tight text-[#15231f] sm:text-6xl">
           {title}
         </h1>
         <p className="mt-6 text-lg leading-8 text-stone-700">{summary}</p>
