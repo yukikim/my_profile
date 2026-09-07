@@ -54,7 +54,7 @@ export default async function PostDetailPage({ params }: Props) {
         title={post.title}
         summary={post.excerpt}
       />
-      <Section title="本文">
+      <Section title="">
         <article className="prose-block">{post.body}</article>
       </Section>
     </>
