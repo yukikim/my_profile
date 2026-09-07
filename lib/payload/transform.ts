@@ -100,7 +100,7 @@ export async function mapWork(doc: unknown): Promise<Work | null> {
   };
 }
 
-export function mapPost(doc: unknown): Post | null {
+export async function mapPost(doc: unknown): Promise<Post | null> {
   const post = asRecord(doc);
   const slug = stringOr(post.slug, "");
   const title = stringOr(post.title, "");
@@ -111,6 +111,7 @@ export function mapPost(doc: unknown): Post | null {
 
   return {
     body: richTextToPlainText(post.content),
+    bodyHtml: await richTextToHtml(post.content),
     category: firstRelationshipLabel(post.categories, "Post"),
     excerpt: stringOr(post.excerpt, ""),
     publishedAt: stringOr(post.publishedAt, ""),

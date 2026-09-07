@@ -44,7 +44,7 @@ export async function getPost(slug: string) {
     },
   });
 
-  const post = mapPost(result.docs[0]);
+  const post = await mapPost(result.docs[0]);
 
   return post || getPostBySlug(slug);
 }

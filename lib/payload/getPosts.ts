@@ -40,9 +40,9 @@ export async function getPosts() {
     },
   });
 
-  const posts = result.docs
-    .map(mapPost)
-    .filter((post): post is Post => post !== null);
+  const posts = (await Promise.all(result.docs.map(mapPost))).filter(
+    (post): post is Post => post !== null,
+  );
 
   return posts.length ? posts : getPublishedPosts();
 }

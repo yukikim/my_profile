@@ -44,7 +44,9 @@ export default async function PostDetailPage({ params }: Props) {
   return (
     <>
       <ScrollingBackgroundOrbsSub />
-      <Breadcrumbs items={[{ label: "Posts", href: "/posts" }, { label: post.title }]} />
+      <Breadcrumbs
+        items={[{ label: "Posts", href: "/posts" }, { label: post.title }]}
+      />
       <DetailHeader
         eyebrow={`${post.category} / ${new Intl.DateTimeFormat("ja-JP", {
           year: "numeric",
@@ -55,7 +57,16 @@ export default async function PostDetailPage({ params }: Props) {
         summary={post.excerpt}
       />
       <Section title="">
-        <article className="prose-block">{post.body}</article>
+        <article className="prose-block">
+          {post.bodyHtml ? (
+            <div
+              className="rich-text text-base leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: post.bodyHtml }}
+            />
+          ) : (
+            <p>{post.body || "本文がありません。"}</p>
+          )}
+        </article>
       </Section>
     </>
   );

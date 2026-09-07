@@ -37,6 +37,7 @@ export type Post = {
   title: string;
   excerpt: string;
   body: string;
+  bodyHtml?: string;
   category: string;
   publishedAt: string;
   status: Status;
