@@ -6,8 +6,8 @@ import {
   getContactClientKey,
   parseContactFormData,
 } from "@/lib/contact/security";
+import { saveContactSubmission } from "@/lib/contact/submission";
 import { getPayloadClient } from "@/lib/payload/client";
-import { getProfile } from "@/lib/payload/getProfile";
 import { sendContactEmail } from "@/lib/email/sendContactEmail";
 import { ContactForm, type ContactFormState } from "./ContactForm";
 import { ScrollingBackgroundOrbsSub } from "@/components/scrolling-background-orbs-sub";
@@ -52,72 +52,13 @@ async function submitContact(
     };
   }
 
-  const submission = parsed.data;
-  const payload = await getPayloadClient();
-
-  if (!payload) {
-    console.info("Contact submission fallback", submission);
-    return {
-      status: "error",
-      message: "現在お問い合わせを送信できません。時間をおいてお試しください。",
-    };
-  }
-
-  const forms = await payload.find({
-    collection: "forms",
-    limit: 1,
-    where: {
-      name: {
-        equals: "Contact",
-      },
-    },
+  return saveContactSubmission(parsed.data, {
+    getPayload: getPayloadClient,
+    sendEmail: sendContactEmail,
   });
-  const form = forms.docs[0];
-
-  if (!form) {
-    console.info("Contact form is not configured", submission);
-    return {
-      status: "error",
-      message: "お問い合わせフォームが設定されていません。",
-    };
-  }
-
-  // nodemailerでメール送信
-  const notificationEmails =
-    form.notificationEmails
-      ?.map((notification) => notification.email)
-      .filter(Boolean) ?? [];
-
-  if (notificationEmails.length === 0) {
-    return {
-      status: "error",
-      message: "問い合わせ通知先が設定されていません。",
-    };
-  }
-
-  await payload.create({
-    collection: "form-submissions",
-    // 公開REST APIはcreate不可にし、この信頼済みServer Actionだけが保存します。
-    overrideAccess: true,
-    data: {
-      data: submission,
-      form: form.id,
-    },
-  });
-
-  await sendContactEmail(submission, notificationEmails);
-
-  return {
-    status: "success",
-    message:
-      form.successMessage ??
-      "お問い合わせありがとうございます。内容を確認して返信いたします。",
-  };
 }
 
-export default async function ContactPage() {
-  const profile = await getProfile();
-
+export default function ContactPage() {
   return (
     <>
       <ScrollingBackgroundOrbsSub />

@@ -58,6 +58,14 @@ Neon/Vercel 連携が自動で `DATABASE_URL` や `POSTGRES_URL` を登録して
 
 `NEXT_PUBLIC_SITE_URL` はビルド時に設定します。CMS の SiteSettings に保存済みの `siteUrl` がある場合はそちらが使われるため、管理画面でも本番 URL に変更します。環境変数変更後は再デプロイします。
 
+### お問い合わせの受付と通知
+
+管理画面の Forms に `name: Contact` のフォームを作成します。メール通知には、そのフォームの `notificationEmails` と、Production の `GMAIL_USER` / `GMAIL_APP_PASSWORD` が必要です。
+
+お問い合わせは先に Form Submissions へ保存します。保存に失敗した場合はフォーム内にエラーを表示します。保存後のメール通知だけが失敗した場合は受付完了を返し、Vercel の Runtime Logs に `Contact notification failed; submission saved` と保存先の `submissionId` を記録します。通知の自動再送は行わないため、管理画面の Form Submissions で内容を確認してください。保存処理の例外は `Contact submission storage failed` で記録します。
+
+送信時だけページ全体がエラーになる場合は、該当時刻の Runtime Logs、Gmail の環境変数と認証、通知先設定を確認します。環境変数を変更したら再デプロイが必要です。
+
 ## 3. DB の初期化を選ぶ
 
 ### 新規の空 DB から開始

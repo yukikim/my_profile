@@ -24,19 +24,15 @@ export async function sendContactEmail(
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
+    dnsTimeout: 5_000,
+    connectionTimeout: 5_000,
+    greetingTimeout: 5_000,
+    socketTimeout: 10_000,
     auth: {
       user: gmailUser,
       pass: gmailAppPassword,
     },
   });
-
-  // 開発時接続確認
-  try {
-    await transporter.verify();
-  } catch (error) {
-    console.error("Gmail SMTP verification failed", error);
-    throw new Error("GmailのSMTP接続または認証に失敗しました。");
-  }
 
   await transporter.sendMail({
     from: `"Portfolioからのお問い合わせ" <${gmailUser}>`,
