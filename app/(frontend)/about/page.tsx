@@ -5,6 +5,9 @@ import { getProfile } from "@/lib/payload/getProfile";
 import { ScrollingBackgroundOrbsSub } from "@/components/scrolling-background-orbs-sub";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 
+// Payloadのプロフィール更新を、再デプロイせずに反映します。
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "About",
   description: "自己紹介、経歴、スキル、活動内容。",
