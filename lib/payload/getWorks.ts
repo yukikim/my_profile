@@ -51,7 +51,7 @@ export async function getWorks() {
 export async function getFeaturedWorks() {
   const works = await getWorks();
 
-  return works.filter((work) => work.featured).slice(0, 2);
+  return works.filter((work) => work.featured).slice(0, 4);
 }
 
 export function getFallbackWorks() {

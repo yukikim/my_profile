@@ -5,6 +5,7 @@ import { getPosts } from "@/lib/payload/getPosts";
 import { getProfile } from "@/lib/payload/getProfile";
 import { getFeaturedWorks } from "@/lib/payload/getWorks";
 import { LinkButton } from "@/components/link-button";
+import { getWorks } from "@/lib/payload/getWorks";
 
 function SectionHeading({
   eyebrow,
@@ -37,9 +38,12 @@ export default async function Home() {
     getProfile(),
   ]);
 
+  const works = await getWorks();
+  const posts = await getPosts();
+  console.log(profile);
   const metrics = [
-    { label: "Works", value: featuredWorks.length, className: "bg-teal-100" },
-    { label: "Posts", value: latestPosts.length, className: "bg-teal-50" },
+    { label: "Works", value: works.length, className: "bg-teal-100" },
+    { label: "Posts", value: posts.length, className: "bg-teal-50" },
     {
       label: "Skills",
       value: profile.skills.length,
