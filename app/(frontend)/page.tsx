@@ -40,7 +40,6 @@ export default async function Home() {
 
   const works = await getWorks();
   const posts = await getPosts();
-  console.log(profile);
   const metrics = [
     { label: "Works", value: works.length, className: "bg-teal-100" },
     { label: "Posts", value: posts.length, className: "bg-teal-50" },
