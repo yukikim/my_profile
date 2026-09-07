@@ -7,6 +7,9 @@ import { getFeaturedWorks } from "@/lib/payload/getWorks";
 import { LinkButton } from "@/components/link-button";
 import { getWorks } from "@/lib/payload/getWorks";
 
+// Payloadのプロフィール更新を、再デプロイせずに反映します。
+export const dynamic = "force-dynamic";
+
 function SectionHeading({
   eyebrow,
   title,
