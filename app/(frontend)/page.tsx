@@ -287,7 +287,7 @@ export default async function Home() {
             <p className="text-xs font-semibold tracking-[0.12em] uppercase">
               Let&apos;s make it move
             </p>
-            <h2 className="mt-3 text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+            <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-4xl">
               アイデアを、次の一歩へ。
             </h2>
             <p className="mt-4 text-lg leading-8 text-teal-50">
