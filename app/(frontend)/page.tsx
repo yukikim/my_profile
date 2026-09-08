@@ -7,8 +7,8 @@ import { getFeaturedWorks } from "@/lib/payload/getWorks";
 import { LinkButton } from "@/components/link-button";
 import { getWorks } from "@/lib/payload/getWorks";
 
-// Payloadのプロフィール更新を、再デプロイせずに反映します。
-export const dynamic = "force-dynamic";
+// Payloadの更新を、300秒経過後に反映します。
+export const revalidate = 300;
 
 function SectionHeading({
   eyebrow,

@@ -15,12 +15,11 @@ import {
 } from "@/lib/engineering-notes/public";
 import { formatLongDate } from "@/lib/formatDate";
 
-export const dynamic = "force-dynamic";
-
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
+// Payloadの更新を、300秒経過後に反映します。
 export const revalidate = 300;
 
 /** build時点で公開中のADRを静的生成対象としてNext.jsへ渡します。 */

@@ -14,12 +14,11 @@ import {
 } from "@/lib/engineering-notes/public";
 import { formatLongDate } from "@/lib/formatDate";
 
-export const dynamic = "force-dynamic";
-
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
+// Payloadの更新を、300秒経過後に反映します。
 // 公開状態の変更が最大5分で詳細ページへ反映されるようISRを有効にします。
 export const revalidate = 300;
 
