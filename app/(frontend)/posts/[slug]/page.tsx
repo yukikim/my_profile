@@ -7,6 +7,8 @@ import { getPosts } from "@/lib/payload/getPosts";
 import { ScrollingBackgroundOrbsSub } from "@/components/scrolling-background-orbs-sub";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 
+export const dynamic = "force-dynamic";
+
 type Props = {
   params: Promise<{ slug: string }>;
 };
