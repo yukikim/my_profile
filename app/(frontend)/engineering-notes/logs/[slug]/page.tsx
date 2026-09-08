@@ -14,6 +14,8 @@ import {
 } from "@/lib/engineering-notes/public";
 import { formatLongDate } from "@/lib/formatDate";
 
+export const dynamic = "force-dynamic";
+
 type Props = {
   params: Promise<{ slug: string }>;
 };
