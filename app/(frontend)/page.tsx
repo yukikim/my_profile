@@ -6,9 +6,22 @@ import { getProfile } from "@/lib/payload/getProfile";
 import { getFeaturedWorks } from "@/lib/payload/getWorks";
 import { LinkButton } from "@/components/link-button";
 import { getWorks } from "@/lib/payload/getWorks";
+import { getPayloadClient } from "@/lib/payload/client";
+import Image from "next/image";
 
 // Payloadの更新を、300秒経過後に反映します。
 export const revalidate = 300;
+
+const payload = await getPayloadClient();
+const result = payload ? await payload.find({
+  collection: "media",
+  pagination: false,
+  depth: 0,
+  sort: "-createdAt",
+}): null;
+const mediaList = result?.docs || [];
+const selectedImage = mediaList.find((media) => media.id === 2);
+const selectedImageUrl = selectedImage?.url ?? "";
 
 function SectionHeading({
   eyebrow,
@@ -63,7 +76,7 @@ export default async function Home() {
             <p className="hidden sm:inline-flex rounded-full bg-teal-100 px-4 py-2 text-xs font-semibold tracking-[0.12em] text-teal-700 uppercase">
               ●&nbsp; Profile and Professional Experience
             </p>
-            <h1 className="mt-6 text-3xl font-bold leading-[1.18] tracking-[-0.04em] text-main-text sm:text-4xl lg:text-5xl">
+            <h1 className="mt-6 text-2xl font-bold leading-[1.18] tracking-[-0.04em] text-main-text sm:text-4xl lg:text-5xl">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -80,7 +93,7 @@ export default async function Home() {
               </svg>
               わたしのプロフィール
             </h1>
-            <p className="mt-6 max-w-xl text-lg leading-8 text-slate-700">
+            <p className="mt-6 max-w-xl lg:text-lg leading-8 text-slate-700">
               {profile.tagline}
             </p>
             <div className="mt-8 flex flex-col gap-2 sm:flex-row">
@@ -156,30 +169,28 @@ export default async function Home() {
                 LIVE
               </span>
             </div>
-            <div className="mt-5 rounded-2xl shadow-sm bg-teal-500 p-6 text-white">
-              <p className="text-sm">Payload CMS で管理されるコンテンツ</p>
-              <p className="mt-2 text-2xl font-bold tracking-tight sm:text-4xl">
+            <div className="mt-5 rounded-2xl shadow-sm bg-teal-500 p-4 text-white">
+              <p className="text-xs">Payload CMS で管理されるコンテンツ</p>
+              <p className="mt-2 text-2xl font-bold tracking-tight">
                 This is a CMS site.
               </p>
             </div>
-            <div className="mt-4 grid grid-cols-3 gap-3 sm:gap-4">
-              {metrics.map((metric) => (
-                <div
-                  key={metric.label}
-                  className={`rounded-2xl shadow-sm p-4 sm:p-5 ${metric.className}`}
-                >
-                  <p className="text-3xl font-bold tracking-tight text-slate-500 sm:text-4xl">
-                    {String(metric.value).padStart(2, "0")}
-                  </p>
-                  <p className="mt-1 text-xs font-medium text-slate-600">
-                    {metric.label}
-                  </p>
-                </div>
-              ))}
-            </div>
-            <p className="mt-5 text-sm text-slate-600">
+            <p className="mt-2 text-sm text-slate-600">
               Next.js&nbsp; • &nbsp;Payload CMS&nbsp; • &nbsp;PostgreSQL
             </p>
+            {/* show image */}
+            {selectedImage && (
+              <div className="mt-5">
+                <Image
+                  src={selectedImageUrl}
+                  alt={selectedImage.alt || "Selected media"}
+                  // width={300}
+                  // height={300}
+                  fill
+                  className="rounded-2xl shadow-sm"
+                />
+              </div>
+            )}
           </div>
         </div>
       </section>
