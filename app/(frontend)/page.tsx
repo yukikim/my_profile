@@ -20,7 +20,7 @@ const result = payload ? await payload.find({
   sort: "-createdAt",
 }): null;
 const mediaList = result?.docs || [];
-const selectedImage = mediaList.find((media) => media.id === 7);
+const selectedImage = mediaList.find((media) => media.id === 8);
 const selectedImageUrl = selectedImage?.url ?? "";
 
 function SectionHeading({
@@ -168,11 +168,14 @@ export default async function Home() {
               Next.js&nbsp; • &nbsp;Payload CMS&nbsp; • &nbsp;PostgreSQL
             </p>
             {/* show image */}
-            {selectedImage && (
+            {/* {selectedImage && ( */}
+            {profile.avatar?.src && (
               <div className="mt-5">
                 <Image
-                  src={selectedImageUrl}
-                  alt={selectedImage.alt || "Selected media"}
+                  // src={selectedImageUrl}
+                  // alt={selectedImage.alt || "Selected media"}
+                  src={profile.avatar.src}
+                  alt={profile.avatar.alt || "Selected media"}
                   width={300}
                   height={300}
                   className="h-auto w-full rounded-2xl shadow-sm"
