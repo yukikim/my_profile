@@ -9,7 +9,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     title: {
-      default: `${settings.siteName} | Profile CMS Portfolio`,
+      default: `${settings.siteName} | Payload CMS`,
       template: `%s | ${settings.siteName}`,
     },
     description: settings.siteDescription,
