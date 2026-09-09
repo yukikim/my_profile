@@ -184,10 +184,9 @@ export default async function Home() {
                 <Image
                   src={selectedImageUrl}
                   alt={selectedImage.alt || "Selected media"}
-                  // width={300}
-                  // height={300}
-                  fill
-                  className="rounded-2xl shadow-sm"
+                  width={300}
+                  height={300}
+                  className="h-auto w-full rounded-2xl shadow-sm"
                 />
               </div>
             )}
