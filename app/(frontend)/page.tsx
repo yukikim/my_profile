@@ -5,7 +5,6 @@ import { getPosts } from "@/lib/payload/getPosts";
 import { getProfile } from "@/lib/payload/getProfile";
 import { getFeaturedWorks } from "@/lib/payload/getWorks";
 import { LinkButton } from "@/components/link-button";
-import { getWorks } from "@/lib/payload/getWorks";
 import { getPayloadClient } from "@/lib/payload/client";
 import Image from "next/image";
 
@@ -168,14 +167,11 @@ export default async function Home() {
               Next.js&nbsp; • &nbsp;Payload CMS&nbsp; • &nbsp;PostgreSQL
             </p>
             {/* show image */}
-            {/* {selectedImage && ( */}
-            {profile.avatar?.src && (
+            {selectedImage && (
               <div className="mt-5">
                 <Image
-                  // src={selectedImageUrl}
-                  // alt={selectedImage.alt || "Selected media"}
-                  src={profile.avatar.src}
-                  alt={profile.avatar.alt || "Selected media"}
+                  src={selectedImageUrl}
+                  alt={selectedImage.alt || "Selected media"}
                   width={300}
                   height={300}
                   className="h-auto w-full rounded-2xl shadow-sm"
