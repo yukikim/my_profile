@@ -20,7 +20,7 @@ const result = payload ? await payload.find({
   sort: "-createdAt",
 }): null;
 const mediaList = result?.docs || [];
-const selectedImage = mediaList.find((media) => media.id === 2);
+const selectedImage = mediaList.find((media) => media.id === 7);
 const selectedImageUrl = selectedImage?.url ?? "";
 
 function SectionHeading({
@@ -54,17 +54,6 @@ export default async function Home() {
     getProfile(),
   ]);
 
-  const works = await getWorks();
-  const posts = await getPosts();
-  const metrics = [
-    { label: "Works", value: works.length, className: "bg-teal-100" },
-    { label: "Posts", value: posts.length, className: "bg-teal-50" },
-    {
-      label: "Skills",
-      value: profile.skills.length,
-      className: "bg-yellow-300",
-    },
-  ];
 
   return (
     <>
