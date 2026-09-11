@@ -11,6 +11,8 @@ import {
 } from "@/lib/formatDate";
 import { ScrollingBackgroundOrbsSub } from "@/components/scrolling-background-orbs-sub";
 import { Breadcrumbs } from "@/components/breadcrumbs";
+// Payloadの更新を、300秒経過後に反映します。
+export const revalidate = 300;
 
 type Props = {
   params: Promise<{ slug: string }>;

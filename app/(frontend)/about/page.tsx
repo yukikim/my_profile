@@ -5,8 +5,8 @@ import { getProfile } from "@/lib/payload/getProfile";
 import { ScrollingBackgroundOrbsSub } from "@/components/scrolling-background-orbs-sub";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 
-// Payloadのプロフィール更新を、再デプロイせずに反映します。
-export const dynamic = "force-dynamic";
+// Payloadの更新を、300秒経過後に反映します。
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "About",
